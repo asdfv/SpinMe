@@ -1,4 +1,5 @@
 library domain;
 
-export 'src/by/grodno/vasili/spinme/domain/features/startflow/start_flow_coordinator.dart';
-export 'src/by/grodno/vasili/spinme/domain/features/startflow/tasks_repository.dart';
+export 'src/by/grodno/vasili/spinme/domain/features/prepare/prepare_coordinator.dart';
+export 'src/by/grodno/vasili/spinme/domain/features/prepare/tasks_repository.dart';
+export 'src/by/grodno/vasili/spinme/domain/utilities/logger.dart';

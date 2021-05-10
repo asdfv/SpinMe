@@ -1,9 +1,9 @@
 import 'tasks_repository.dart';
 
-class StartFlowCoordinator {
+class PrepareCoordinator {
   final TasksRepository _repository;
 
-  StartFlowCoordinator(this._repository);
+  PrepareCoordinator(this._repository);
 
   List<String> getAllTasks() {
     return _repository.getAllTasks();
