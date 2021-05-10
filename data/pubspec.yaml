@@ -1,0 +1,7 @@
+name: data
+description: Data layer
+version: 0.0.1
+author: asdfv
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
