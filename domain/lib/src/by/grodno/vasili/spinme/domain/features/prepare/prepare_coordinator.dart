@@ -5,7 +5,7 @@ class PrepareCoordinator {
 
   PrepareCoordinator(this._repository);
 
-  List<String> getAllTasks() {
+  Future<List<String>> getAllTasks() async {
     return _repository.getAllTasks();
   }
 }

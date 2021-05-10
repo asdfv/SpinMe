@@ -1,3 +1,3 @@
 abstract class TasksRepository {
-  List<String> getAllTasks();
+  Future<List<String>> getAllTasks();
 }

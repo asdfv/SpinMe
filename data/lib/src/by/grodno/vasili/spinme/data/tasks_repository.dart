@@ -1,10 +1,10 @@
 import 'package:domain/domain_module.dart';
 
-class DefaultTasksRepository extends TasksRepository {
+class FakeTasksRepository extends TasksRepository {
   final List<String> _tasks = List.generate(30, (index) => 'Task number $index');
 
   @override
-  List<String> getAllTasks() {
-    return _tasks;
+  Future<List<String>> getAllTasks() async {
+    return Future.delayed(const Duration(seconds: 1), () => _tasks);
   }
 }
