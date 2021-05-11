@@ -1,7 +1,7 @@
 import 'package:domain/domain_module.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/prepare_event.dart';
-import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/prepare_state.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_event.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_state.dart';
 
 class PrepareBloc extends Bloc<PrepareEvent, PrepareState> {
   final PrepareCoordinator coordinator;
