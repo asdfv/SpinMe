@@ -1,23 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 
-abstract class WheelWidget extends StatefulWidget {
-  final List<WheelItem> items;
-  final Function(WheelItem) onSpinFinished;
+import 'wheel_widget.dart';
 
-  const WheelWidget({Key? key, required this.items, required this.onSpinFinished}) : super(key: key);
-}
-
-class WheelItem {
-  final int index;
-  final String label;
-
-  WheelItem({required this.index, required this.label});
-}
-
-class FlutterFortuneWheel extends WheelWidget {
+class FlutterFortuneWheel extends WheelWidgetContract {
   final List<WheelItem> items;
   final Function(WheelItem) onSpinFinished;
 

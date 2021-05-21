@@ -1,4 +1,4 @@
-import 'tasks_repository.dart';
+import '../../repositories/tasks_repository.dart';
 
 class PrepareCoordinator {
   final TasksRepository _repository;
