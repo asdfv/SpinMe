@@ -8,9 +8,9 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/bloc/
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/bloc/wheel_state.dart';
 
 import 'wheel_widget/flutter_fortune_wheel.dart';
-import 'wheel_widget/wheel_widget.dart';
+import 'wheel_widget/wheel_widget_contract.dart';
 
-const wheelRoute = "/wheel";
+const routeWheel = "/wheel";
 
 class WheelPage extends StatelessWidget {
   @override

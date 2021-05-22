@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'wheel_widget.dart';
+import 'wheel_widget_contract.dart';
 
 class WheelStub extends WheelWidgetContract {
   final List<WheelItem> items;

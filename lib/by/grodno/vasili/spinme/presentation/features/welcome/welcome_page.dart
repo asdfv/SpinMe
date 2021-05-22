@@ -2,10 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/prepare_page.dart';
 
-const welcomeRoute = "/";
+const routeWelcome = "/";
 
 class WelcomePage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +22,7 @@ class WelcomePage extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, preparePageRoute);
+                  Navigator.pushNamed(context, routePreparePageFirstPage);
                 },
                 child: const Text("Let's go!")),
           ],

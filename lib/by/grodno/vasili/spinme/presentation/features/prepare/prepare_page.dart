@@ -5,56 +5,71 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_state.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/prepare_flow/choose_players_page.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/prepare_flow/choose_tasks_page.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/features/welcome/welcome_page.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel_page.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/main.dart';
 
-import 'bloc/prepare_event.dart';
+const routePreparePage = "/prepare/";
+const routePreparePageFirstPage = "/prepare/$routeChoosePlayers";
 
-const preparePageRoute = "/prepare";
+class PreparePage extends StatefulWidget {
+  const PreparePage({Key? key, required this.preparePageRoute}) : super(key: key);
 
-class PreparePage extends StatelessWidget {
-  const PreparePage({
-    Key? key,
-  }) : super(key: key);
+  final String preparePageRoute;
+
+  @override
+  _PreparePageState createState() => _PreparePageState();
+}
+
+class _PreparePageState extends State<PreparePage> {
+  final _prepareNavigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     final coordinator = PrepareCoordinator(FakeTasksRepository());
     return BlocProvider(
-      create: (BuildContext _) => PrepareBloc(TasksLoadingState(), coordinator)..add(LoadTasks()),
-      child: PrepareScaffold(),
+      create: (_) => PrepareBloc(TasksLoadingState(), coordinator),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Prepare page"),
+        ),
+        body: Navigator(
+          key: _prepareNavigatorKey,
+          initialRoute: widget.preparePageRoute,
+          onGenerateRoute: _onGenerateRoute,
+        ),
+      ),
     );
   }
-}
 
-class PrepareScaffold extends StatelessWidget {
-  const PrepareScaffold({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<PrepareBloc, PrepareState>(
-        builder: (context, state) {
-          if (state is TasksLoadingState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is TasksLoadedState) {
-            final tasks = state.tasks;
-            return ListView.builder(
-              itemCount: tasks.length,
-              itemBuilder: (context, index) => ListTile(
-                leading: Icon(Icons.stream),
-                title: Text(tasks[index]),
-              ),
-            );
-          } else if (state is TaskLoadErrorState) {
-            return Center(child: Text(state.message));
-          } else {
-            throw UnimplementedError("Unknown state on Prepare screen.");
-          }
-        },
-      ),
+  Route _onGenerateRoute(RouteSettings settings) {
+    late Widget page;
+    switch (settings.name) {
+      case routeChoosePlayers:
+        page = ChoosePlayersPage(
+          onPlayersChosen: () {
+            _prepareNavigatorKey.currentState!.pushNamed(routeChooseTasks);
+          },
+        );
+        break;
+      case routeChooseTasks:
+        page = ChooseTasksPage(
+          onTasksChosen: () {
+            mainNavigatorKey.currentState!
+                .pushNamedAndRemoveUntil(routeWheel, (route) => route.settings.name == routeWelcome);
+          },
+        );
+        break;
+      default:
+        page = Scaffold(
+          body: Text("Wrong route: ${settings.name}"),
+        );
+    }
+    return MaterialPageRoute<dynamic>(
+      builder: (context) => page,
+      settings: settings,
     );
   }
 }

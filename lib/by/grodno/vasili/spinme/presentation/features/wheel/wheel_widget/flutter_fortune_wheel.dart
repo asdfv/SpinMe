@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 
-import 'wheel_widget.dart';
+import 'wheel_widget_contract.dart';
 
 class FlutterFortuneWheel extends WheelWidgetContract {
   final List<WheelItem> items;
