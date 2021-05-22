@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel_page.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/features/welcome/welcome_page.dart';
 
 import 'bloc/simple_bloc_observer.dart';
 import 'navigation/router_generator.dart';
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "My app",
-      initialRoute: wheelRoute,
+      initialRoute: welcomeRoute,
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
