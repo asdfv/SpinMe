@@ -3,9 +3,17 @@ import 'package:flutter/cupertino.dart';
 
 abstract class WheelWidgetContract extends StatefulWidget {
   final List<WheelItem> items;
+  final Function onSpinStarted ;
   final Function(WheelItem) onSpinFinished;
+  static _doNothing() => (){};
 
-  const WheelWidgetContract({Key? key, required this.items, required this.onSpinFinished}) : super(key: key);
+  const WheelWidgetContract({
+    Key? key,
+    required this.items,
+    required this.onSpinFinished,
+    this.onSpinStarted = _doNothing,
+  }) : super(key: key);
+
 }
 
 class WheelItem extends Equatable {

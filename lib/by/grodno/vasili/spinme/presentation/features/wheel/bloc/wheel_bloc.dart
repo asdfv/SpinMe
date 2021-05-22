@@ -14,6 +14,8 @@ class WheelBloc extends Bloc<WheelEvent, WheelState> {
       final item = event.item;
       final task = await coordinator.pickTask();
       yield PersonPickedState(item.label, task);
+    } if (event is SpinStarted) {
+      yield SpinInProgressState("Yeeeha!");
     }
   }
 }

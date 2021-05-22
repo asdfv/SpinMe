@@ -51,6 +51,8 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
           title = state.person;
         } else if (state is InitialState) {
           title = state.label;
+        } else if (state is SpinInProgressState) {
+          title = state.label;
         } else {
           title = "";
         }
@@ -62,6 +64,9 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
             items: items,
             onSpinFinished: (item) {
               bloc.add(SpinFinished(item));
+            },
+            onSpinStarted: () {
+              bloc.add(SpinStarted());
             },
           ),
         );

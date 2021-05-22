@@ -7,12 +7,16 @@ import 'wheel_widget.dart';
 
 class FlutterFortuneWheel extends WheelWidgetContract {
   final List<WheelItem> items;
+  final Function onSpinStarted;
   final Function(WheelItem) onSpinFinished;
+
+  static _doNothing() => () {};
 
   FlutterFortuneWheel({
     required this.items,
     required this.onSpinFinished,
-  }) : super(items: items, onSpinFinished: onSpinFinished);
+    this.onSpinStarted = _doNothing,
+  }) : super(items: items, onSpinStarted: onSpinStarted, onSpinFinished: onSpinFinished);
 
   @override
   State<StatefulWidget> createState() => _FlutterFortuneWheelState();
@@ -39,6 +43,9 @@ class _FlutterFortuneWheelState extends State<FlutterFortuneWheel> {
       items: items,
       onAnimationEnd: () {
         widget.onSpinFinished(widget.items[nextNumber]);
+      },
+      onAnimationStart: () {
+        widget.onSpinStarted();
       },
     );
   }

@@ -11,6 +11,15 @@ class InitialState extends WheelState {
   List<Object?> get props => [label];
 }
 
+class SpinInProgressState extends WheelState {
+  final String label;
+
+  SpinInProgressState(this.label);
+
+  @override
+  List<Object?> get props => [label];
+}
+
 class PersonPickedState extends WheelState {
   final String person;
   final String task;

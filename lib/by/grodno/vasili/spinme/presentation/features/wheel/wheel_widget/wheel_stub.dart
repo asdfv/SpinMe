@@ -7,12 +7,15 @@ import 'wheel_widget.dart';
 
 class WheelStub extends WheelWidgetContract {
   final List<WheelItem> items;
+  final Function onSpinStarted;
   final Function(WheelItem) onSpinFinished;
+  static _doNothing() => (){};
 
   WheelStub({
     required this.items,
+    this.onSpinStarted = _doNothing,
     required this.onSpinFinished,
-  }) : super(items: items, onSpinFinished: onSpinFinished);
+  }) : super(items: items, onSpinStarted: onSpinStarted, onSpinFinished: onSpinFinished);
 
   @override
   State<StatefulWidget> createState() => _WheelStubState();
@@ -31,6 +34,7 @@ class _WheelStubState extends State<WheelStub> {
                 setState(() {
                   title = "Spinning...";
                 });
+                widget.onSpinStarted();
                 await Future.delayed(Duration(milliseconds: 750), () {});
                 widget.onSpinFinished(widget.items[Random().nextInt(widget.items.length)]);
                 setState(() {
