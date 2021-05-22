@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/bloc/wheel_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/bloc/wheel_event.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/bloc/wheel_state.dart';
-import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/widget/wheel_widget.dart';
 
-import 'widget/flutter_fortune_wheel.dart';
+import 'wheel_widget/flutter_fortune_wheel.dart';
+import 'wheel_widget/wheel_widget.dart';
 
 const wheelRoute = "/wheel";
 
