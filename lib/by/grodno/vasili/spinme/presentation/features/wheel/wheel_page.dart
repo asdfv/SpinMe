@@ -56,21 +56,41 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
         } else {
           title = "";
         }
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(title),
-          ),
-          body: FlutterFortuneWheel(
-            items: items,
-            onSpinFinished: (item) {
-              bloc.add(SpinFinished(item));
-            },
-            onSpinStarted: () {
-              bloc.add(SpinStarted());
-            },
+        return WillPopScope(
+          onWillPop: () => _showExitDialog(context),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(title),
+            ),
+            body: FlutterFortuneWheel(
+              items: items,
+              onSpinFinished: (item) {
+                bloc.add(SpinFinished(item));
+              },
+              onSpinStarted: () {
+                bloc.add(SpinStarted());
+              },
+            ),
           ),
         );
       },
     );
   }
+
+  Future<bool> _showExitDialog(BuildContext context) => showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+            title: Text("Do you really want to exit?"),
+            content: Text("All the progress will be lost."),
+            actions: <Widget>[
+              ElevatedButton(
+                child: Text('Yes'),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+              ElevatedButton(
+                child: Text('No'),
+                onPressed: () => Navigator.of(context).pop(false),
+              )
+            ],
+          )).then((value) => value ?? true);
 }

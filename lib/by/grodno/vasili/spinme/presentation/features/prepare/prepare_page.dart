@@ -33,7 +33,7 @@ class _PreparePageState extends State<PreparePage> {
       create: (_) => PrepareBloc(TasksLoadingState(), coordinator),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Prepare page"),
+          title: Text("Setting up the Game"),
         ),
         body: Navigator(
           key: _prepareNavigatorKey,
