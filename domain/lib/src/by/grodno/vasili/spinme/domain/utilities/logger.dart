@@ -1,6 +1,6 @@
 import 'package:logger/logger.dart';
 
-NotesLogger getLogger() {
+SpinLogger getLogger() {
   final logger = Logger(
       printer: PrettyPrinter(
         methodCount: 0,
@@ -12,7 +12,7 @@ NotesLogger getLogger() {
   return SimpleNotesLogger(logger);
 }
 
-abstract class NotesLogger {
+abstract class SpinLogger {
   void v({required String message, Exception? error});
 
   void d({required String message, Exception? error});
@@ -24,7 +24,7 @@ abstract class NotesLogger {
   void e({required String message, Exception? error});
 }
 
-class SimpleNotesLogger extends NotesLogger {
+class SimpleNotesLogger extends SpinLogger {
   final Logger logger;
 
   SimpleNotesLogger(this.logger);
