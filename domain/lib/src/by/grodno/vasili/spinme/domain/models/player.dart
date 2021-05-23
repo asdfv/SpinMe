@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Player extends Equatable {
-  Player(this.id, this.name);
+  Player({required this.id, required this.name});
 
   final int id;
   final String name;

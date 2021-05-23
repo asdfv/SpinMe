@@ -11,6 +11,8 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/welcome/wel
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel_page.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/main.dart';
 
+import 'bloc/prepare_event.dart';
+
 const routePreparePage = "/prepare/";
 const routePreparePageFirstPage = "/prepare/$routeChoosePlayers";
 
@@ -25,35 +27,41 @@ class PreparePage extends StatefulWidget {
 
 class _PreparePageState extends State<PreparePage> {
   final _prepareNavigatorKey = GlobalKey<NavigatorState>();
+  PrepareBloc? _bloc;
 
   @override
   Widget build(BuildContext context) {
-    final coordinator = PrepareCoordinator(FakeTasksRepository());
+    final coordinator = PrepareCoordinator(FakeTasksRepository(), FakePlayersRepository());
     return BlocProvider(
       create: (_) => PrepareBloc(TasksLoadingState(), coordinator),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Setting up the Game"),
-        ),
-        body: Navigator(
-          key: _prepareNavigatorKey,
-          initialRoute: widget.preparePageRoute,
-          onGenerateRoute: _onGenerateRoute,
-        ),
+      child: Builder(
+        builder: (context) {
+          _bloc = context.read<PrepareBloc>();
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Setting up the Game"),
+            ),
+            body: Navigator(
+              key: _prepareNavigatorKey,
+              initialRoute: widget.preparePageRoute,
+              onGenerateRoute: _onGenerateRoute,
+            ),
+          );
+        },
       ),
     );
+  }
+
+  void _onPlayersChosen(List<String> names) {
+    _bloc!.add(NamesChosen(names));
+    _prepareNavigatorKey.currentState!.pushNamed(routeChooseTasks);
   }
 
   Route _onGenerateRoute(RouteSettings settings) {
     late Widget page;
     switch (settings.name) {
       case routeChoosePlayers:
-        page = ChoosePlayersPage(
-          onPlayersChosen: (List<String> names) {
-            print("Names chosen: $names");
-            _prepareNavigatorKey.currentState!.pushNamed(routeChooseTasks);
-          },
-        );
+        page = ChoosePlayersPage(onPlayersChosen: _onPlayersChosen);
         break;
       case routeChooseTasks:
         page = ChooseTasksPage(

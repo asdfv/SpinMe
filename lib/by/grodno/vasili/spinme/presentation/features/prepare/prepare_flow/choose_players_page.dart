@@ -86,9 +86,9 @@ class ChooseNamesFormState extends State<ChooseNamesForm> {
     final areDuplicates = names.length != names.toSet().length;
     if (areDuplicates) {
       context.snack("All names should be different");
+      names.clear();
     } else {
       widget.onPlayersChosen(names);
     }
-    names.clear();
   }
 }

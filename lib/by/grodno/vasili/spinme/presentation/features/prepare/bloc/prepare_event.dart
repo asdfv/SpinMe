@@ -10,3 +10,12 @@ class LoadTasks extends PrepareEvent {
   @override
   List<Object?> get props => [];
 }
+
+class NamesChosen extends PrepareEvent {
+  NamesChosen(this.names);
+
+  final List<String> names;
+
+  @override
+  List<Object?> get props => [names];
+}
