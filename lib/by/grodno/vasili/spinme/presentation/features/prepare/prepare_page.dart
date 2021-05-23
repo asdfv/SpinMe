@@ -49,7 +49,8 @@ class _PreparePageState extends State<PreparePage> {
     switch (settings.name) {
       case routeChoosePlayers:
         page = ChoosePlayersPage(
-          onPlayersChosen: () {
+          onPlayersChosen: (List<String> names) {
+            print("Names chosen: $names");
             _prepareNavigatorKey.currentState!.pushNamed(routeChooseTasks);
           },
         );

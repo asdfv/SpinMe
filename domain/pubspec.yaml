@@ -10,3 +10,4 @@ environment:
 
 dependencies:
   logger: ^1.0.0
+  equatable: ^2.0.0
