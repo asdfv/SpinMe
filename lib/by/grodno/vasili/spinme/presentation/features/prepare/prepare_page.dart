@@ -25,14 +25,21 @@ class PreparePage extends StatefulWidget {
 }
 
 class _PreparePageState extends State<PreparePage> {
+  final log = getLogger();
   final _prepareNavigatorKey = GlobalKey<NavigatorState>();
   PrepareBloc? _bloc;
+  late PrepareCoordinator _coordinator;
+
+  @override
+  void initState() {
+    super.initState();
+    _coordinator = PrepareCoordinator(getIt<TasksRepository>(), getIt<PlayersRepository>());
+  }
 
   @override
   Widget build(BuildContext context) {
-    final coordinator = PrepareCoordinator(getIt<TasksRepository>(), getIt<PlayersRepository>());
     return BlocProvider(
-      create: (_) => PrepareBloc(TasksLoadingState(), coordinator),
+      create: (_) => PrepareBloc(TasksLoadingState(), _coordinator),
       child: Builder(
         builder: (context) {
           _bloc = context.read<PrepareBloc>();
@@ -63,8 +70,10 @@ class _PreparePageState extends State<PreparePage> {
         page = ChoosePlayersPage(onPlayersChosen: _onPlayersChosen);
         break;
       case routeChooseTasks:
+        _bloc!.add(LoadTasks());
         page = ChooseTasksPage(
           onTasksChosen: (List<int> tasksIds) {
+            log.i(message: "Tasks chosen: $tasksIds");
             mainNavigatorKey.currentState!
                 .pushNamedAndRemoveUntil(routeWheel, (route) => route.settings.name == routeWelcome);
           },
@@ -76,7 +85,7 @@ class _PreparePageState extends State<PreparePage> {
         );
     }
     return MaterialPageRoute<dynamic>(
-      builder: (context) => page,
+      builder: (_) => page,
       settings: settings,
     );
   }

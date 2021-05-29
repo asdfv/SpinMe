@@ -15,9 +15,7 @@ class ChoosePlayersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ChooseNamesForm(onPlayersChosen: onPlayersChosen),
-    );
+    return ChooseNamesForm(onPlayersChosen: onPlayersChosen);
   }
 }
 

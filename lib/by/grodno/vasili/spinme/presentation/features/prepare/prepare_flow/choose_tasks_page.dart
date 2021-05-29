@@ -1,3 +1,4 @@
+import 'package:domain/domain_module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,57 +16,17 @@ class ChooseTasksPage extends StatelessWidget {
   final Function(List<int>) onTasksChosen;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text("ChooseTasksPage"),
-          ElevatedButton(
-            onPressed: () {
-              onTasksChosen([1, 2, 3]);
-            },
-            child: Text("Show me the wheel!"),
-          )
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => TasksWidget();
 }
 
-// class TaskItem extends StatelessWidget {
-//   final Function(int) onChanged;
-//   final Task
-//
-//   const TaskItem({Key? key, required this.onChanged}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: () {
-//         onChanged(!value);
-//       },
-//       child: Padding(
-//         padding: padding,
-//         child: Row(
-//           children: <Widget>[
-//             Expanded(child: Text(label)),
-//             Checkbox(
-//               value: value,
-//               onChanged: (bool? newValue) {
-//                 onChanged(newValue);
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+class TasksWidget extends StatefulWidget {
+  @override
+  _TasksWidgetState createState() => _TasksWidgetState();
+}
 
-// todo use add this later
-class TasksWidget extends StatelessWidget {
+class _TasksWidgetState extends State<TasksWidget> {
+  Map<int, bool> checkableTaskIds = {};
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PrepareBloc, PrepareState>(
@@ -76,18 +37,64 @@ class TasksWidget extends StatelessWidget {
           );
         } else if (state is TasksLoadedState) {
           final tasks = state.tasks;
+          checkableTaskIds = {for (final task in tasks) task.id: true};
           return ListView.builder(
-            itemCount: tasks.length,
-            itemBuilder: (context, index) => ListTile(
-              leading: Icon(Icons.stream),
-              title: Text(tasks[index].description),
-            ),
-          );
+              itemCount: tasks.length,
+              itemBuilder: (context, index) {
+                var task = tasks[index];
+                return CheckableTaskItem(
+                  task: task,
+                  isChecked: checkableTaskIds[task.id]!,
+                  onCheck: (isChecked) {
+                    checkableTaskIds[task.id] = isChecked;
+                  },
+                );
+              });
         } else if (state is TaskLoadErrorState) {
           return Center(child: Text(state.message));
         } else {
           throw UnimplementedError("Unknown state on Prepare screen.");
         }
+      },
+    );
+  }
+}
+
+class CheckableTaskItem extends StatefulWidget {
+  final Task task;
+  final bool isChecked;
+  final Function(bool) onCheck;
+
+  const CheckableTaskItem({
+    Key? key,
+    required this.task,
+    required this.isChecked,
+    required this.onCheck,
+  }) : super(key: key);
+
+  @override
+  _CheckableTaskItemState createState() => _CheckableTaskItemState();
+}
+
+class _CheckableTaskItemState extends State<CheckableTaskItem> {
+  late bool isChecked;
+
+  @override
+  void initState() {
+    isChecked = widget.isChecked;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CheckboxListTile(
+      title: Text(widget.task.description),
+      value: isChecked,
+      onChanged: (bool? value) {
+        setState(() {
+          isChecked = value!;
+        });
+        widget.onCheck(value!);
       },
     );
   }
