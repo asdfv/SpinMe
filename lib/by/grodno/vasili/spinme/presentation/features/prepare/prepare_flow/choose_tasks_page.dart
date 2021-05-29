@@ -12,7 +12,7 @@ class ChooseTasksPage extends StatelessWidget {
     required this.onTasksChosen,
   }) : super(key: key);
 
-  final Function onTasksChosen;
+  final Function(List<int>) onTasksChosen;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class ChooseTasksPage extends StatelessWidget {
           Text("ChooseTasksPage"),
           ElevatedButton(
             onPressed: () {
-              onTasksChosen();
+              onTasksChosen([1, 2, 3]);
             },
             child: Text("Show me the wheel!"),
           )
@@ -33,6 +33,36 @@ class ChooseTasksPage extends StatelessWidget {
     );
   }
 }
+
+// class TaskItem extends StatelessWidget {
+//   final Function(int) onChanged;
+//   final Task
+//
+//   const TaskItem({Key? key, required this.onChanged}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () {
+//         onChanged(!value);
+//       },
+//       child: Padding(
+//         padding: padding,
+//         child: Row(
+//           children: <Widget>[
+//             Expanded(child: Text(label)),
+//             Checkbox(
+//               value: value,
+//               onChanged: (bool? newValue) {
+//                 onChanged(newValue);
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // todo use add this later
 class TasksWidget extends StatelessWidget {
@@ -50,7 +80,7 @@ class TasksWidget extends StatelessWidget {
             itemCount: tasks.length,
             itemBuilder: (context, index) => ListTile(
               leading: Icon(Icons.stream),
-              title: Text(tasks[index]),
+              title: Text(tasks[index].description),
             ),
           );
         } else if (state is TaskLoadErrorState) {

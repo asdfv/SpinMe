@@ -1,3 +1,4 @@
+import 'package:domain/domain_module.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
@@ -12,7 +13,7 @@ class TasksLoadingState extends PrepareState {
 }
 
 class TasksLoadedState extends PrepareState {
-  final List<String> tasks;
+  final List<Task> tasks;
 
   TasksLoadedState(this.tasks);
 

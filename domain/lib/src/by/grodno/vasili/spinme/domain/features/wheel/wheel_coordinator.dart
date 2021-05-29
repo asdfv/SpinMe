@@ -1,17 +1,20 @@
 import 'dart:math';
 
-import '../../repositories/tasks_repository.dart';
+import 'package:domain/domain_module.dart';
 
 class WheelCoordinator {
-  final TasksRepository _repository;
+  final TasksRepository _taskRepository;
+  final PlayersRepository _playerRepository;
 
-  WheelCoordinator(this._repository);
+  WheelCoordinator(this._taskRepository, this._playerRepository);
 
-  Future<String> pickTask() async {
-    final size = await _repository.size();
+  Future<Task> pickTask() async {
+    final size = await _taskRepository.size();
     final index = Random().nextInt(size - 1);
-    final task = await _repository.getOne(index);
-    _repository.delete(index);
+    final task = await _taskRepository.getOne(index);
+    _taskRepository.delete(index);
     return task!;
   }
+
+  Future<Player> pickPlayer(int id) => _playerRepository.getPlayer(id);
 }

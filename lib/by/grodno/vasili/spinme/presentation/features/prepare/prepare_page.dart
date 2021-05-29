@@ -1,4 +1,3 @@
-import 'package:data/data_module.dart';
 import 'package:domain/domain_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -31,7 +30,7 @@ class _PreparePageState extends State<PreparePage> {
 
   @override
   Widget build(BuildContext context) {
-    final coordinator = PrepareCoordinator(FakeTasksRepository(), FakePlayersRepository());
+    final coordinator = PrepareCoordinator(getIt<TasksRepository>(), getIt<PlayersRepository>());
     return BlocProvider(
       create: (_) => PrepareBloc(TasksLoadingState(), coordinator),
       child: Builder(
@@ -65,7 +64,7 @@ class _PreparePageState extends State<PreparePage> {
         break;
       case routeChooseTasks:
         page = ChooseTasksPage(
-          onTasksChosen: () {
+          onTasksChosen: (List<int> tasksIds) {
             mainNavigatorKey.currentState!
                 .pushNamedAndRemoveUntil(routeWheel, (route) => route.settings.name == routeWelcome);
           },

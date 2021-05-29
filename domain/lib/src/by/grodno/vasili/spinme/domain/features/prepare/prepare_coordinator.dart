@@ -1,14 +1,12 @@
 import 'package:domain/domain_module.dart';
 
-import '../../repositories/tasks_repository.dart';
-
 class PrepareCoordinator {
   final TasksRepository _tasksRepository;
   final PlayersRepository _playersRepository;
 
   PrepareCoordinator(this._tasksRepository, this._playersRepository);
 
-  Future<List<String>> getAllTasks() async {
+  Future<List<Task>> getAllTasks() async {
     return _tasksRepository.getAllTasks();
   }
 

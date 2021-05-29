@@ -1,11 +1,13 @@
+import 'package:domain/domain_module.dart';
+
 abstract class TasksRepository {
-  Future<List<String>> getAllTasks();
+  Future<List<Task>> getAllTasks();
 
   // todo replace String? with String and throw error
-  Future<String?> getOne(int index);
+  Future<Task?> getOne(int index);
 
   // todo throw error if index is wrong
-  Future delete(int index);
+  Future delete(int id);
 
   Future<int> size();
 }

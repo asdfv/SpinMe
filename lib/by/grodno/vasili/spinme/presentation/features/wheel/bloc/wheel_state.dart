@@ -1,3 +1,4 @@
+import 'package:domain/domain_module.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class WheelState extends Equatable {}
@@ -20,12 +21,12 @@ class SpinInProgressState extends WheelState {
   List<Object?> get props => [label];
 }
 
-class PersonPickedState extends WheelState {
-  final String person;
-  final String task;
+class PlayerPickedState extends WheelState {
+  final Player player;
+  final Task task;
 
-  PersonPickedState(this.person, this.task);
+  PlayerPickedState(this.player, this.task);
 
   @override
-  List<Object?> get props => [person, task];
+  List<Object?> get props => [player, task];
 }

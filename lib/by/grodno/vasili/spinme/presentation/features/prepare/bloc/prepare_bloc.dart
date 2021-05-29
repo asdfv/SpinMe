@@ -19,8 +19,7 @@ class PrepareBloc extends Bloc<PrepareEvent, PrepareState> {
         yield TaskLoadErrorState(error.toString());
       }
     } else if (event is NamesChosen) {
-      final List<Player> players =
-          event.names.asMap().entries.map((entry) => Player(id: entry.key, name: entry.value)).toList();
+      final List<Player> players = event.names.asMap().entries.map((entry) => Player(entry.key, entry.value)).toList();
       coordinator.saveAllPlayers(players);
     }
   }

@@ -17,11 +17,11 @@ abstract class WheelWidgetContract extends StatefulWidget {
 }
 
 class WheelItem extends Equatable {
-  final int index;
+  final int id;
   final String label;
 
-  WheelItem({required this.index, required this.label});
+  WheelItem({required this.id, required this.label});
 
   @override
-  List<Object?> get props => [index, label];
+  List<Object?> get props => [id, label];
 }
