@@ -29,44 +29,46 @@ class WheelPageScaffold extends StatefulWidget {
 }
 
 class _WheelPageScaffoldState extends State<WheelPageScaffold> {
-  final items = [
-    WheelItem(id: 0, label: "Zero item"),
-    WheelItem(id: 1, label: "One item"),
-  ];
+  late WheelBloc _bloc;
+  final log = getLogger();
+
+  @override
+  void initState() {
+    _bloc = context.read<WheelBloc>()..add(ConfigureWheel());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<WheelBloc>();
-    return BlocBuilder<WheelBloc, WheelState>(
-      builder: (context, state) {
-        final String title;
-        if (state is PlayerPickedState) {
-          title = state.player.name;
-        } else if (state is InitialState) {
-          title = state.label;
-        } else if (state is SpinInProgressState) {
-          title = state.label;
-        } else {
-          title = "";
-        }
-        return WillPopScope(
-          onWillPop: () => _showExitDialog(context),
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(title),
-            ),
-            body: FlutterFortuneWheel(
-              items: items,
-              onSpinFinished: (item) {
-                bloc.add(SpinFinished(item));
-              },
-              onSpinStarted: () {
-                bloc.add(SpinStarted());
-              },
-            ),
-          ),
-        );
-      },
+    return BlocBuilder<WheelBloc, WheelState>(builder: (context, state) => _buildScaffold(context, state));
+  }
+
+  Widget _buildScaffold(BuildContext context, WheelState state) {
+    final String label = state.label;
+    final List<WheelItem>? items = state.items;
+    final Player? pickedPlayer = state.pickedPlayer;
+    final Task? pickedTask = state.pickedTask;
+    log.i(message: "WheelState changed. WheelState: $state");
+    final body = items == null
+        ? CircularProgressIndicator()
+        : FlutterFortuneWheel(
+            items: items,
+            onSpinFinished: (item) {
+              _bloc.add(SpinFinished(item));
+            },
+            onSpinStarted: () {
+              _bloc.add(SpinStarted());
+            },
+          );
+
+    return WillPopScope(
+      onWillPop: () => _showExitDialog(context),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(label),
+        ),
+        body: body,
+      ),
     );
   }
 

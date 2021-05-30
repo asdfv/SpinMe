@@ -5,6 +5,11 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel
 @immutable
 abstract class WheelEvent extends Equatable {}
 
+class ConfigureWheel extends WheelEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class SpinStarted extends WheelEvent {
   @override
   List<Object?> get props => [];

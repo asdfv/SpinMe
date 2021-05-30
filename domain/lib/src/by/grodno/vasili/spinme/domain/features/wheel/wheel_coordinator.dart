@@ -17,4 +17,12 @@ class WheelCoordinator {
   }
 
   Future<Player> pickPlayer(int id) => _playerRepository.getPlayer(id);
+
+  Future<List<Task>> getChosenTasks() async {
+    final tasks = await _taskRepository.getAllTasks();
+    final chosenTasks = tasks.where((element) => element.isChecked).toList();
+    return chosenTasks;
+  }
+
+  Future<List<Player>> getChosenPlayers() => _playerRepository.getPlayers();
 }
