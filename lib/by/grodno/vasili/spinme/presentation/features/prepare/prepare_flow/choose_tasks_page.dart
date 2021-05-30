@@ -66,19 +66,7 @@ class _TasksWidgetState extends State<TasksWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    final Set<Task> changedTasks = _changedTasksIds.entries.map((e) {
-                      final task = tasks.firstWhere((element) => element.id == e.key);
-                      return task.copyWithCheck(e.value);
-                    }).toSet();
-
-                    final Set<Task> mergedTasks = Set.from(changedTasks)..addAll(tasks);
-                    final checkedTasks = mergedTasks.where((element) => element.isChecked);
-                    final minimumNumberTasks = 3;
-                    if (checkedTasks.length > minimumNumberTasks) {
-                      widget.onTasksChosen(checkedTasks.toList());
-                    } else {
-                      context.snack("Please chose more that $minimumNumberTasks");
-                    }
+                    _onNextClicked(tasks);
                   },
                   child: Text("Let's play!"),
                 ),
@@ -92,5 +80,20 @@ class _TasksWidgetState extends State<TasksWidget> {
         }
       },
     );
+  }
+
+  void _onNextClicked(List<Task> tasks) {
+    final Set<Task> changedTasks = _changedTasksIds.entries.map((e) {
+      final task = tasks.firstWhere((element) => element.id == e.key);
+      return task.copyWithCheck(e.value);
+    }).toSet();
+    final Set<Task> mergedTasks = Set.from(changedTasks)..addAll(tasks);
+    final checkedTasks = mergedTasks.where((element) => element.isChecked);
+    final minimumNumberTasks = 3;
+    if (checkedTasks.length > minimumNumberTasks) {
+      widget.onTasksChosen(checkedTasks.toList());
+    } else {
+      context.snack("Please chose more that $minimumNumberTasks");
+    }
   }
 }
