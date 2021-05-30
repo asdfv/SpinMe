@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../../utilities/utilities.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/preferences/game_preferences.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 
 const routeChoosePlayers = "choosePlayers";
 
@@ -25,27 +25,53 @@ class ChooseNamesForm extends StatefulWidget {
   final Function(List<String>) onPlayersChosen;
 
   @override
-  ChooseNamesFormState createState() {
-    return ChooseNamesFormState();
-  }
+  ChooseNamesFormState createState() => ChooseNamesFormState();
 }
 
 class ChooseNamesFormState extends State<ChooseNamesForm> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> names = [];
+  final List<String> _names = [];
+  var _nameFields = <TextFormField>[];
+
+  @override
+  void initState() {
+    _nameFields.add(_createNameField());
+    _nameFields.add(_createNameField());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _createNameField(),
-          _createNameField(),
-          _createSubmitButton(context),
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: _nameFields.length,
+              itemBuilder: (context, index) => _nameFields[index],
+            ),
+          ),
+          _createPlusButton(context),
+          _createSubmitButton(context)
         ],
       ),
+    );
+  }
+
+  Widget _createPlusButton(BuildContext context) {
+    final Function()? action = _nameFields.length >= GamePreferences.maxNumberOfPlayers
+        ? null
+        : () {
+            if (_nameFields.hasNonFilledField()) {
+              context.snack("You have non-filled fields");
+            } else {
+              _addNameField();
+            }
+          };
+    return ElevatedButton(
+      onPressed: action,
+      child: Text('+'),
     );
   }
 
@@ -66,27 +92,45 @@ class ChooseNamesFormState extends State<ChooseNamesForm> {
     );
   }
 
-  Widget _createNameField() => TextFormField(
-        onSaved: (value) {
-          names.add(value!);
-        },
-        decoration: const InputDecoration(
-          hintText: 'Enter player name',
-          labelText: 'Name',
-        ),
-        keyboardType: TextInputType.text,
-        validator: _validator,
-      );
-
-  String? _validator(value) => value.length < 3 ? 'Please enter name longer than 3 symbols' : null;
-
   void _submitForm() {
-    final areDuplicates = names.length != names.toSet().length;
+    final areDuplicates = _names.length != _names.toSet().length;
     if (areDuplicates) {
       context.snack("All names should be different");
-      names.clear();
+      _names.clear();
     } else {
-      widget.onPlayersChosen(names);
+      widget.onPlayersChosen(_names);
     }
   }
+
+  void _addNameField() {
+    setState(() {
+      _nameFields.add(_createNameField());
+    });
+  }
+
+  TextFormField _createNameField() {
+    return TextFormField(
+      onTap: () {
+        setState(() {});
+      },
+      controller: TextEditingController(),
+      onSaved: (value) {
+        _names.add(value!);
+      },
+      decoration: const InputDecoration(
+        hintText: 'Enter player name',
+        labelText: 'Name',
+      ),
+      keyboardType: TextInputType.text,
+      validator: _validator,
+    );
+  }
+
+  String? _validator(value) =>
+      value.length < GamePreferences.minCharactersInPlayerName ? 'Please enter name longer than 3 symbols' : null;
+}
+
+extension TextFormFieldHasEmptyField on List<TextFormField> {
+  bool hasNonFilledField() =>
+      this.any((field) => field.controller!.value.text.length < GamePreferences.minCharactersInPlayerName);
 }
