@@ -1,14 +1,15 @@
 import 'package:data/src/by/grodno/vasili/spinme/data/models/player_entity.dart';
 import 'package:domain/domain_module.dart';
 
+import 'utilities/utilities.dart';
+
 class FakePlayersRepository extends PlayersRepository {
   final log = getLogger();
   final List<PlayerEntity> _playersDatasource = [];
 
   @override
   Future<List<Player>> getPlayers() {
-    return Future.delayed(
-        const Duration(milliseconds: 200), () => _playersDatasource.map((entity) => entity.toDomainModel()).toList());
+    return runDelayed(() => _playersDatasource.map((entity) => entity.toDomainModel()).toList());
   }
 
   @override
@@ -19,6 +20,12 @@ class FakePlayersRepository extends PlayersRepository {
 
   @override
   Future<Player> getPlayer(int id) {
-    return Future.delayed(const Duration(milliseconds: 200), () => _playersDatasource[id].toDomainModel());
+    return runDelayed(() => _playersDatasource[id].toDomainModel());
+  }
+
+  @override
+  Future deleteAllPlayers() {
+    _playersDatasource.clear();
+    return runDelayed(() => null);
   }
 }

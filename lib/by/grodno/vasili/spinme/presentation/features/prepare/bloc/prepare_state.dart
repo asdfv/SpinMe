@@ -8,6 +8,7 @@ abstract class PrepareState extends Equatable {
 }
 
 class TasksLoadingState extends PrepareState {
+
   @override
   List<Object?> get props => [];
 }

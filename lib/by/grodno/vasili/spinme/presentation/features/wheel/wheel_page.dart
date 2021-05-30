@@ -51,14 +51,35 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
     log.i(message: "WheelState changed. WheelState: $state");
     final body = items == null
         ? CircularProgressIndicator()
-        : FlutterFortuneWheel(
-            items: items,
-            onSpinFinished: (item) {
-              _bloc.add(SpinFinished(item));
-            },
-            onSpinStarted: () {
-              _bloc.add(SpinStarted());
-            },
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                height: 100,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(pickedTask?.description ?? ""),
+                ),
+              ),
+              Expanded(
+                child: FlutterFortuneWheel(
+                  items: items,
+                  onSpinFinished: (item) {
+                    _bloc.add(SpinFinished(item));
+                  },
+                  onSpinStarted: () {
+                    _bloc.add(SpinStarted());
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 100,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(pickedPlayer?.name ?? ""),
+                ),
+              ),
+            ],
           );
 
     return WillPopScope(

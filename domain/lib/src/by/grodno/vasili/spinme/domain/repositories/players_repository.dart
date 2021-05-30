@@ -4,4 +4,5 @@ abstract class PlayersRepository {
   void savePlayers(List<Player> players);
   Future<List<Player>> getPlayers();
   Future<Player> getPlayer(int id);
+  Future deleteAllPlayers();
 }
