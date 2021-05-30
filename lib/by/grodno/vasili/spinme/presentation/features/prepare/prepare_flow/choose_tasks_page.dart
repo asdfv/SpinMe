@@ -33,6 +33,7 @@ class TasksWidget extends StatefulWidget {
 }
 
 class _TasksWidgetState extends State<TasksWidget> {
+  final log = getLogger();
   final Map<int, bool> _changedTasksIds = {};
 
   @override
@@ -87,11 +88,12 @@ class _TasksWidgetState extends State<TasksWidget> {
       final task = tasks.firstWhere((element) => element.id == e.key);
       return task.copyWithCheck(e.value);
     }).toSet();
-    final Set<Task> mergedTasks = Set.from(changedTasks)..addAll(tasks);
-    final checkedTasks = mergedTasks.where((element) => element.isChecked);
+    final Set<Task> updatedTasks = Set.from(changedTasks)..addAll(tasks);
+    final checkedTasksIds = updatedTasks.where((element) => element.isChecked).map((e) => e.id).toList();
+    log.i(message: "Chosen tasks ids: $checkedTasksIds");
     final minimumNumberTasks = 3;
-    if (checkedTasks.length > minimumNumberTasks) {
-      widget.onTasksChosen(checkedTasks.toList());
+    if (checkedTasksIds.length > minimumNumberTasks) {
+      widget.onTasksChosen(updatedTasks.toList());
     } else {
       context.snack("Please chose more that $minimumNumberTasks");
     }

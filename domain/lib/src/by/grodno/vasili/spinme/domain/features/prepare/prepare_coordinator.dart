@@ -15,4 +15,8 @@ class PrepareCoordinator {
   void saveAllPlayers(List<Player> players) {
     _playersRepository.savePlayers(players);
   }
+
+  void saveTasks(List<Task> tasks) {
+    _tasksRepository.saveTasks(tasks);
+  }
 }

@@ -6,6 +6,8 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/blo
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_state.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/prepare_flow/choose_players_page.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/prepare_flow/choose_tasks_page.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/features/welcome/welcome_page.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel_page.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/main.dart';
 
 import 'bloc/prepare_event.dart';
@@ -23,7 +25,6 @@ class PreparePage extends StatefulWidget {
 }
 
 class _PreparePageState extends State<PreparePage> {
-  final log = getLogger();
   final _prepareNavigatorKey = GlobalKey<NavigatorState>();
   PrepareBloc? _bloc;
   late PrepareCoordinator _coordinator;
@@ -71,10 +72,9 @@ class _PreparePageState extends State<PreparePage> {
         _bloc!.add(LoadTasks());
         page = ChooseTasksPage(
           onTasksChosen: (List<Task> tasks) {
-            final List<int> chosenIds = tasks.map((e) => e.id).toList();
-            log.i(message: "Tasks chosen: $chosenIds");
-            // mainNavigatorKey.currentState!
-            //     .pushNamedAndRemoveUntil(routeWheel, (route) => route.settings.name == routeWelcome);
+            _bloc!.add(TasksChosen(tasks));
+            mainNavigatorKey.currentState!
+                .pushNamedAndRemoveUntil(routeWheel, (route) => route.settings.name == routeWelcome);
           },
         );
         break;

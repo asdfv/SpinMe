@@ -11,3 +11,4 @@ environment:
 dependencies:
   domain:
     path: ../domain
+  equatable: ^2.0.0

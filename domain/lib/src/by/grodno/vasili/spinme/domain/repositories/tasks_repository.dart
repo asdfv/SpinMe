@@ -10,4 +10,8 @@ abstract class TasksRepository {
   Future delete(int id);
 
   Future<int> size();
+
+  Future<int> saveTask(Task task);
+
+  void saveTasks(List<Task> tasks);
 }
