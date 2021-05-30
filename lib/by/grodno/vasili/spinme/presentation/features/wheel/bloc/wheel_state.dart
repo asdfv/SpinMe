@@ -1,7 +1,9 @@
 import 'package:domain/domain_module.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel_widget/wheel_widget_contract.dart';
 
+@immutable
 class WheelState extends Equatable {
   WheelState({this.label = "", this.items, this.pickedPlayer, this.pickedTask});
 

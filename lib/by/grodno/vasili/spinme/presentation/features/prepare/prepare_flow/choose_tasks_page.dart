@@ -40,48 +40,43 @@ class _TasksWidgetState extends State<TasksWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<PrepareBloc, PrepareState>(
       builder: (context, state) {
-        if (state is TasksLoadingState) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is TasksLoadedState) {
-          final tasks = state.tasks;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: ListView.builder(
-                    itemCount: tasks.length,
-                    itemBuilder: (context, index) {
-                      var task = tasks[index];
-                      return CheckableTaskItem(
-                        task: task,
-                        isChecked: task.isChecked,
-                        onCheck: (isChecked) {
-                          _changedTasksIds[task.id] = isChecked;
-                        },
-                      );
-                    }),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    _onNextClicked(tasks);
-                  },
-                  child: Text("Let's play!"),
-                ),
-              )
-            ],
-          );
-        } else if (state is TaskLoadErrorState) {
-          return Center(child: Text(state.message));
-        } else {
-          throw UnimplementedError("Unknown state on Prepare screen.");
-        }
+        final tasks = state.tasks;
+        final isLoading = state.isLoading;
+
+        if (isLoading) return Center(child: CircularProgressIndicator());
+        return tasks == null ? Center(child: Text("Whoops! Strange state o_O")) : _buildTasksList(tasks);
       },
     );
   }
+
+  Widget _buildTasksList(List<Task> tasks) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: ListView.builder(
+                itemCount: tasks.length,
+                itemBuilder: (context, index) {
+                  var task = tasks[index];
+                  return CheckableTaskItem(
+                    task: task,
+                    isChecked: task.isChecked,
+                    onCheck: (isChecked) {
+                      _changedTasksIds[task.id] = isChecked;
+                    },
+                  );
+                }),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                _onNextClicked(tasks);
+              },
+              child: Text("Let's play!"),
+            ),
+          )
+        ],
+      );
 
   void _onNextClicked(List<Task> tasks) {
     final Set<Task> changedTasks = _changedTasksIds.entries.map((e) {

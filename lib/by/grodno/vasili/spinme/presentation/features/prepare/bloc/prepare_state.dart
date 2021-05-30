@@ -3,30 +3,17 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
-abstract class PrepareState extends Equatable {
-  const PrepareState();
-}
+class PrepareState extends Equatable {
+  final bool isLoading;
+  final List<Task>? tasks;
 
-class TasksLoadingState extends PrepareState {
+  PrepareState({this.isLoading = true, this.tasks});
 
-  @override
-  List<Object?> get props => [];
-}
-
-class TasksLoadedState extends PrepareState {
-  final List<Task> tasks;
-
-  TasksLoadedState(this.tasks);
+  PrepareState copyWith({final List<Task>? tasks, final bool? isLoading}) => PrepareState(
+        tasks: tasks ?? this.tasks,
+        isLoading: isLoading ?? this.isLoading,
+      );
 
   @override
-  List<Object?> get props => [tasks];
-}
-
-class TaskLoadErrorState extends PrepareState {
-  final String message;
-
-  TaskLoadErrorState(this.message);
-
-  @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [tasks, isLoading];
 }

@@ -38,7 +38,7 @@ class _PreparePageState extends State<PreparePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => PrepareBloc(TasksLoadingState(), _coordinator),
+      create: (_) => PrepareBloc(PrepareState(isLoading: true), _coordinator),
       child: Builder(
         builder: (context) {
           _bloc = context.read<PrepareBloc>();

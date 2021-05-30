@@ -50,7 +50,7 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
     final Task? pickedTask = state.pickedTask;
     log.i(message: "WheelState changed. WheelState: $state");
     final body = items == null
-        ? CircularProgressIndicator()
+        ? Center(child: CircularProgressIndicator())
         : Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -76,7 +76,7 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
                 height: 100,
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text(pickedPlayer?.name ?? ""),
+                  child: Text(pickedPlayer?.name ?? "", maxLines: 1, overflow: TextOverflow.ellipsis),
                 ),
               ),
             ],
@@ -86,7 +86,7 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
       onWillPop: () => _showExitDialog(context),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(label),
+          title: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
         body: body,
       ),
