@@ -15,7 +15,10 @@ class WheelBloc extends Bloc<WheelEvent, WheelState> {
       final task = coordinator.pickTask();
       final player = coordinator.pickPlayer(event.item.id);
       yield state.copyWith(
-          label: "Player ${(await player).name} do the task!", pickedPlayer: await player, pickedTask: await task);
+        label: "${(await player).name} do the task!",
+        pickedPlayer: await player,
+        pickedTask: await task,
+      );
     } else if (event is SpinStarted) {
       yield state.copyWith(label: "Yeeeha!");
     } else if (event is ConfigureWheel) {

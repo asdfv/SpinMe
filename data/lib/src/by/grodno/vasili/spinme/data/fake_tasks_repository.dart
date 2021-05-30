@@ -4,8 +4,16 @@ import 'package:domain/domain_module.dart';
 class FakeTasksRepository extends TasksRepository {
   final log = getLogger();
 
-  final Set<TaskEntity> _tasksDatasource =
-      List.generate(5, (index) => TaskEntity(index, 'Task number $index', true)).toSet();
+  final Set<TaskEntity> _tasksDatasource = {
+    TaskEntity(0, 'Dance jiga dryga', true),
+    TaskEntity(1, 'Drink 0.5L of water', true),
+    TaskEntity(2, 'Tell any tongue-twister 10 times', true),
+    TaskEntity(3, 'Do 10 somersaults', true),
+    TaskEntity(4, 'Squeeze out 20 times', true),
+    TaskEntity(5, 'Sing a song in English', true),
+    TaskEntity(6, 'Tell the fictional story about photo in your phone', true),
+    TaskEntity(7, 'Show double biceps in front', false),
+  };
 
   @override
   Future<List<Task>> getAllTasks() async {

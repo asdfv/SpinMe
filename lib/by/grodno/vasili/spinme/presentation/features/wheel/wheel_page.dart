@@ -44,11 +44,13 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
   }
 
   Widget _buildScaffold(BuildContext context, WheelState state) {
+    log.i(message: "WheelState changed. WheelState: $state");
     final String label = state.label;
     final List<WheelItem>? items = state.items;
     final Player? pickedPlayer = state.pickedPlayer;
     final Task? pickedTask = state.pickedTask;
-    log.i(message: "WheelState changed. WheelState: $state");
+    final topLabelText = pickedTask == null ? "" : "What: ${pickedTask.description}";
+    final bottomLabelText = pickedPlayer == null ? "" : "Who: ${pickedPlayer.name}";
     final body = items == null
         ? Center(child: CircularProgressIndicator())
         : Column(
@@ -57,30 +59,28 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
               SizedBox(
                 height: 100,
                 child: Align(
-                  alignment: Alignment.center,
-                  child: Text(pickedTask?.description ?? ""),
-                ),
-              ),
-              Expanded(
-                child: FlutterFortuneWheel(
-                  items: items,
-                  onSpinFinished: (item) {
-                    _bloc.add(SpinFinished(item));
-                  },
-                  onSpinStarted: () {
-                    _bloc.add(SpinStarted());
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 100,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(pickedPlayer?.name ?? "", maxLines: 1, overflow: TextOverflow.ellipsis),
-                ),
-              ),
-            ],
-          );
+                    alignment: Alignment.center,
+                    child: Text(topLabelText, maxLines: 1, overflow: TextOverflow.ellipsis)),
+        ),
+        Expanded(
+          child: FlutterFortuneWheel(
+            items: items,
+            onSpinFinished: (item) {
+              _bloc.add(SpinFinished(item));
+            },
+            onSpinStarted: () {
+              _bloc.add(SpinStarted());
+            },
+          ),
+        ),
+        SizedBox(
+          height: 100,
+          child: Align(
+              alignment: Alignment.center,
+                    child: Text(bottomLabelText, maxLines: 1, overflow: TextOverflow.ellipsis)),
+        ),
+      ],
+    );
 
     return WillPopScope(
       onWillPop: () => _showExitDialog(context),
