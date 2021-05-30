@@ -38,7 +38,7 @@ class FakeTasksRepository extends TasksRepository {
     tasks.forEach((task) {
       saveTask(task);
     });
-    final chosenTasksIds = tasks.where((task) => task.isChecked).map((task) => task.id);
-    log.i(message: "Tasks saved. Chosen tasks ids are: $chosenTasksIds");
+    final chosenTasksIds = tasks.where((task) => task.isChecked).map((task) => task.id).toList();
+    log.i(message: "Tasks saved. Chosen tasks from them are: $chosenTasksIds");
   }
 }
