@@ -1,6 +1,12 @@
-class Task {
+import 'package:equatable/equatable.dart';
+
+class Task extends Equatable {
+  Task(this.id, this.description, this.isChecked);
+
   final int id;
   final String description;
+  final bool isChecked;
 
-  Task(this.id, this.description);
+  @override
+  List<Object?> get props => [id];
 }

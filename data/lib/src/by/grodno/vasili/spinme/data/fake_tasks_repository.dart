@@ -2,7 +2,7 @@ import 'package:data/src/by/grodno/vasili/spinme/data/models/task_entity.dart';
 import 'package:domain/domain_module.dart';
 
 class FakeTasksRepository extends TasksRepository {
-  final List<TaskEntity> _tasksDatasource = List.generate(30, (index) => TaskEntity(index, 'Task number $index'));
+  final List<TaskEntity> _tasksDatasource = List.generate(5, (index) => TaskEntity(index, 'Task number $index', true));
 
   @override
   Future<List<Task>> getAllTasks() async {

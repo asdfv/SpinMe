@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_state.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/converters.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 
 import 'checkable_task_item.dart';
 
@@ -31,7 +33,7 @@ class TasksWidget extends StatefulWidget {
 }
 
 class _TasksWidgetState extends State<TasksWidget> {
-  Map<int, bool> checkableTaskIds = {};
+  final Map<int, bool> _changedTasksIds = {};
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,6 @@ class _TasksWidgetState extends State<TasksWidget> {
           );
         } else if (state is TasksLoadedState) {
           final tasks = state.tasks;
-          checkableTaskIds = {for (final task in tasks) task.id: true};
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -54,9 +55,9 @@ class _TasksWidgetState extends State<TasksWidget> {
                       var task = tasks[index];
                       return CheckableTaskItem(
                         task: task,
-                        isChecked: checkableTaskIds[task.id]!,
+                        isChecked: task.isChecked,
                         onCheck: (isChecked) {
-                          checkableTaskIds[task.id] = isChecked;
+                          _changedTasksIds[task.id] = isChecked;
                         },
                       );
                     }),
@@ -65,10 +66,19 @@ class _TasksWidgetState extends State<TasksWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    final checkedIds =
-                        checkableTaskIds.entries.where((element) => element.value).map((e) => e.key).toList();
-                    final checkedTasks = tasks.where((element) => checkedIds.contains(element.id)).toList();
-                    widget.onTasksChosen(checkedTasks);
+                    final Set<Task> changedTasks = _changedTasksIds.entries.map((e) {
+                      final task = tasks.firstWhere((element) => element.id == e.key);
+                      return task.copyWithCheck(e.value);
+                    }).toSet();
+
+                    final Set<Task> mergedTasks = Set.from(changedTasks)..addAll(tasks);
+                    final checkedTasks = mergedTasks.where((element) => element.isChecked);
+                    final minimumNumberTasks = 3;
+                    if (checkedTasks.length > minimumNumberTasks) {
+                      widget.onTasksChosen(checkedTasks.toList());
+                    } else {
+                      context.snack("Please chose more that $minimumNumberTasks");
+                    }
                   },
                   child: Text("Let's play!"),
                 ),
