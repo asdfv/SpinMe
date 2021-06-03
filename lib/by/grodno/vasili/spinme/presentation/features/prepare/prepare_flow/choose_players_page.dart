@@ -14,5 +14,14 @@ class ChoosePlayersPage extends StatelessWidget {
   final Function(List<String>) onPlayersChosen;
 
   @override
-  Widget build(BuildContext context) => NamesFormWidget(onPlayersChosen: onPlayersChosen);
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Text("Specify names from players"),
+            SizedBox(height: 24),
+            Expanded(child: NamesFormWidget(onPlayersChosen: onPlayersChosen)),
+          ],
+        ),
+      );
 }
