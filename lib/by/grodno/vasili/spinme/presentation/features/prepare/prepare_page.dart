@@ -26,7 +26,7 @@ class PreparePage extends StatefulWidget {
 
 class _PreparePageState extends State<PreparePage> {
   final _prepareNavigatorKey = GlobalKey<NavigatorState>();
-  PrepareBloc? _bloc;
+  late PrepareBloc _bloc;
   late PrepareCoordinator _coordinator;
 
   @override
@@ -58,7 +58,7 @@ class _PreparePageState extends State<PreparePage> {
   }
 
   void _onPlayersChosen(List<String> names) {
-    _bloc!.add(NamesChosen(names));
+    _bloc.add(NamesChosen(names));
     _prepareNavigatorKey.currentState!.pushNamed(routeChooseTasks);
   }
 
@@ -69,15 +69,18 @@ class _PreparePageState extends State<PreparePage> {
         page = ChoosePlayersPage(onPlayersChosen: _onPlayersChosen);
         break;
       case routeChooseTasks:
-        _bloc!.add(LoadTasks());
+        _bloc.add(LoadTasks());
         page = ChooseTasksPage(
           onTasksChosen: (List<Task> tasks) {
-            _bloc!.add(TasksChosen(tasks));
+            _bloc.add(TasksChosen(tasks));
             mainNavigatorKey.currentState!
                 .pushNamedAndRemoveUntil(routeWheel, (route) => route.settings.name == routeWelcome);
           },
-          onTaskEdited: (oldTask, newTask) {
-            _bloc!.add(TaskEdited(oldTask, newTask));
+          onTaskEdit: (oldTask, newTask) {
+            _bloc.add(TaskEdited(oldTask, newTask));
+          },
+          onTaskDelete: (id) {
+            _bloc.add(DeleteTask(id));
           },
         );
         break;

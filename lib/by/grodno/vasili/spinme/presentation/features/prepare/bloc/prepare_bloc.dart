@@ -28,6 +28,12 @@ class PrepareBloc extends Bloc<PrepareEvent, PrepareState> {
         newList[index] = updatedTask;
         yield state.copyWith(tasks: newList);
       }
+    } else if (event is DeleteTask) {
+      final idToRemove = event.id;
+      final List<Task> newList = List.from(state.tasks!);
+      newList.removeWhere((task) => task.id == idToRemove);
+      coordinator.deleteTask(idToRemove);
+      yield state.copyWith(tasks: newList);
     }
   }
 }

@@ -9,12 +9,14 @@ class CheckableTaskItem extends StatefulWidget {
     required this.isChecked,
     required this.onCheck,
     required this.onEdit,
+    required this.onDelete,
   }) : super(key: key);
 
   final Task task;
   final bool isChecked;
   final Function(bool) onCheck;
   final Function(String) onEdit;
+  final Function() onDelete;
 
   @override
   _CheckableTaskItemState createState() => _CheckableTaskItemState();
@@ -22,6 +24,8 @@ class CheckableTaskItem extends StatefulWidget {
 
 class _CheckableTaskItemState extends State<CheckableTaskItem> {
   late bool isChecked;
+  static const String EDIT_MENU = "Edit";
+  static const String DELETE_MENU = "Delete";
 
   @override
   void initState() {
@@ -40,21 +44,37 @@ class _CheckableTaskItemState extends State<CheckableTaskItem> {
         });
         widget.onCheck(value!);
       },
-      secondary: IconButton(
-        icon: Icon(Icons.edit),
-        onPressed: () async {
-          final newText = await _editTask(context, widget.task);
-          if (newText == null) return;
-          widget.onEdit(newText);
+      secondary: PopupMenuButton<String>(
+        onSelected: _onMenuSelected,
+        itemBuilder: (BuildContext context) {
+          return {EDIT_MENU, DELETE_MENU}.map((String choice) {
+            return PopupMenuItem<String>(
+              value: choice,
+              child: Text(choice),
+            );
+          }).toList();
         },
       ),
       controlAffinity: ListTileControlAffinity.leading,
     );
   }
 
-  _editTask(BuildContext context, Task task) async {
-    final controller = TextEditingController(text: task.description);
-    final newText = await showDialog<String?>(
+  Future<void> _onMenuSelected(String value) async {
+    switch (value) {
+      case EDIT_MENU:
+        final newText = await _edit(context, widget.task.description);
+        if (newText == null) return;
+        widget.onEdit(newText);
+        break;
+      case DELETE_MENU:
+        widget.onDelete();
+        break;
+    }
+  }
+
+  _edit(BuildContext context, String description) async {
+    final controller = TextEditingController(text: description);
+    return await showDialog<String?>(
         context: context,
         builder: (dialogContext) => AlertDialog(
               title: Text("Edit task"),
@@ -84,6 +104,5 @@ class _CheckableTaskItemState extends State<CheckableTaskItem> {
                     })
               ],
             ));
-    return newText;
   }
 }

@@ -24,4 +24,8 @@ class PrepareCoordinator {
   void saveTask(Task updatedTask) {
     _tasksRepository.saveTask(updatedTask);
   }
+
+  void deleteTask(id) {
+    _tasksRepository.delete(id);
+  }
 }

@@ -10,11 +10,13 @@ class ChooseTasksPage extends StatelessWidget {
   const ChooseTasksPage({
     Key? key,
     required this.onTasksChosen,
-    required this.onTaskEdited,
+    required this.onTaskEdit,
+    required this.onTaskDelete,
   }) : super(key: key);
 
   final Function(List<Task>) onTasksChosen;
-  final Function(Task, Task) onTaskEdited;
+  final Function(Task, Task) onTaskEdit;
+  final Function(int) onTaskDelete;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -24,7 +26,8 @@ class ChooseTasksPage extends StatelessWidget {
           Expanded(
               child: TasksWidget(
             onTasksChosen: onTasksChosen,
-            onTaskEdited: onTaskEdited,
+            onTaskEdited: onTaskEdit,
+            onTaskDelete: onTaskDelete,
           )),
         ],
       );

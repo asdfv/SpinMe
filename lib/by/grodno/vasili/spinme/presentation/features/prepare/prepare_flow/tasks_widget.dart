@@ -10,10 +10,16 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.
 import 'checkable_task_item.dart';
 
 class TasksWidget extends StatefulWidget {
-  const TasksWidget({Key? key, required this.onTasksChosen, required this.onTaskEdited}) : super(key: key);
+  const TasksWidget({
+    Key? key,
+    required this.onTasksChosen,
+    required this.onTaskEdited,
+    required this.onTaskDelete,
+  }) : super(key: key);
 
   final Function(List<Task>) onTasksChosen;
   final Function(Task, Task) onTaskEdited;
+  final Function(int) onTaskDelete;
 
   @override
   _TasksWidgetState createState() => _TasksWidgetState();
@@ -52,6 +58,9 @@ class _TasksWidgetState extends State<TasksWidget> {
                     },
                     onEdit: (String newText) {
                       widget.onTaskEdited(task, task.copyWith(description: newText));
+                    },
+                    onDelete: () {
+                      widget.onTaskDelete(task.id);
                     },
                   );
                 }),
