@@ -18,5 +18,5 @@ class TaskEntity extends Equatable {
 }
 
 extension TaskEntityConverter on TaskEntity {
-  Task toDomainModel() => Task(this.id, this.description, this.isChecked);
+  Task toDomainModel() => Task(id: this.id, description: this.description, isChecked: this.isChecked);
 }

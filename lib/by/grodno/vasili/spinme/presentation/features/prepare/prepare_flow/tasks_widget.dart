@@ -5,15 +5,15 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_state.dart';
-import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/converters.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 
 import 'checkable_task_item.dart';
 
 class TasksWidget extends StatefulWidget {
-  const TasksWidget({Key? key, required this.onTasksChosen}) : super(key: key);
+  const TasksWidget({Key? key, required this.onTasksChosen, required this.onTaskEdited}) : super(key: key);
 
   final Function(List<Task>) onTasksChosen;
+  final Function(Task, Task) onTaskEdited;
 
   @override
   _TasksWidgetState createState() => _TasksWidgetState();
@@ -50,6 +50,9 @@ class _TasksWidgetState extends State<TasksWidget> {
                     onCheck: (isChecked) {
                       _changedTasksIds[task.id] = isChecked;
                     },
+                    onEdit: (String newText) {
+                      widget.onTaskEdited(task, task.copyWith(description: newText));
+                    },
                   );
                 }),
           ),
@@ -66,9 +69,9 @@ class _TasksWidgetState extends State<TasksWidget> {
       );
 
   void _onNextClicked(List<Task> tasks) {
-    final Set<Task> changedTasks = _changedTasksIds.entries.map((e) {
-      final task = tasks.firstWhere((element) => element.id == e.key);
-      return task.copyWithCheck(e.value);
+    final Set<Task> changedTasks = _changedTasksIds.entries.map((entry) {
+      final task = tasks.firstWhere((element) => element.id == entry.key);
+      return task.copyWith(isChecked: entry.value);
     }).toSet();
     final Set<Task> updatedTasks = Set.from(changedTasks)..addAll(tasks);
     final checkedTasksIds = updatedTasks.where((element) => element.isChecked).map((e) => e.id).toList();

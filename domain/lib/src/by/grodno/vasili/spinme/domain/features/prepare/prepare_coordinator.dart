@@ -20,4 +20,8 @@ class PrepareCoordinator {
   void saveTasks(List<Task> tasks) {
     _tasksRepository.saveTasks(tasks);
   }
+
+  void saveTask(Task updatedTask) {
+    _tasksRepository.saveTask(updatedTask);
+  }
 }

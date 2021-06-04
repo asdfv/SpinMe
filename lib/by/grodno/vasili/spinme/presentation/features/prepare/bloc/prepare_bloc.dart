@@ -19,6 +19,15 @@ class PrepareBloc extends Bloc<PrepareEvent, PrepareState> {
       coordinator.replaceAllPlayers(players);
     } else if (event is TasksChosen) {
       coordinator.saveTasks(event.tasks);
+    } else if (event is TaskEdited) {
+      final updatedTask = event.newTask;
+      if (event.oldTask.description != updatedTask.description) {
+        coordinator.saveTask(updatedTask);
+        final List<Task> newList = List.from(state.tasks!);
+        final index = newList.indexWhere((element) => element.id == updatedTask.id);
+        newList[index] = updatedTask;
+        yield state.copyWith(tasks: newList);
+      }
     }
   }
 }

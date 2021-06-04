@@ -76,6 +76,9 @@ class _PreparePageState extends State<PreparePage> {
             mainNavigatorKey.currentState!
                 .pushNamedAndRemoveUntil(routeWheel, (route) => route.settings.name == routeWelcome);
           },
+          onTaskEdited: (oldTask, newTask) {
+            _bloc!.add(TaskEdited(oldTask, newTask));
+          },
         );
         break;
       default:

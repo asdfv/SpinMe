@@ -12,6 +12,16 @@ class LoadTasks extends PrepareEvent {
   List<Object?> get props => [];
 }
 
+class TaskEdited extends PrepareEvent {
+  final Task oldTask;
+  final Task newTask;
+
+  TaskEdited(this.oldTask, this.newTask);
+
+  @override
+  List<Object?> get props => [oldTask, newTask];
+}
+
 class NamesChosen extends PrepareEvent {
   NamesChosen(this.names);
 
