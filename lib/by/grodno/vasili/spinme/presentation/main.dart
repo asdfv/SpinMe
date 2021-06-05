@@ -1,5 +1,6 @@
 import 'package:data/data_module.dart';
 import 'package:domain/domain_module.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -12,6 +13,7 @@ GetIt getIt = GetIt.instance;
 void main() {
   setupGetIt();
   // Bloc.observer = SimpleBlocObserver();
+  EquatableConfig.stringify = true;
   runApp(MyApp());
 }
 

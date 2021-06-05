@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share/share.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_state.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
@@ -69,15 +70,24 @@ class _TasksWidgetState extends State<TasksWidget> {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () {
-                _onNextClicked(tasks);
+                _onNext(tasks);
               },
               child: Text("Let's play!"),
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                _onShare(tasks);
+              },
+              child: Text("Share your tasks"),
+            ),
+          ),
         ],
       );
 
-  void _onNextClicked(List<Task> tasks) {
+  void _onNext(List<Task> tasks) {
     final Set<Task> changedTasks = _changedTasksIds.entries.map((entry) {
       final task = tasks.firstWhere((element) => element.id == entry.key);
       return task.copyWith(isChecked: entry.value);
@@ -91,5 +101,11 @@ class _TasksWidgetState extends State<TasksWidget> {
     } else {
       context.snack("Please chose more that $minimumNumberTasks");
     }
+  }
+
+  void _onShare(List<Task> tasks) {
+    final tasksDescriptions = tasks.map((e) => e.description).join("\n");
+    log.d(message: "Share tasks: $tasksDescriptions");
+    Share.share(tasksDescriptions);
   }
 }
