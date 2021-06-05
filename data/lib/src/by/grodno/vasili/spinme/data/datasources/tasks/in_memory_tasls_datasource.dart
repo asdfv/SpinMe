@@ -1,8 +1,9 @@
+import 'package:data/src/by/grodno/vasili/spinme/data/datasources/tasks/tasks_datasource.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/models/task_entity.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/utilities/utilities.dart';
 import 'package:domain/domain_module.dart';
 
-class FakeTasksRepository extends TasksRepository {
+class InMemoryTasksDatasource extends TasksDatasource {
   final log = getLogger();
 
   final Map<int, TaskEntity> _tasksDatasource = {
@@ -17,35 +18,36 @@ class FakeTasksRepository extends TasksRepository {
   };
 
   @override
-  Future<List<Task>> getAllTasks() async {
-    return runDelayed(() => _tasksDatasource.values.map((e) => e.toDomainModel()).toList());
+  Future<List<TaskEntity>> getAll() async {
+    return runDelayed(() => _tasksDatasource.values.toList());
   }
 
   @override
-  Future<Task?> getOne(int id) {
-    return runDelayed(() => _tasksDatasource.values.firstWhere((task) => task.id == id).toDomainModel());
+  Future<TaskEntity?> getOne(int id) {
+    return runDelayed(() => _tasksDatasource.values.firstWhere((task) => task.id == id));
   }
 
   @override
   Future delete(int id) {
+    _tasksDatasource.remove(id);
     return runDelayed(() => null);
   }
 
   @override
-  Future<int> size() => Future.delayed(const Duration(milliseconds: 200), () => _tasksDatasource.length);
+  Future<int> size() => runDelayed(() => _tasksDatasource.length);
 
   @override
-  Future<int> saveTask(Task task) {
-    _tasksDatasource[task.id] = TaskEntity.fromDomainModel(task);
+  Future<int> saveTask(TaskEntity task) {
+    _tasksDatasource[task.id] = task;
     return runDelayed(() => task.id);
   }
 
   @override
-  void saveTasks(List<Task> tasks) {
+  void saveTasks(List<TaskEntity> tasks) {
     tasks.forEach((task) {
       saveTask(task);
     });
-    final chosenTasksIds = tasks.where((task) => task.isChecked).map((task) => task.id).toList();
-    log.i(message: "Tasks saved. Chosen tasks from them are: $chosenTasksIds");
+    final savedTasksIds = tasks.where((task) => task.isChecked).map((task) => task.id).join(", ");
+    log.i(message: "Tasks saved in memory. Checked tasks from them are: $savedTasksIds");
   }
 }

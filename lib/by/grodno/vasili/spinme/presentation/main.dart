@@ -32,6 +32,6 @@ class MyApp extends StatelessWidget {
 }
 
 void setupGetIt() {
-  getIt.registerSingleton<TasksRepository>(FakeTasksRepository(), signalsReady: true);
+  getIt.registerSingleton<TasksRepository>(TasksDataRepository(InMemoryTasksDatasource()), signalsReady: true);
   getIt.registerSingleton<PlayersRepository>(FakePlayersRepository(), signalsReady: true);
 }
