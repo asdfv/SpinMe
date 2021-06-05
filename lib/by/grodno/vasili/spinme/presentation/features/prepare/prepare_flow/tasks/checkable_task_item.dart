@@ -6,14 +6,12 @@ class CheckableTaskItem extends StatefulWidget {
   const CheckableTaskItem({
     Key? key,
     required this.task,
-    required this.isChecked,
     required this.onCheck,
     required this.onEdit,
     required this.onDelete,
   }) : super(key: key);
 
   final Task task;
-  final bool isChecked;
   final Function(bool) onCheck;
   final Function(String) onEdit;
   final Function() onDelete;
@@ -29,7 +27,7 @@ class _CheckableTaskItemState extends State<CheckableTaskItem> {
 
   @override
   void initState() {
-    isChecked = widget.isChecked;
+    isChecked = widget.task.isChecked;
     super.initState();
   }
 

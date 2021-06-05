@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:data/src/by/grodno/vasili/spinme/data/datasources/tasks/tasks_datasource.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/models/task_entity.dart';
@@ -22,15 +21,6 @@ class InMemoryTasksDatasource extends TasksDatasource {
   @override
   Future<List<TaskEntity>> getAll() async {
     return runDelayed(() => _tasksDatasource.values.toList());
-  }
-
-  @override
-  Future<TaskEntity?> getRandomly() {
-    final length = _tasksDatasource.length;
-    if (length == 0) return runDelayed(() => null);
-    final index = Random().nextInt(length - 1);
-    final entities = _tasksDatasource.values.toList();
-    return runDelayed(() => entities[index]);
   }
 
   @override

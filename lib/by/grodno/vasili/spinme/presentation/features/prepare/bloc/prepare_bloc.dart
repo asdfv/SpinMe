@@ -5,6 +5,7 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/blo
 
 class PrepareBloc extends Bloc<PrepareEvent, PrepareState> {
   final PrepareCoordinator coordinator;
+  final log = getLogger();
 
   PrepareBloc(PrepareState initialState, this.coordinator) : super(initialState);
 
@@ -17,22 +18,26 @@ class PrepareBloc extends Bloc<PrepareEvent, PrepareState> {
     } else if (event is NamesChosen) {
       final List<Player> players = event.names.asMap().entries.map((entry) => Player(entry.key, entry.value)).toList();
       coordinator.replaceAllPlayers(players);
+      log.d(message: "${players.length} players replaced.");
     } else if (event is TasksChosen) {
-      coordinator.saveTasks(event.tasks);
+      var tasks = event.tasks;
+      coordinator.saveTasks(tasks);
+      log.d(message: "${tasks.length} tasks are saved.");
     } else if (event is TaskEdited) {
       final updatedTask = event.newTask;
-      if (event.oldTask.description != updatedTask.description) {
         coordinator.saveTask(updatedTask);
         final List<Task> newList = List.from(state.tasks!);
         final index = newList.indexWhere((element) => element.id == updatedTask.id);
         newList[index] = updatedTask;
         yield state.copyWith(tasks: newList);
-      }
     } else if (event is DeleteTask) {
       final idToRemove = event.id;
-      final List<Task> newList = List.from(state.tasks!);
-      newList.removeWhere((task) => task.id == idToRemove);
       coordinator.deleteTask(idToRemove);
+      final List<Task> newList = List.from(state.tasks!);
+      newList.removeWhere((task) {
+        log.d(message: "Task $task deleted.");
+        return task.id == idToRemove;
+      });
       yield state.copyWith(tasks: newList);
     }
   }

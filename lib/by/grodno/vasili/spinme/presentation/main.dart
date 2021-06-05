@@ -4,13 +4,17 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/welcome/welcome_page.dart';
 
 import 'navigation/main_router_generator.dart';
 
 GetIt getIt = GetIt.instance;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final appDocumentDir = await getApplicationDocumentsDirectory();
+  await initDataLayer(appDocumentDir.path);
   setupGetIt();
   // Bloc.observer = SimpleBlocObserver();
   EquatableConfig.stringify = true;
@@ -19,7 +23,12 @@ void main() {
 
 final mainNavigatorKey = GlobalKey<NavigatorState>();
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,9 +38,15 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: MainRouteGenerator.generateRoute,
     );
   }
+
+  @override
+  void dispose() {
+    stopDataLayer();
+    super.dispose();
+  }
 }
 
 void setupGetIt() {
-  getIt.registerSingleton<TasksRepository>(TasksDataRepository(InMemoryTasksDatasource()), signalsReady: true);
+  getIt.registerSingleton<TasksRepository>(TasksDataRepository(HiveTasksDatasource()), signalsReady: true);
   getIt.registerSingleton<PlayersRepository>(FakePlayersRepository(), signalsReady: true);
 }

@@ -8,11 +8,14 @@ class Task extends Equatable {
   final bool isChecked;
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, description, isChecked];
 
   Task copyWith({final String? description, final bool? isChecked}) => Task(
         id: this.id,
         description: description ?? this.description,
         isChecked: isChecked ?? this.isChecked,
       );
+
+  @override
+  String toString() => "Task(id: $id, description: ${description.substring(0, 4)}, isChecked: $isChecked)";
 }

@@ -12,3 +12,8 @@ dependencies:
   domain:
     path: ../domain
   equatable: ^2.0.0
+  hive: ^2.0.4
+
+dev_dependencies:
+  hive_generator: ^1.1.0
+  build_runner: ^2.0.4

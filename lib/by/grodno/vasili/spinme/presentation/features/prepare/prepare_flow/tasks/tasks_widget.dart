@@ -29,7 +29,6 @@ class TasksWidget extends StatefulWidget {
 
 class _TasksWidgetState extends State<TasksWidget> {
   final log = getLogger();
-  final Map<int, bool> _changedTasksIds = {};
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,6 @@ class _TasksWidgetState extends State<TasksWidget> {
       builder: (context, state) {
         final tasks = state.tasks;
         final isLoading = state.isLoading;
-
         if (isLoading) return Center(child: CircularProgressIndicator());
         return tasks == null ? Center(child: Text("Whoops! Strange state o_O")) : _buildTasksList(tasks);
       },
@@ -53,10 +51,10 @@ class _TasksWidgetState extends State<TasksWidget> {
                 itemBuilder: (context, index) {
                   var task = tasks[index];
                   return CheckableTaskItem(
+                    key: ValueKey(task),
                     task: task,
-                    isChecked: task.isChecked,
                     onCheck: (isChecked) {
-                      _changedTasksIds[task.id] = isChecked;
+                      widget.onTaskEdited(task, task.copyWith(isChecked: isChecked));
                     },
                     onEdit: (String newText) {
                       widget.onTaskEdited(task, task.copyWith(description: newText));
@@ -89,19 +87,15 @@ class _TasksWidgetState extends State<TasksWidget> {
       );
 
   void _onNext(List<Task> tasks) {
-    final Set<Task> changedTasks = _changedTasksIds.entries.map((entry) {
-      final task = tasks.firstWhere((element) => element.id == entry.key);
-      return task.copyWith(isChecked: entry.value);
-    }).toSet();
-    final Set<Task> updatedTasks = Set.from(changedTasks)..addAll(tasks);
-    final checkedTasks = updatedTasks.where((element) => element.isChecked).toList();
-    final checkedTasksIds = checkedTasks.map((e) => e.id).toList();
     final minimumNumberTasks = GamePreferences.minTasksToPlay;
-    if (checkedTasksIds.length > minimumNumberTasks) {
-      log.i(message: "Chosen tasks ids: $checkedTasksIds");
-      widget.onTasksChosen(checkedTasks);
+    var checkedTasks = tasks.where((element) => element.isChecked);
+    var numberOfCheckedTasks = checkedTasks.length;
+    if (numberOfCheckedTasks >= minimumNumberTasks) {
+      log.i(message: "Tasks chosen: $checkedTasks");
+      widget.onTasksChosen(tasks);
     } else {
-      context.snack("Please chose more that $minimumNumberTasks");
+      context.snack(
+          "Chosen $numberOfCheckedTasks from $minimumNumberTasks tasks, just ${minimumNumberTasks - numberOfCheckedTasks} remain =)");
     }
   }
 

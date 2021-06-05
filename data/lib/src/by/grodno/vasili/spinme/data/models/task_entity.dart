@@ -1,7 +1,10 @@
 import 'package:domain/domain_module.dart';
-import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 
-class TaskEntity extends Equatable {
+part 'task_entity.g.dart';
+
+@HiveType(typeId: 0)
+class TaskEntity {
   TaskEntity(this.id, this.description, this.isChecked);
 
   TaskEntity.fromDomainModel(Task task)
@@ -9,12 +12,14 @@ class TaskEntity extends Equatable {
         this.description = task.description,
         this.isChecked = task.isChecked;
 
-  final int id;
-  final String description;
-  final bool isChecked;
+  @HiveField(0)
+  int id;
 
-  @override
-  List<Object?> get props => [id];
+  @HiveField(1)
+  String description;
+
+  @HiveField(2)
+  bool isChecked;
 }
 
 extension TaskEntityConverter on TaskEntity {

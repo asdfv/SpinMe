@@ -1,7 +1,6 @@
 import 'package:data/src/by/grodno/vasili/spinme/data/models/player_entity.dart';
+import 'package:data/src/by/grodno/vasili/spinme/data/utilities/utilities.dart';
 import 'package:domain/domain_module.dart';
-
-import 'utilities/utilities.dart';
 
 class FakePlayersRepository extends PlayersRepository {
   final log = getLogger();
