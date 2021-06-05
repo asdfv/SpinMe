@@ -55,7 +55,7 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
           };
     return ElevatedButton(
       onPressed: action,
-      child: Text('+'),
+      child: const Text('+'),
     );
   }
 

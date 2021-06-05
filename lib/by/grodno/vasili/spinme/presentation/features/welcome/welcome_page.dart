@@ -13,7 +13,7 @@ class WelcomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Welcome to SpinMe! Turn the wheel and do the task!",
               style: TextStyle(
                 fontSize: 16,

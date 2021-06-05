@@ -96,15 +96,15 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
   Future<bool> _showExitDialog(BuildContext context) => showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
-            title: Text("Do you really want to exit?"),
-            content: Text("All the progress will be lost."),
+            title: const Text("Do you really want to exit?"),
+            content: const Text("All the progress will be lost."),
             actions: <Widget>[
               ElevatedButton(
-                child: Text('Yes'),
+                child: const Text('Yes'),
                 onPressed: () => Navigator.of(context).pop(true),
               ),
               ElevatedButton(
-                child: Text('No'),
+                child: const Text('No'),
                 onPressed: () => Navigator.of(context).pop(false),
               )
             ],

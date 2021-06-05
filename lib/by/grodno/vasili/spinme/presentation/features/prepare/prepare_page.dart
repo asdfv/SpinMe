@@ -44,7 +44,7 @@ class _PreparePageState extends State<PreparePage> {
           _bloc = context.read<PrepareBloc>();
           return Scaffold(
             appBar: AppBar(
-              title: Text("Setting up the Game"),
+              title: const Text("Setting up the Game"),
             ),
             body: Navigator(
               key: _prepareNavigatorKey,

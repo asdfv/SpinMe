@@ -21,8 +21,8 @@ class ChooseTasksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          SizedBox(height: 24),
-          Text("Chose tasks that you want to play"),
+          const SizedBox(height: 24),
+          const Text("Chose tasks that you want to play"),
           Expanded(
               child: TasksWidget(
             onTasksChosen: onTasksChosen,
