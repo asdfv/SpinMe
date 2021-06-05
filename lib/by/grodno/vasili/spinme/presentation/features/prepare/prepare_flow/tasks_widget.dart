@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:share/share.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_state.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/preferences/game_preferences.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 
 import 'checkable_task_item.dart';
@@ -93,11 +94,12 @@ class _TasksWidgetState extends State<TasksWidget> {
       return task.copyWith(isChecked: entry.value);
     }).toSet();
     final Set<Task> updatedTasks = Set.from(changedTasks)..addAll(tasks);
-    final checkedTasksIds = updatedTasks.where((element) => element.isChecked).map((e) => e.id).toList();
-    log.i(message: "Chosen tasks ids: $checkedTasksIds");
-    final minimumNumberTasks = 3;
+    final checkedTasks = updatedTasks.where((element) => element.isChecked).toList();
+    final checkedTasksIds = checkedTasks.map((e) => e.id).toList();
+    final minimumNumberTasks = GamePreferences.minTasksToPlay;
     if (checkedTasksIds.length > minimumNumberTasks) {
-      widget.onTasksChosen(updatedTasks.toList());
+      log.i(message: "Chosen tasks ids: $checkedTasksIds");
+      widget.onTasksChosen(checkedTasks);
     } else {
       context.snack("Please chose more that $minimumNumberTasks");
     }

@@ -14,17 +14,14 @@ class TasksDataRepository extends TasksRepository {
   }
 
   @override
-  Future<Task?> getOne(int id) {
-    return _inMemoryDataSource.getOne(id).then((entiry) => entiry?.toDomainModel());
+  Future<Task?> getRandomly() {
+    return _inMemoryDataSource.getRandomly().then((entity) => entity?.toDomainModel());
   }
 
   @override
   Future delete(int id) {
     return _inMemoryDataSource.delete(id);
   }
-
-  @override
-  Future<int> size() => _inMemoryDataSource.size();
 
   @override
   Future<int> saveTask(Task task) {

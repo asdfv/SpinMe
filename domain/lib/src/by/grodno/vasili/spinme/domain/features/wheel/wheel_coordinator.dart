@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:domain/domain_module.dart';
 
 class WheelCoordinator {
@@ -9,10 +7,7 @@ class WheelCoordinator {
   WheelCoordinator(this._taskRepository, this._playerRepository);
 
   Future<Task> pickTask() async {
-    final size = await _taskRepository.size();
-    final index = Random().nextInt(size - 1);
-    final task = await _taskRepository.getOne(index);
-    _taskRepository.delete(index);
+    final task = await _taskRepository.getRandomly();
     return task!;
   }
 

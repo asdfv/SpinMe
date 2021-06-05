@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:data/src/by/grodno/vasili/spinme/data/datasources/tasks/tasks_datasource.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/models/task_entity.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/utilities/utilities.dart';
@@ -23,8 +25,12 @@ class InMemoryTasksDatasource extends TasksDatasource {
   }
 
   @override
-  Future<TaskEntity?> getOne(int id) {
-    return runDelayed(() => _tasksDatasource.values.firstWhere((task) => task.id == id));
+  Future<TaskEntity?> getRandomly() {
+    final length = _tasksDatasource.length;
+    if (length == 0) return runDelayed(() => null);
+    final index = Random().nextInt(length - 1);
+    final entities = _tasksDatasource.values.toList();
+    return runDelayed(() => entities[index]);
   }
 
   @override
@@ -32,9 +38,6 @@ class InMemoryTasksDatasource extends TasksDatasource {
     _tasksDatasource.remove(id);
     return runDelayed(() => null);
   }
-
-  @override
-  Future<int> size() => runDelayed(() => _tasksDatasource.length);
 
   @override
   Future<int> saveTask(TaskEntity task) {
