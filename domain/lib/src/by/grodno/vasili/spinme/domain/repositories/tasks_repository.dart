@@ -7,5 +7,5 @@ abstract class TasksRepository {
 
   Future<int> saveTask(Task task);
 
-  void saveTasks(List<Task> tasks);
+  Future saveTasks(List<Task> tasks);
 }

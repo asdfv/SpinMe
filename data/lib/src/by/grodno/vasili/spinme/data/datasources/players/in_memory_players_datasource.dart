@@ -15,8 +15,9 @@ class InMemoryPlayersDatasource extends PlayerDatasource {
   }
 
   @override
-  void savePlayers(List<PlayerEntity> players) {
+  Future savePlayers(List<PlayerEntity> players) {
     _playersDatasource.addAll(players.asMap());
+    return runDelayed(() => null);
   }
 
   @override

@@ -7,5 +7,5 @@ abstract class TasksDatasource {
 
   Future<int> saveTask(TaskEntity task);
 
-  void saveTasks(List<TaskEntity> tasks);
+  Future saveTasks(List<TaskEntity> tasks);
 }

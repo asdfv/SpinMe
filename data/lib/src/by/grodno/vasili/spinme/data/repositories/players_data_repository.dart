@@ -15,8 +15,8 @@ class PlayersDataRepository extends PlayersRepository {
   }
 
   @override
-  void savePlayers(List<Player> players) {
-    _playersDatasource.savePlayers(players.map((player) => PlayerEntity.fromDomainModel(player)).toList());
+  Future savePlayers(List<Player> players) async {
+    await _playersDatasource.savePlayers(players.map((player) => PlayerEntity.fromDomainModel(player)).toList());
     log.d(message: "${players.length} players saved.");
   }
 

@@ -12,20 +12,20 @@ class PrepareCoordinator {
 
   Future<List<Player>> getAllPlayers() => _playersRepository.getPlayers();
 
-  void replaceAllPlayers(List<Player> players) async {
+  Future replaceAllPlayers(List<Player> players) async {
     await _playersRepository.deleteAllPlayers();
-    _playersRepository.savePlayers(players);
+    await _playersRepository.savePlayers(players);
   }
 
-  void saveTasks(List<Task> tasks) {
-    _tasksRepository.saveTasks(tasks);
+  Future saveTasks(List<Task> tasks) async {
+    await _tasksRepository.saveTasks(tasks);
   }
 
-  void saveTask(Task updatedTask) {
-    _tasksRepository.saveTask(updatedTask);
+  Future saveTask(Task updatedTask) async {
+    await _tasksRepository.saveTask(updatedTask);
   }
 
-  void deleteTask(id) {
-    _tasksRepository.delete(id);
+  Future deleteTask(id) async {
+    await _tasksRepository.delete(id);
   }
 }

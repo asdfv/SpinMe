@@ -36,11 +36,12 @@ class InMemoryTasksDatasource extends TasksDatasource {
   }
 
   @override
-  void saveTasks(List<TaskEntity> tasks) {
+  Future saveTasks(List<TaskEntity> tasks) {
     tasks.forEach((task) {
       saveTask(task);
     });
     final savedTasksIds = tasks.where((task) => task.isChecked).map((task) => task.id).join(", ");
     log.i(message: "Tasks saved in memory. Checked tasks from them are: $savedTasksIds");
+    return runDelayed(() => null);
   }
 }

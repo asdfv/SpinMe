@@ -12,8 +12,8 @@ class HivePlayersDatasource extends PlayerDatasource {
   }
 
   @override
-  void savePlayers(List<PlayerEntity> players) {
-    _playersBox.addAll(players);
+  Future savePlayers(List<PlayerEntity> players) async {
+    await _playersBox.addAll(players);
   }
 
   @override
@@ -22,8 +22,7 @@ class HivePlayersDatasource extends PlayerDatasource {
   }
 
   @override
-  Future deleteAllPlayers() {
-    _playersBox.clear();
-    return Future.value(null);
+  Future deleteAllPlayers() async {
+    await _playersBox.clear();
   }
 }

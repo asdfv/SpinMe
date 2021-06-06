@@ -6,9 +6,8 @@ class HiveTasksDatasource extends TasksDatasource {
   final _tasksBox = tasksBox;
 
   @override
-  Future delete(int id) {
-    _tasksBox.delete(id);
-    return Future.value();
+  Future delete(int id) async {
+    await _tasksBox.delete(id);
   }
 
   @override
@@ -17,14 +16,14 @@ class HiveTasksDatasource extends TasksDatasource {
   }
 
   @override
-  Future<int> saveTask(TaskEntity task) {
-    _tasksBox.put(task.id, task);
+  Future<int> saveTask(TaskEntity task) async {
+    await _tasksBox.put(task.id, task);
     return Future.value(task.id);
   }
 
   @override
-  void saveTasks(List<TaskEntity> tasks) {
+  Future saveTasks(List<TaskEntity> tasks) async {
     final tasksMap = {for (final task in tasks) task.id: task};
-    _tasksBox.putAll(tasksMap);
+    await _tasksBox.putAll(tasksMap);
   }
 }
