@@ -1,12 +1,14 @@
+import 'package:domain/domain_module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/preferences/game_preferences.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 
 class NamesFormWidget extends StatefulWidget {
-  const NamesFormWidget({Key? key, required this.onPlayersChosen}) : super(key: key);
+  const NamesFormWidget({Key? key, required this.onPlayersChosen, this.initialPlayers = const []}) : super(key: key);
 
   final Function(List<String>) onPlayersChosen;
+  final List<Player> initialPlayers;
 
   @override
   NamesFormWidgetState createState() => NamesFormWidgetState();
@@ -16,12 +18,26 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
   final _formKey = GlobalKey<FormState>();
   final List<String> _names = [];
   var _nameFields = <TextFormField>[];
+  static const MIN_NUMBER_OF_PLAYERS = 2;
 
   @override
   void initState() {
-    _nameFields.add(_createNameField());
-    _nameFields.add(_createNameField());
+    _initFields();
     super.initState();
+  }
+
+  void _initFields() {
+    var initialPlayers = widget.initialPlayers;
+    if (initialPlayers.length > GamePreferences.maxNumberOfPlayers) {
+      initialPlayers = initialPlayers.sublist(0, GamePreferences.maxNumberOfPlayers - 1);
+    }
+    final numberToAdd = MIN_NUMBER_OF_PLAYERS - initialPlayers.length;
+    widget.initialPlayers.forEach((element) {
+      _nameFields.add(_createNameField(initText: element.name));
+    });
+    for (var index = 0; index < numberToAdd; index++) {
+      _nameFields.add(_createNameField());
+    }
   }
 
   @override
@@ -92,12 +108,12 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
     });
   }
 
-  TextFormField _createNameField() {
+  TextFormField _createNameField({String? initText = ""}) {
     return TextFormField(
       onTap: () {
         setState(() {});
       },
-      controller: TextEditingController(),
+      controller: TextEditingController(text: initText),
       onSaved: (value) {
         _names.add(value!);
       },

@@ -12,6 +12,11 @@ class LoadTasks extends PrepareEvent {
   List<Object?> get props => [];
 }
 
+class LoadPlayers extends PrepareEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class TaskEdited extends PrepareEvent {
   final Task oldTask;
   final Task newTask;

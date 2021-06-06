@@ -27,14 +27,14 @@ void stopDataLayer() {
 
 Map<int, TaskEntity> _defaultTasks() {
   final descriptions = [
-    '1Dance jiga dryga',
-    '1Drink 0.5L of water',
-    '1Tell any tongue-twister 10 times',
-    '1Do 10 somersaults',
-    '1Squeeze out 20 times',
-    '1Sing a song in English',
-    '1Tell the fictional story about photo in your phone',
-    '1Show double biceps in front',
+    'Dance jiga dryga',
+    'Drink 0.5L of water',
+    'Tell any tongue-twister 10 times',
+    'Do 10 somersaults',
+    'Squeeze out 20 times',
+    'Sing a song in English',
+    'Tell the fictional story about photo in your phone',
+    'Show double biceps in front',
   ];
   final descMap = descriptions.asMap();
   return {for (final id in descMap.keys) id: TaskEntity(id, descMap[id]!, true)};

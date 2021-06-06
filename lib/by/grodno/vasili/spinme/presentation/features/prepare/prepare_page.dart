@@ -66,6 +66,7 @@ class _PreparePageState extends State<PreparePage> {
     late Widget page;
     switch (settings.name) {
       case routeChoosePlayers:
+        _bloc.add(LoadPlayers());
         page = ChoosePlayersPage(onPlayersChosen: _onPlayersChosen);
         break;
       case routeChooseTasks:

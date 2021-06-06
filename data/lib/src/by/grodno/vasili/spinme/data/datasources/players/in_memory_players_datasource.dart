@@ -3,7 +3,11 @@ import 'package:data/src/by/grodno/vasili/spinme/data/models/player_entity.dart'
 import 'package:data/src/by/grodno/vasili/spinme/data/utilities/utilities.dart';
 
 class InMemoryPlayersDatasource extends PlayerDatasource {
-  final Map<int, PlayerEntity> _playersDatasource = {};
+  final Map<int, PlayerEntity> _playersDatasource = {
+    0: PlayerEntity(0, "Vasili"),
+    1: PlayerEntity(1, "Jake"),
+    2: PlayerEntity(2, "Jane"),
+  };
 
   @override
   Future<List<PlayerEntity>> getPlayers() {

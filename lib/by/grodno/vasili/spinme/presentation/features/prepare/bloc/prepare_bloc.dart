@@ -39,6 +39,10 @@ class PrepareBloc extends Bloc<PrepareEvent, PrepareState> {
         return task.id == idToRemove;
       });
       yield state.copyWith(tasks: newList);
+    } else if (event is LoadPlayers) {
+      yield state.copyWith(isLoading: true);
+      final players = await coordinator.getAllPlayers();
+      yield state.copyWith(players: players, isLoading: false);
     }
   }
 }
