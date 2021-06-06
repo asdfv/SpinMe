@@ -12,8 +12,8 @@ class PrepareCoordinator {
 
   Future<List<Player>> getAllPlayers() => _playersRepository.getPlayers();
 
-  void replaceAllPlayers(List<Player> players) {
-    _playersRepository.deleteAllPlayers();
+  void replaceAllPlayers(List<Player> players) async {
+    await _playersRepository.deleteAllPlayers();
     _playersRepository.savePlayers(players);
   }
 

@@ -48,5 +48,5 @@ class _MyAppState extends State<MyApp> {
 
 void setupGetIt() {
   getIt.registerSingleton<TasksRepository>(TasksDataRepository(HiveTasksDatasource()), signalsReady: true);
-  getIt.registerSingleton<PlayersRepository>(PlayersDataRepository(InMemoryPlayersDatasource()), signalsReady: true);
+  getIt.registerSingleton<PlayersRepository>(PlayersDataRepository(HivePlayersDatasource()), signalsReady: true);
 }
