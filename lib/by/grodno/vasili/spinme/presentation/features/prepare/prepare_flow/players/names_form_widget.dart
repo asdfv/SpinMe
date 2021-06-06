@@ -5,7 +5,11 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/preferences/game_pre
 import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 
 class NamesFormWidget extends StatefulWidget {
-  const NamesFormWidget({Key? key, required this.onPlayersChosen, this.initialPlayers = const []}) : super(key: key);
+  const NamesFormWidget({
+    Key? key,
+    required this.onPlayersChosen,
+    this.initialPlayers = const [],
+  }) : super(key: key);
 
   final Function(List<String>) onPlayersChosen;
   final List<Player> initialPlayers;
@@ -17,8 +21,7 @@ class NamesFormWidget extends StatefulWidget {
 class NamesFormWidgetState extends State<NamesFormWidget> {
   final _formKey = GlobalKey<FormState>();
   final List<String> _names = [];
-  var _nameFields = <TextFormField>[];
-  static const MIN_NUMBER_OF_PLAYERS = 2;
+  Map<UniqueKey, TextFormField> _nameFields = {};
 
   @override
   void initState() {
@@ -31,12 +34,12 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
     if (initialPlayers.length > GamePreferences.maxNumberOfPlayers) {
       initialPlayers = initialPlayers.sublist(0, GamePreferences.maxNumberOfPlayers - 1);
     }
-    final numberToAdd = MIN_NUMBER_OF_PLAYERS - initialPlayers.length;
+    final numberToAdd = GamePreferences.minNumberOfPlayers - initialPlayers.length;
     widget.initialPlayers.forEach((element) {
-      _nameFields.add(_createNameField(initText: element.name));
+      _addNameField(initText: element.name);
     });
     for (var index = 0; index < numberToAdd; index++) {
-      _nameFields.add(_createNameField());
+      _addNameField();
     }
   }
 
@@ -48,89 +51,87 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: _nameFields.length,
-              itemBuilder: (context, index) => _nameFields[index],
+              itemCount: _nameFields.values.length,
+              itemBuilder: (context, index) => _nameFields.values.toList()[index],
             ),
           ),
-          _createPlusButton(context),
+          _createPlusButton(),
           _createSubmitButton(context)
         ],
       ),
     );
   }
 
-  Widget _createPlusButton(BuildContext context) {
-    final Function()? action = _nameFields.length >= GamePreferences.maxNumberOfPlayers
-        ? null
-        : () {
-            if (_nameFields.hasNonFilledField()) {
-              context.snack("You have non-filled fields");
-            } else {
-              _addNameField();
-            }
-          };
+  Widget _createPlusButton() {
+    final Function()? action = _nameFields.length >= GamePreferences.maxNumberOfPlayers ? null : _addNameField;
     return ElevatedButton(
       onPressed: action,
-      child: const Text('+'),
+      child: Icon(Icons.add),
     );
   }
 
-  Widget _createSubmitButton(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        onPressed: () {
-          if (_formKey.currentState!.validate()) {
+  Widget _createSubmitButton(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: ElevatedButton(
+          onPressed: () {
             _formKey.currentState!.save();
-            _submitForm();
-          } else {
-            context.snack("Your form is invalid!");
-          }
-        },
-        child: Text('Next'),
-      ),
-    );
-  }
+            final errorMessage = validate(_names);
+            if (errorMessage == null) {
+              widget.onPlayersChosen(List.from(_names));
+            } else {
+              context.snack(errorMessage);
+            }
+            _names.clear();
+          },
+          child: Text('Next'),
+        ),
+      );
 
-  void _submitForm() {
-    final areDuplicates = _names.length != _names.toSet().length;
-    if (areDuplicates) {
-      context.snack("All names should be different");
-      _names.clear();
+  String? validate(List<String> names) {
+    if (names._hasShortNames()) {
+      return "All fields should be filled with names no shorter than ${GamePreferences.minCharactersInPlayerName} symbols.";
+    } else if (names.length < GamePreferences.minNumberOfPlayers || names.length > GamePreferences.maxNumberOfPlayers) {
+      return "To play needs from ${GamePreferences.minNumberOfPlayers} to ${GamePreferences.minNumberOfPlayers} players";
+    } else if (names._hasDuplicates()) {
+      return "All names should be different";
     } else {
-      widget.onPlayersChosen(_names);
+      return null;
     }
   }
 
-  void _addNameField() {
+  void _addNameField({String? initText = ""}) {
+    final key = UniqueKey();
     setState(() {
-      _nameFields.add(_createNameField());
+      _nameFields[key] = TextFormField(
+        controller: TextEditingController(text: initText),
+        onSaved: (value) {
+          _names.add(value!);
+        },
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.only(top: 20), // add padding to adjust text
+          suffixIcon: GestureDetector(
+            onTap: () {
+              setState(() {
+                _nameFields.remove(key);
+              });
+            },
+            child: Icon(
+              Icons.delete,
+              color: Colors.red,
+            ),
+          ),
+          hintText: 'Enter player name',
+        ),
+        keyboardType: TextInputType.text,
+      );
     });
   }
-
-  TextFormField _createNameField({String? initText = ""}) {
-    return TextFormField(
-      onTap: () {
-        setState(() {});
-      },
-      controller: TextEditingController(text: initText),
-      onSaved: (value) {
-        _names.add(value!);
-      },
-      decoration: const InputDecoration(
-        hintText: 'Enter player name',
-        labelText: 'Name',
-      ),
-      keyboardType: TextInputType.text,
-      validator: _validator,
-    );
-  }
-
-  String? _validator(value) =>
-      value.length < GamePreferences.minCharactersInPlayerName ? 'Please enter name longer than 3 symbols' : null;
 }
 
-extension TextFormFieldHasEmptyField on List<TextFormField> {
-  bool hasNonFilledField() =>
-      this.any((field) => field.controller!.value.text.length < GamePreferences.minCharactersInPlayerName);
+extension _HasShortNames on Iterable<String> {
+  bool _hasShortNames() => this.any((name) => name.length < GamePreferences.minCharactersInPlayerName);
+}
+
+extension _HasDuplicates on Iterable<String> {
+  bool _hasDuplicates() => this.length != this.toSet().length;
 }
