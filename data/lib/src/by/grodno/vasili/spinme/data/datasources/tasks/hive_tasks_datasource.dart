@@ -3,7 +3,7 @@ import 'package:data/src/by/grodno/vasili/spinme/data/models/task_entity.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/starter.dart';
 
 class HiveTasksDatasource extends TasksDatasource {
-  final _tasksBox = getTasksBox();
+  final _tasksBox = tasksBox;
 
   @override
   Future delete(int id) {

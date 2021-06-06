@@ -1,10 +1,10 @@
-import 'package:data/data_module.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/datasources/players/players_datasource.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/models/player_entity.dart';
+import 'package:data/src/by/grodno/vasili/spinme/data/starter.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/utilities/utilities.dart';
 
 class HivePlayersDatasource extends PlayerDatasource {
-  final _playersBox = getPlayersBox();
+  final _playersBox = playersBox;
 
   @override
   Future<List<PlayerEntity>> getPlayers() {
