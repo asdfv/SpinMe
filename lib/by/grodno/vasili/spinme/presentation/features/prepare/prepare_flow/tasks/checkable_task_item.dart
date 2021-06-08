@@ -1,6 +1,7 @@
 import 'package:domain/domain_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/widgets/text_dialog.dart';
 
 class CheckableTaskItem extends StatefulWidget {
   const CheckableTaskItem({
@@ -70,37 +71,16 @@ class _CheckableTaskItemState extends State<CheckableTaskItem> {
     }
   }
 
-  _edit(BuildContext context, String description) async {
-    final controller = TextEditingController(text: description);
+  Future<String?> _edit(BuildContext context, String description) async {
     return await showDialog<String?>(
+      context: context,
+      builder: (context) => TextDialog(
         context: context,
-        builder: (dialogContext) => AlertDialog(
-              title: Text("Edit task"),
-              contentPadding: const EdgeInsets.all(16.0),
-              content: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      maxLines: 6,
-                      controller: controller,
-                      autofocus: true,
-                    ),
-                  )
-                ],
-              ),
-              actions: <Widget>[
-                ElevatedButton(
-                    child: const Text('CANCEL'),
-                    onPressed: () {
-                      Navigator.of(dialogContext).pop(null);
-                    }),
-                ElevatedButton(
-                    child: const Text('SAVE'),
-                    onPressed: () {
-                      final newText = controller.value.text;
-                      Navigator.of(dialogContext).pop(newText);
-                    })
-              ],
-            ));
+        initText: description,
+        titleLabel: "Edit task",
+        okLabel: "OK",
+        cancelLabel: "CANCEL",
+      ),
+    );
   }
 }

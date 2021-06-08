@@ -18,10 +18,7 @@ Future initDataLayer(String appDocumentDir) async {
   tasksBox = await Hive.openBox<TaskEntity>('tasksBox');
   playersBox = await Hive.openBox<PlayerEntity>('playersBox');
 
-  // todo for development needs is useful to recreate tasks each start
-  // if (_tasksBox!.isEmpty) _tasksBox!.putAll(_defaultTasks());
-  tasksBox.putAll(_defaultTasks());
-
+  if (tasksBox.isEmpty) tasksBox.putAll(_defaultTasks());
   if (playersBox.isEmpty) playersBox.putAll(_defaultPlayers());
 }
 

@@ -11,11 +11,13 @@ class ChooseTasksPage extends StatelessWidget {
     Key? key,
     required this.onTasksChosen,
     required this.onTaskEdit,
+    required this.onTaskAdded,
     required this.onTaskDelete,
   }) : super(key: key);
 
   final Function(List<Task>) onTasksChosen;
   final Function(Task, Task) onTaskEdit;
+  final Function(Task) onTaskAdded;
   final Function(int) onTaskDelete;
 
   @override
@@ -27,6 +29,7 @@ class ChooseTasksPage extends StatelessWidget {
               child: TasksWidget(
             onTasksChosen: onTasksChosen,
             onTaskEdited: onTaskEdit,
+            onTaskAdded: onTaskAdded,
             onTaskDelete: onTaskDelete,
           )),
         ],

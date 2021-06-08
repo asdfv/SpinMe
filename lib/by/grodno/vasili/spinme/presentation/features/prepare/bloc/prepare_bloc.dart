@@ -43,6 +43,12 @@ class PrepareBloc extends Bloc<PrepareEvent, PrepareState> {
       yield state.copyWith(isLoading: true);
       final players = await coordinator.getAllPlayers();
       yield state.copyWith(players: players, isLoading: false);
+    } else if (event is TaskAdded) {
+      final task = event.task;
+      await coordinator.saveTask(task);
+      log.d(message: "Task $task saved.");
+      final List<Task> newList = List.from(state.tasks!)..add(task);
+      yield state.copyWith(tasks: newList);
     }
   }
 }

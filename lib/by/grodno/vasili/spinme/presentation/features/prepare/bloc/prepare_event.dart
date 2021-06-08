@@ -27,6 +27,15 @@ class TaskEdited extends PrepareEvent {
   List<Object?> get props => [oldTask, newTask];
 }
 
+class TaskAdded extends PrepareEvent {
+  final Task task;
+
+  TaskAdded(this.task);
+
+  @override
+  List<Object?> get props => [task];
+}
+
 class DeleteTask extends PrepareEvent {
   final int id;
 

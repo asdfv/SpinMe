@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_bloc.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_event.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_state.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/prepare_flow/players/choose_players_page.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/prepare_flow/tasks/choose_tasks_page.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/welcome/welcome_page.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel_page.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/main.dart';
-
-import 'bloc/prepare_event.dart';
 
 const routePreparePage = "/prepare/";
 const routePreparePageFirstPage = "/prepare/$routeChoosePlayers";
@@ -79,6 +78,9 @@ class _PreparePageState extends State<PreparePage> {
           },
           onTaskEdit: (oldTask, newTask) {
             _bloc.add(TaskEdited(oldTask, newTask));
+          },
+          onTaskAdded: (task) {
+            _bloc.add(TaskAdded(task));
           },
           onTaskDelete: (id) {
             _bloc.add(DeleteTask(id));

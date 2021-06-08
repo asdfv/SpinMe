@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:domain/domain_module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/blo
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_state.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/preferences/game_preferences.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/widgets/text_dialog.dart';
 
 import 'checkable_task_item.dart';
 
@@ -16,11 +19,13 @@ class TasksWidget extends StatefulWidget {
     Key? key,
     required this.onTasksChosen,
     required this.onTaskEdited,
+    required this.onTaskAdded,
     required this.onTaskDelete,
   }) : super(key: key);
 
   final Function(List<Task>) onTasksChosen;
   final Function(Task, Task) onTaskEdited;
+  final Function(Task) onTaskAdded;
   final Function(int) onTaskDelete;
 
   @override
@@ -77,6 +82,27 @@ class _TasksWidgetState extends State<TasksWidget> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
+              onPressed: () async {
+                final description = await _onAdd(context);
+                if (description == null) return;
+                if (description.length < GamePreferences.minCharactersInTaskDescription) {
+                  context.snack(
+                      "Task description should be longer than ${GamePreferences.minCharactersInTaskDescription} symbols");
+                  return;
+                }
+                widget.onTaskAdded(Task(
+                  // todo Add generator in data model https://trello.com/c/4nqCGwaR
+                  id: Random().nextInt(999999),
+                  description: description,
+                  isChecked: true,
+                ));
+              },
+              child: Text("Add more tasks!"),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
               onPressed: () {
                 _onShare(tasks);
               },
@@ -103,5 +129,16 @@ class _TasksWidgetState extends State<TasksWidget> {
     final tasksDescriptions = tasks.map((e) => e.description).join("\n");
     log.d(message: "Share tasks: $tasksDescriptions");
     Share.share(tasksDescriptions);
+  }
+
+  Future<String?> _onAdd(BuildContext context) async {
+    return await showDialog<String?>(
+        context: context,
+        builder: (dialogContext) => TextDialog(
+              context: dialogContext,
+              titleLabel: "Add new task",
+              okLabel: "ADD",
+              cancelLabel: "CANCEL",
+            ));
   }
 }
