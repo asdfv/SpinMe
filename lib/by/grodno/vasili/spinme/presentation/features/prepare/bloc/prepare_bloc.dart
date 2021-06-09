@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_event.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_state.dart';
 
+/// [Bloc] for reducing events from prepare flow screens - chose players and tasks screens.
 class PrepareBloc extends Bloc<PrepareEvent, PrepareState> {
   final PrepareCoordinator coordinator;
   final log = getLogger();

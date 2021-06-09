@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 
 part 'task_entity.g.dart';
 
+/// Task model for data layer.
 @HiveType(typeId: 0)
 class TaskEntity {
   TaskEntity(this.id, this.description, this.isChecked);

@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 
 part 'player_entity.g.dart';
 
+/// Player model for data layer.
 @HiveType(typeId: 1)
 class PlayerEntity {
   PlayerEntity(this.id, this.name);

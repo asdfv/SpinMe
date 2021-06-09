@@ -4,6 +4,7 @@ import 'package:data/src/by/grodno/vasili/spinme/data/models/task_entity.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/utilities/utilities.dart';
 import 'package:domain/domain_module.dart';
 
+/// [TasksDatasource] which save all data in RAM.
 class InMemoryTasksDatasource extends TasksDatasource {
   final log = getLogger();
 

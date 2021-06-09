@@ -1,5 +1,6 @@
 import 'package:logger/logger.dart';
 
+/// Function to access to the logging iin the app.
 SpinLogger getLogger() {
   final logger = Logger(
       printer: PrettyPrinter(
@@ -12,6 +13,7 @@ SpinLogger getLogger() {
   return SimpleNotesLogger(logger);
 }
 
+/// Abstraction for logging in the app.
 abstract class SpinLogger {
   void v({required String message, Exception? error});
 
@@ -24,6 +26,7 @@ abstract class SpinLogger {
   void e({required String message, Exception? error});
 }
 
+/// [SpinLogger] implementation based on Flutter [Logger] package.
 class SimpleNotesLogger extends SpinLogger {
   final Logger logger;
 

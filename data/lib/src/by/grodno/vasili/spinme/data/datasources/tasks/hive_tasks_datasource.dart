@@ -2,6 +2,7 @@ import 'package:data/src/by/grodno/vasili/spinme/data/datasources/tasks/tasks_da
 import 'package:data/src/by/grodno/vasili/spinme/data/models/task_entity.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/starter.dart';
 
+/// [TasksDatasource] which save all data in Hive database.
 class HiveTasksDatasource extends TasksDatasource {
   final _tasksBox = tasksBox;
 

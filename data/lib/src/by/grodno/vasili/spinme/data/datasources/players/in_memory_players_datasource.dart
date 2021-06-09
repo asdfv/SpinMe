@@ -2,6 +2,7 @@ import 'package:data/src/by/grodno/vasili/spinme/data/datasources/players/player
 import 'package:data/src/by/grodno/vasili/spinme/data/models/player_entity.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/utilities/utilities.dart';
 
+/// [PlayerDatasource] which save all data in RAM.
 class InMemoryPlayersDatasource extends PlayerDatasource {
   final Map<int, PlayerEntity> _playersDatasource = {
     0: PlayerEntity(0, "Vasili"),

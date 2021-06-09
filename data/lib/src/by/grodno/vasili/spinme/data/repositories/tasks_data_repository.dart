@@ -2,6 +2,8 @@ import 'package:data/src/by/grodno/vasili/spinme/data/datasources/tasks/tasks_da
 import 'package:data/src/by/grodno/vasili/spinme/data/models/task_entity.dart';
 import 'package:domain/domain_module.dart';
 
+/// Default implementation for TasksRepository.
+/// Which uses [TasksDatasource] for work with the data.
 class TasksDataRepository extends TasksRepository {
   TasksDataRepository(this._tasksDataSource);
 

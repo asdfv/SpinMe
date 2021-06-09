@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+/// Task domain model.
 class Task extends Equatable {
   Task({required this.id, required this.description, required this.isChecked});
 

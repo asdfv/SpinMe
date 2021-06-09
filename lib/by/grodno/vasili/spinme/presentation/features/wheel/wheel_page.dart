@@ -12,6 +12,7 @@ import 'wheel_widget/wheel_widget_contract.dart';
 
 const routeWheel = "/wheel";
 
+/// Page with the wheel which can be rotated and can pick the task and the person to do the task.
 class WheelPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

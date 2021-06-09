@@ -6,6 +6,7 @@ import 'tasks_widget.dart';
 
 const routeChooseTasks = "chooseTasks";
 
+/// Page where the user can edit, add and mark tasks to play.
 class ChooseTasksPage extends StatelessWidget {
   const ChooseTasksPage({
     Key? key,

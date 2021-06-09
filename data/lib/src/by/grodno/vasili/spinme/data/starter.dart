@@ -2,13 +2,7 @@ import 'package:data/src/by/grodno/vasili/spinme/data/models/player_entity.dart'
 import 'package:data/src/by/grodno/vasili/spinme/data/models/task_entity.dart';
 import 'package:hive/hive.dart';
 
-/// [Box] with tasks. Do not forget to call [initDataLayer] before access it.
-late Box<TaskEntity> tasksBox;
-
-/// [Box] with players. Do not forget to call [initDataLayer] before access it.
-late Box<PlayerEntity> playersBox;
-
-/// Run this method to init required by data module initializations.
+/// Run this method to perform required by data module initializations.
 Future initDataLayer(String appDocumentDir) async {
   Hive
     ..init(appDocumentDir)
@@ -26,6 +20,12 @@ Future initDataLayer(String appDocumentDir) async {
 void stopDataLayer() {
   Hive.close();
 }
+
+/// [Box] with tasks. Do not forget to call [initDataLayer] before access it.
+late Box<TaskEntity> tasksBox;
+
+/// [Box] with players. Do not forget to call [initDataLayer] before access it.
+late Box<PlayerEntity> playersBox;
 
 Map<int, PlayerEntity> _defaultPlayers() {
   final names = [

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
+/// Contract to support for wheel.
 abstract class WheelWidgetContract extends StatefulWidget {
   final List<WheelItem> items;
   final Function onSpinStarted ;

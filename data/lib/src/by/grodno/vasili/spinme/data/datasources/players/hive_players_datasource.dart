@@ -3,6 +3,7 @@ import 'package:data/src/by/grodno/vasili/spinme/data/models/player_entity.dart'
 import 'package:data/src/by/grodno/vasili/spinme/data/starter.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/utilities/utilities.dart';
 
+/// [PlayerDatasource] which save all data in Hive database.
 class HivePlayersDatasource extends PlayerDatasource {
   final _playersBox = playersBox;
 

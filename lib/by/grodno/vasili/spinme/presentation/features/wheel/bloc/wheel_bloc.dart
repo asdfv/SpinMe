@@ -4,6 +4,7 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/bloc/
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/bloc/wheel_state.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel_widget/wheel_widget_contract.dart';
 
+/// [Bloc] for reducing events on wheel screen to UI states.
 class WheelBloc extends Bloc<WheelEvent, WheelState> {
   WheelBloc(this.coordinator) : super(WheelState(label: "Spin the wheel!"));
 

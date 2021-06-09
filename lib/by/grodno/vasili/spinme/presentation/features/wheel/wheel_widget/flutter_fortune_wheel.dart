@@ -5,6 +5,7 @@ import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 
 import 'wheel_widget_contract.dart';
 
+/// Wheel widget based on flutter_fortune_wheel flutter package.
 class FlutterFortuneWheel extends WheelWidgetContract {
   final List<WheelItem> items;
   final Function onSpinStarted;

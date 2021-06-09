@@ -4,6 +4,7 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/pre
 
 const routeWelcome = "/";
 
+/// The very first page with an invitation to play.
 class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -3,6 +3,7 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/pre
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/welcome/welcome_page.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel_page.dart';
 
+/// Main routing.
 class MainRouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     late Widget page;

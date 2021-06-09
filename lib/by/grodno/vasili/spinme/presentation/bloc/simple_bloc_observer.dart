@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:domain/domain_module.dart';
 
+/// Listener for [Bloc] events.
 class SimpleBlocObserver extends BlocObserver {
   var log = getLogger();
 

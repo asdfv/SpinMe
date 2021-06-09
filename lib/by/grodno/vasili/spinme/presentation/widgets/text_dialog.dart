@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Multiline [AlertDialog] which returns the string
+/// or null if user Cancel the dialog.
 class TextDialog extends AlertDialog {
   final BuildContext context;
   final String initText;

@@ -3,6 +3,8 @@ import 'package:data/src/by/grodno/vasili/spinme/data/models/player_entity.dart'
 import 'package:data/src/by/grodno/vasili/spinme/data/utilities/utilities.dart';
 import 'package:domain/domain_module.dart';
 
+/// Default implementation for PlayersRepository.
+/// Which uses [PlayerDatasource] for work with the data.
 class PlayersDataRepository extends PlayersRepository {
   PlayersDataRepository(this._playersDatasource);
 

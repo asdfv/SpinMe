@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 
 import 'wheel_widget_contract.dart';
 
+/// Stub for wheel for development needs.
 class WheelStub extends WheelWidgetContract {
   final List<WheelItem> items;
   final Function onSpinStarted;

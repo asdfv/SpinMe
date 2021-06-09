@@ -9,6 +9,7 @@ import 'names_form_widget.dart';
 
 const routeChoosePlayers = "choosePlayers";
 
+/// Page where the user can chose the names for players.
 class ChoosePlayersPage extends StatelessWidget {
   const ChoosePlayersPage({
     Key? key,
