@@ -29,7 +29,7 @@ class ChoosePlayersPage extends StatelessWidget {
             child: Column(
               children: [
                 Text("Specify names from players, no more than ${GamePreferences.maxNumberOfPlayers}."),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Expanded(child: NamesFormWidget(initialPlayers: players, onPlayersChosen: onPlayersChosen)),
               ],
             ),

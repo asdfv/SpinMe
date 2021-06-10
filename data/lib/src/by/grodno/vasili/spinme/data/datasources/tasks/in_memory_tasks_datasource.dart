@@ -5,6 +5,8 @@ import 'package:data/src/by/grodno/vasili/spinme/data/utilities/utilities.dart';
 import 'package:domain/domain_module.dart';
 
 /// [TasksDatasource] which save all data in RAM.
+/// Fake delay for methods is used to be more realistic.
+/// Mainly used for development purposes.
 class InMemoryTasksDatasource extends TasksDatasource {
   final log = getLogger();
 

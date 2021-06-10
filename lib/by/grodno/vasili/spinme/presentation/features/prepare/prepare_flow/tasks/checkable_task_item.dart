@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/widgets/text_dialog.dart';
 
+/// [Task] row item which can edited/checked/deleted.
 class CheckableTaskItem extends StatefulWidget {
   const CheckableTaskItem({
     Key? key,

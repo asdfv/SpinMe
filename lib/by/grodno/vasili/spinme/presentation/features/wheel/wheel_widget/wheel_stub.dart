@@ -36,18 +36,18 @@ class _WheelStubState extends State<WheelStub> {
                   title = "Spinning...";
                 });
                 widget.onSpinStarted();
-                await Future.delayed(Duration(milliseconds: 750), () {});
+                await Future.delayed(const Duration(milliseconds: 750), () {});
                 widget.onSpinFinished(widget.items[Random().nextInt(widget.items.length)]);
                 setState(() {
                   title = "Spin me";
                 });
               },
-              child: Text("Click me")),
+              child: const Text("Click me")),
           SizedBox(
             width: 200,
             height: 200,
             child: Container(
-                decoration: BoxDecoration(shape: BoxShape.rectangle, color: Colors.cyan),
+                decoration: const BoxDecoration(shape: BoxShape.rectangle, color: Colors.cyan),
                 child: Center(child: Text(title))),
           ),
         ],

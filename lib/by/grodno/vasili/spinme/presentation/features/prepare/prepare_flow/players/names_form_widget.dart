@@ -66,7 +66,7 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
     final Function()? action = _nameFields.length >= GamePreferences.maxNumberOfPlayers ? null : _addNameField;
     return ElevatedButton(
       onPressed: action,
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
     );
   }
 
@@ -75,7 +75,7 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
         child: ElevatedButton(
           onPressed: () {
             _formKey.currentState!.save();
-            final errorMessage = validate(_names);
+            final errorMessage = _validate(_names);
             if (errorMessage == null) {
               widget.onPlayersChosen(List.from(_names));
             } else {
@@ -83,23 +83,23 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
             }
             _names.clear();
           },
-          child: Text('Next'),
+          child: const Text('Next'),
         ),
       );
 
-  String? validate(List<String> names) {
-    if (names._hasShortNames()) {
+  String? _validate(List<String> names) {
+    if (names._containsShortNames()) {
       return "All fields should be filled with names no shorter than ${GamePreferences.minCharactersInPlayerName} symbols.";
     } else if (names.length < GamePreferences.minNumberOfPlayers || names.length > GamePreferences.maxNumberOfPlayers) {
       return "To play needs from ${GamePreferences.minNumberOfPlayers} to ${GamePreferences.minNumberOfPlayers} players";
-    } else if (names._hasDuplicates()) {
+    } else if (names._containsDuplicates()) {
       return "All names should be different";
     } else {
       return null;
     }
   }
 
-  void _addNameField({String? initText = ""}) {
+  void _addNameField({String initText = ""}) {
     final key = UniqueKey();
     setState(() {
       _nameFields[key] = TextFormField(
@@ -108,17 +108,14 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
           _names.add(value!);
         },
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(top: 20), // add padding to adjust text
+          contentPadding: const EdgeInsets.only(top: 20),
           suffixIcon: GestureDetector(
             onTap: () {
               setState(() {
                 _nameFields.remove(key);
               });
             },
-            child: Icon(
-              Icons.delete,
-              color: Colors.red,
-            ),
+            child: const Icon(Icons.delete, color: Colors.red),
           ),
           hintText: 'Enter player name',
         ),
@@ -128,10 +125,10 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
   }
 }
 
-extension _HasShortNames on Iterable<String> {
-  bool _hasShortNames() => this.any((name) => name.length < GamePreferences.minCharactersInPlayerName);
+extension _ContainsShortNames on Iterable<String> {
+  bool _containsShortNames() => this.any((name) => name.length < GamePreferences.minCharactersInPlayerName);
 }
 
-extension _HasDuplicates on Iterable<String> {
-  bool _hasDuplicates() => this.length != this.toSet().length;
+extension _ContainsDuplicates on Iterable<String> {
+  bool _containsDuplicates() => this.length != this.toSet().length;
 }

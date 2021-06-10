@@ -21,10 +21,10 @@ void stopDataLayer() {
   Hive.close();
 }
 
-/// [Box] with tasks. Do not forget to call [initDataLayer] before access it.
+/// [Box] with tasks.
 late Box<TaskEntity> tasksBox;
 
-/// [Box] with players. Do not forget to call [initDataLayer] before access it.
+/// [Box] with players.
 late Box<PlayerEntity> playersBox;
 
 Map<int, PlayerEntity> _defaultPlayers() {

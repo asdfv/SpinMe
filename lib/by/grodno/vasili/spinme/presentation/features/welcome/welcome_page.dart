@@ -16,10 +16,7 @@ class WelcomePage extends StatelessWidget {
           children: [
             const Text(
               "Welcome to SpinMe! Turn the wheel and do the task!",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             ElevatedButton(
                 onPressed: () {

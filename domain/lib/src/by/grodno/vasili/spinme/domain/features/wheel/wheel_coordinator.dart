@@ -21,7 +21,7 @@ class WheelCoordinator {
     return pickedTask;
   }
 
-  /// Get player by his id.
+  /// Get player by his [id].
   Future<Player> pickPlayer(int id) => _playersRepository.getPlayer(id);
 
   /// Get created during preparation flow players.

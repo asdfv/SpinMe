@@ -1,7 +1,6 @@
 import 'package:data/src/by/grodno/vasili/spinme/data/datasources/players/players_datasource.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/models/player_entity.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/starter.dart';
-import 'package:data/src/by/grodno/vasili/spinme/data/utilities/utilities.dart';
 
 /// [PlayerDatasource] which save all data in Hive database.
 class HivePlayersDatasource extends PlayerDatasource {
@@ -9,7 +8,7 @@ class HivePlayersDatasource extends PlayerDatasource {
 
   @override
   Future<List<PlayerEntity>> getPlayers() {
-    return runDelayed(() => _playersBox.values.toList());
+    return Future.value(_playersBox.values.toList());
   }
 
   @override

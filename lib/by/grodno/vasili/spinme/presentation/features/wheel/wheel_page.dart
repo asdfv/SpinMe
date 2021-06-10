@@ -62,26 +62,26 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
                 child: Align(
                     alignment: Alignment.center,
                     child: Text(topLabelText, maxLines: 1, overflow: TextOverflow.ellipsis)),
-        ),
-        Expanded(
-          child: FlutterFortuneWheel(
-            items: items,
-            onSpinFinished: (item) {
-              _bloc.add(SpinFinished(item));
-            },
-            onSpinStarted: () {
-              _bloc.add(SpinStarted());
-            },
-          ),
-        ),
-        SizedBox(
-          height: 100,
-          child: Align(
-              alignment: Alignment.center,
+              ),
+              Expanded(
+                child: FlutterFortuneWheel(
+                  items: items,
+                  onSpinFinished: (item) {
+                    _bloc.add(SpinFinished(item));
+                  },
+                  onSpinStarted: () {
+                    _bloc.add(SpinStarted());
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 100,
+                child: Align(
+                    alignment: Alignment.center,
                     child: Text(bottomLabelText, maxLines: 1, overflow: TextOverflow.ellipsis)),
-        ),
-      ],
-    );
+              ),
+            ],
+          );
 
     return WillPopScope(
       onWillPop: () => _showExitDialog(context),

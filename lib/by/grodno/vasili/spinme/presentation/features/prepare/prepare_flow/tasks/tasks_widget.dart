@@ -42,7 +42,7 @@ class _TasksWidgetState extends State<TasksWidget> {
         final tasks = state.tasks;
         final isLoading = state.isLoading;
         if (isLoading) return Center(child: CircularProgressIndicator());
-        return tasks == null ? Center(child: Text("Whoops! Strange state o_O")) : _buildTasksList(tasks);
+        return tasks == null ? Center(child: const Text("Whoops! Strange state o_O")) : _buildTasksList(tasks);
       },
     );
   }
@@ -76,7 +76,7 @@ class _TasksWidgetState extends State<TasksWidget> {
               onPressed: () {
                 _onNext(tasks);
               },
-              child: Text("Let's play!"),
+              child: const Text("Let's play!"),
             ),
           ),
           Padding(
@@ -91,13 +91,12 @@ class _TasksWidgetState extends State<TasksWidget> {
                   return;
                 }
                 widget.onTaskAdded(Task(
-                  // todo Add generator in data model https://trello.com/c/4nqCGwaR
-                  id: Random().nextInt(999999),
-                  description: description,
-                  isChecked: true,
+                  Random().nextInt(1 << 32),
+                  description,
+                  true,
                 ));
               },
-              child: Text("Add more tasks!"),
+              child: const Text("Add more tasks!"),
             ),
           ),
           Padding(
@@ -106,7 +105,7 @@ class _TasksWidgetState extends State<TasksWidget> {
               onPressed: () {
                 _onShare(tasks);
               },
-              child: Text("Share your tasks"),
+              child: const Text("Share your tasks"),
             ),
           ),
         ],
@@ -121,7 +120,7 @@ class _TasksWidgetState extends State<TasksWidget> {
       widget.onTasksChosen(tasks);
     } else {
       context.snack(
-          "Chosen $numberOfCheckedTasks from $minimumNumberTasks tasks, just ${minimumNumberTasks - numberOfCheckedTasks} remain =)");
+          "Chosen $numberOfCheckedTasks from $minimumNumberTasks tasks, just ${minimumNumberTasks - numberOfCheckedTasks} remains =)");
     }
   }
 
@@ -131,14 +130,12 @@ class _TasksWidgetState extends State<TasksWidget> {
     Share.share(tasksDescriptions);
   }
 
-  Future<String?> _onAdd(BuildContext context) async {
-    return await showDialog<String?>(
-        context: context,
-        builder: (dialogContext) => TextDialog(
-              context: dialogContext,
-              titleLabel: "Add new task",
-              okLabel: "ADD",
-              cancelLabel: "CANCEL",
-            ));
-  }
+  Future<String?> _onAdd(BuildContext context) async => await showDialog<String?>(
+      context: context,
+      builder: (dialogContext) => TextDialog(
+            context: dialogContext,
+            titleLabel: "Add new task",
+            okLabel: "ADD",
+            cancelLabel: "CANCEL",
+          ));
 }

@@ -1,6 +1,7 @@
 import 'package:domain/domain_module.dart';
 
-/// Coordinator for the flow before the game when user can choose manes for players and tasks to do.
+/// Coordinator for the flow before the game starts when the user
+/// can choose names for players and tasks to do.
 class PrepareCoordinator {
   final TasksRepository _tasksRepository;
   final PlayersRepository _playersRepository;
@@ -21,7 +22,7 @@ class PrepareCoordinator {
     await _playersRepository.savePlayers(players);
   }
 
-  /// Save lis of [tasks].
+  /// Save list of [tasks].
   Future saveTasks(List<Task> tasks) async {
     await _tasksRepository.saveTasks(tasks);
   }
@@ -31,6 +32,7 @@ class PrepareCoordinator {
     await _tasksRepository.saveTask(updatedTask);
   }
 
+  /// Delete task by [id].
   Future deleteTask(id) async {
     await _tasksRepository.delete(id);
   }

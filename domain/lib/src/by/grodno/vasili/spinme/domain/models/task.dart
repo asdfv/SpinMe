@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 /// Task domain model.
 class Task extends Equatable {
-  Task({required this.id, required this.description, required this.isChecked});
+  const Task(this.id, this.description, this.isChecked);
 
   final int id;
   final String description;
@@ -12,9 +12,9 @@ class Task extends Equatable {
   List<Object?> get props => [id, description, isChecked];
 
   Task copyWith({final String? description, final bool? isChecked}) => Task(
-        id: this.id,
-        description: description ?? this.description,
-        isChecked: isChecked ?? this.isChecked,
+        this.id,
+        description ?? this.description,
+        isChecked ?? this.isChecked,
       );
 
   @override

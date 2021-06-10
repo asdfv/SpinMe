@@ -9,7 +9,7 @@ class TextDialog extends AlertDialog {
   final String okLabel;
   final String cancelLabel;
 
-  TextDialog({
+  const TextDialog({
     required this.context,
     this.initText = "",
     required this.titleLabel,
