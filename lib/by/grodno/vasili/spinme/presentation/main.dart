@@ -47,6 +47,8 @@ class _MyAppState extends State<MyApp> {
 }
 
 void setupGetIt() {
-  getIt.registerSingleton<TasksRepository>(TasksDataRepository(HiveTasksDatasource()), signalsReady: true);
-  getIt.registerSingleton<PlayersRepository>(PlayersDataRepository(HivePlayersDatasource()), signalsReady: true);
+  final tasksRepository = TasksDataRepository(HiveTasksDatasource());
+  final playersRepository = PlayersDataRepository(HivePlayersDatasource());
+  getIt.registerSingleton<WheelCoordinator>(WheelCoordinator(tasksRepository, playersRepository), signalsReady: true);
+  getIt.registerSingleton<PrepareCoordinator>(PrepareCoordinator(tasksRepository, playersRepository), signalsReady: true);
 }

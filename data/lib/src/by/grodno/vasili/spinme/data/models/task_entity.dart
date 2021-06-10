@@ -24,5 +24,5 @@ class TaskEntity {
 }
 
 extension TaskEntityConverter on TaskEntity {
-  Task toDomainModel() => Task(id: this.id, description: this.description, isChecked: this.isChecked);
+  Task toDomainModel() => Task(this.id, this.description, this.isChecked);
 }

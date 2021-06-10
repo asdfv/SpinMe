@@ -16,9 +16,8 @@ const routeWheel = "/wheel";
 class WheelPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final coordinator = WheelCoordinator(getIt<TasksRepository>(), getIt<PlayersRepository>());
     return BlocProvider(
-      create: (_) => WheelBloc(coordinator),
+      create: (_) => WheelBloc(getIt<WheelCoordinator>()),
       child: WheelPageScaffold(),
     );
   }
