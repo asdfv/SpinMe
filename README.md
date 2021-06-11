@@ -18,8 +18,8 @@ Application uses Clean Architecture design and using BLoC pattern for presentati
 
 ## Demo
 
-[![Demo](https://img.youtube.com/vi/fNYvsJRIn6g/0.jpg)](https://www.youtube.com/watch?v=fNYvsJRIn6g)
+[![Demo](https://img.youtube.com/vi/fNYvsJRIn6g/1.jpg)](https://www.youtube.com/watch?v=fNYvsJRIn6g)
 
 ## Todo list to improve or fix
 
-[url=https://ibb.co/k0C8Pbg][img]https://i.ibb.co/P4HhVXZ/ToDoList.jpg[/img][/url]
+![Todo list](https://i.ibb.co/P4HhVXZ/ToDoList.jpg)
