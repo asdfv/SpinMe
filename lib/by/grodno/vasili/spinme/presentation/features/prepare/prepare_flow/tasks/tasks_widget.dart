@@ -41,8 +41,9 @@ class _TasksWidgetState extends State<TasksWidget> {
       builder: (context, state) {
         final tasks = state.tasks;
         final isLoading = state.isLoading;
-        if (isLoading) return Center(child: CircularProgressIndicator());
-        return tasks == null ? Center(child: const Text("Whoops! Strange state o_O")) : _buildTasksList(tasks);
+        const loadingWidget = const Center(child: CircularProgressIndicator());
+        if (isLoading) return loadingWidget;
+        return tasks == null ? loadingWidget : _buildTasksList(tasks);
       },
     );
   }
