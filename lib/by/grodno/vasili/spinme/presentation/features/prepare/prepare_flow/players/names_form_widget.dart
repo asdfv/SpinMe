@@ -21,7 +21,7 @@ class NamesFormWidget extends StatefulWidget {
 class NamesFormWidgetState extends State<NamesFormWidget> {
   final _formKey = GlobalKey<FormState>();
   final List<String> _names = [];
-  Map<UniqueKey, TextFormField> _nameFields = {};
+  Map<UniqueKey, Widget> _nameFields = {};
 
   @override
   void initState() {
@@ -102,24 +102,30 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
   void _addNameField({String initText = ""}) {
     final key = UniqueKey();
     setState(() {
-      _nameFields[key] = TextFormField(
-        controller: TextEditingController(text: initText),
-        onSaved: (value) {
-          _names.add(value!);
-        },
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.only(top: 20),
-          suffixIcon: GestureDetector(
+      _nameFields[key] = Row(
+        children: [
+          Expanded(
+            child: TextFormField(
+              controller: TextEditingController(text: initText),
+              onSaved: (value) {
+                _names.add(value!);
+              },
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.only(top: 20),
+                hintText: 'Enter player name',
+              ),
+              keyboardType: TextInputType.text,
+            ),
+          ),
+          GestureDetector(
             onTap: () {
               setState(() {
                 _nameFields.remove(key);
               });
             },
             child: const Icon(Icons.delete, color: Colors.red),
-          ),
-          hintText: 'Enter player name',
-        ),
-        keyboardType: TextInputType.text,
+          )
+        ],
       );
     });
   }
