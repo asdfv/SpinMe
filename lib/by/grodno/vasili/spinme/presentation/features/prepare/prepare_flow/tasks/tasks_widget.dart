@@ -87,7 +87,7 @@ class _TasksWidgetState extends State<TasksWidget> {
                 final description = await _onAdd(context);
                 if (description == null) return;
                 if (description.length < GamePreferences.minCharactersInTaskDescription) {
-                  context.snack(
+                  context.info(
                       "Task description should be longer than ${GamePreferences.minCharactersInTaskDescription} symbols");
                   return;
                 }
@@ -120,7 +120,7 @@ class _TasksWidgetState extends State<TasksWidget> {
       log.i(message: "Tasks chosen: $checkedTasks");
       widget.onTasksChosen(tasks);
     } else {
-      context.snack(
+      context.info(
           "Chosen $numberOfCheckedTasks from $minimumNumberTasks tasks, just ${minimumNumberTasks - numberOfCheckedTasks} remains =)");
     }
   }

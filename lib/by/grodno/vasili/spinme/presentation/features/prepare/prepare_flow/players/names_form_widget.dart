@@ -79,7 +79,7 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
             if (errorMessage == null) {
               widget.onPlayersChosen(List.from(_names));
             } else {
-              context.snack(errorMessage);
+              context.info(errorMessage);
             }
             _names.clear();
           },

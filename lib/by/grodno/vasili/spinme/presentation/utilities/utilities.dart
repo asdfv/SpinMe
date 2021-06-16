@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/widgets/message_bar.dart';
 
-/// Show snackbar with message and OK button to quickly close it.
-extension SnackbarInScaffold on BuildContext {
-  void snack(String message) {
-    ScaffoldMessenger.of(this).showSnackBar(SnackBar(
-      content: Text(message),
-      action: SnackBarAction(
-        label: 'OK',
-        onPressed: () {},
-      ),
-    ));
+/// Show info message to the user.
+extension ShowMessage on BuildContext {
+  void info(String message) {
+    MessageBar(this)..info(message);
+  }
+
+  void error(String message) {
+    MessageBar(this)..error(message);
+  }
+
+  void success(String message) {
+    MessageBar(this)..success(message);
   }
 }
