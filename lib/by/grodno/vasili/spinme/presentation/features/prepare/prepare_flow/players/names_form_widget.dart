@@ -106,6 +106,7 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
         children: [
           Expanded(
             child: TextFormField(
+              autofocus: true,
               controller: TextEditingController(text: initText),
               onSaved: (value) {
                 _names.add(value!);
