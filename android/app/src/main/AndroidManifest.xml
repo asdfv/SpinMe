@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="by.grodno.vasili.spinme">
    <application
-        android:label="spinme"
+        android:label="SpinMe"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
