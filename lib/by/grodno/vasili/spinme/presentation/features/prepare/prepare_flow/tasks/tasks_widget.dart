@@ -86,7 +86,7 @@ class _TasksWidgetState extends State<TasksWidget> {
               onPressed: () async {
                 final description = await _onAdd(context);
                 if (description == null) return;
-                if (description.length < GamePreferences.minCharactersInTaskDescription) {
+                if (description.trim().length < GamePreferences.minCharactersInTaskDescription) {
                   context.info(
                       "Task description should be longer than ${GamePreferences.minCharactersInTaskDescription} symbols");
                   return;

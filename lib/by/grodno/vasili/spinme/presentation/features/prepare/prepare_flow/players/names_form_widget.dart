@@ -133,7 +133,8 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
 }
 
 extension _ContainsShortNames on Iterable<String> {
-  bool _containsShortNames() => this.any((name) => name.length < GamePreferences.minCharactersInPlayerName);
+  bool _containsShortNames() => this.any(
+      (name) => name.trim().length < GamePreferences.minCharactersInPlayerName);
 }
 
 extension _ContainsDuplicates on Iterable<String> {
