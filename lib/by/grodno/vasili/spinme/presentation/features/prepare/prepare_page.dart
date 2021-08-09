@@ -10,6 +10,7 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/pre
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/welcome/welcome_page.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel_page.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/main.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/spin_me_app.dart';
 
 const routePreparePage = "/prepare/";
 const routePreparePageFirstPage = "/prepare/$routeChoosePlayers";

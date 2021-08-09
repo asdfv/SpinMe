@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/prepare_page.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
+
+import 'language_picker_widget.dart';
 
 const routeWelcome = "/";
 
@@ -14,10 +17,12 @@ class WelcomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
-              "Welcome to SpinMe! Turn the wheel and do the task!",
+            Text(
+              context.getLocalizedString('welcome_title'),
+              textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
+            LanguagePickerWidget(),
             ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, routePreparePageFirstPage);

@@ -5,50 +5,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:spinme/by/grodno/vasili/spinme/presentation/features/welcome/welcome_page.dart';
 
-import 'navigation/main_router_generator.dart';
+import 'spin_me_app.dart';
 
 GetIt getIt = GetIt.instance;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await getApplicationDocumentsDirectory();
-  await initDataLayer(appDocumentDir.path);
+  await startDataLayer(appDocumentDir.path);
   setupGetIt();
   // Bloc.observer = SimpleBlocObserver();
   EquatableConfig.stringify = true;
-  runApp(MyApp());
+  runApp(SpinMeApp());
 }
 
-final mainNavigatorKey = GlobalKey<NavigatorState>();
-
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "SpinMe",
-      initialRoute: routeWelcome,
-      navigatorKey: mainNavigatorKey,
-      onGenerateRoute: MainRouteGenerator.generateRoute,
-    );
-  }
-
-  @override
-  void dispose() {
-    stopDataLayer();
-    super.dispose();
-  }
-}
-
+/// Setup GetIt dependencies.
 void setupGetIt() {
   final tasksRepository = TasksDataRepository(HiveTasksDatasource());
   final playersRepository = PlayersDataRepository(HivePlayersDatasource());
   getIt.registerSingleton<WheelCoordinator>(WheelCoordinator(tasksRepository, playersRepository), signalsReady: true);
-  getIt.registerSingleton<PrepareCoordinator>(PrepareCoordinator(tasksRepository, playersRepository), signalsReady: true);
+  getIt.registerSingleton<PrepareCoordinator>(PrepareCoordinator(tasksRepository, playersRepository),
+      signalsReady: true);
+  getIt.registerSingleton<LocaleRepository>(LocaleDataRepository(), signalsReady: true);
 }

@@ -3,7 +3,7 @@ import 'package:data/src/by/grodno/vasili/spinme/data/models/task_entity.dart';
 import 'package:hive/hive.dart';
 
 /// Run this method to perform required by data module initializations.
-Future initDataLayer(String appDocumentDir) async {
+Future startDataLayer(String appDocumentDir) async {
   Hive
     ..init(appDocumentDir)
     ..registerAdapter(TaskEntityAdapter())
