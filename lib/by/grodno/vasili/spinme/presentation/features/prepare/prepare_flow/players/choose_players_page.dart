@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_bloc.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/bloc/prepare_state.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/preferences/game_preferences.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 
 import 'names_form_widget.dart';
 
@@ -28,7 +29,7 @@ class ChoosePlayersPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Text("Specify names from players, no more than ${GamePreferences.maxNumberOfPlayers}."),
+                Text(context.getLocalizedString("prepare_players_specify_names", GamePreferences.maxNumberOfPlayers)),
                 const SizedBox(height: 24),
                 Expanded(child: NamesFormWidget(initialPlayers: players, onPlayersChosen: onPlayersChosen)),
               ],

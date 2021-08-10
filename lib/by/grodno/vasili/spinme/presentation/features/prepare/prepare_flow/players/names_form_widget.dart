@@ -24,9 +24,9 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
   Map<UniqueKey, Widget> _nameFields = {};
 
   @override
-  void initState() {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _initFields();
-    super.initState();
   }
 
   void _initFields() {
@@ -83,17 +83,18 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
             }
             _names.clear();
           },
-          child: const Text('Next'),
+          child: Text(context.getLocalizedString("app_next")),
         ),
       );
 
   String? _validate(List<String> names) {
     if (names._containsShortNames()) {
-      return "All fields should be filled with names no shorter than ${GamePreferences.minCharactersInPlayerName} symbols.";
+      return context.getLocalizedString(
+          "prepare_players_short_name_or_non_filled_message", GamePreferences.minCharactersInPlayerName);
     } else if (names.length < GamePreferences.minNumberOfPlayers || names.length > GamePreferences.maxNumberOfPlayers) {
-      return "To play needs from ${GamePreferences.minNumberOfPlayers} to ${GamePreferences.minNumberOfPlayers} players";
+      return context.getLocalizedString("prepare_players_not_enough_players", GamePreferences.minNumberOfPlayers);
     } else if (names._containsDuplicates()) {
-      return "All names should be different";
+      return context.getLocalizedString("prepare_players_names_should_be_different");
     } else {
       return null;
     }
@@ -113,7 +114,7 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
               },
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.only(top: 20),
-                hintText: 'Enter player name',
+                hintText: context.getLocalizedString("prepare_players_enter_name"),
               ),
               keyboardType: TextInputType.text,
             ),

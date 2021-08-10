@@ -19,5 +19,10 @@ extension ShowMessage on BuildContext {
 
 extension ContextExtension on BuildContext {
   /// Get localized string by [key].
-  String getLocalizedString(String key) => AppLocalizations.of(this).getLocalizedString(key)!;
+  /// If [number] is set it will replace '%n' literal in the target string.
+  String getLocalizedString(String key, [int? number]) {
+    String string = AppLocalizations.of(this).getLocalizedString(key)!;
+    if (number == null) return string;
+    return string.replaceFirst(RegExp("%n"), number.toString());
+  }
 }

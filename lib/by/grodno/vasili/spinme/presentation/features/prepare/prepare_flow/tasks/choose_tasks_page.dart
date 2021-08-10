@@ -1,6 +1,7 @@
 import 'package:domain/domain_module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 
 import 'tasks_widget.dart';
 
@@ -25,7 +26,7 @@ class ChooseTasksPage extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         children: [
           const SizedBox(height: 24),
-          const Text("Chose tasks that you want to play"),
+          Text(context.getLocalizedString("prepare_tasks_choose_tasks")),
           Expanded(
               child: TasksWidget(
             onTasksChosen: onTasksChosen,

@@ -77,7 +77,7 @@ class _TasksWidgetState extends State<TasksWidget> {
               onPressed: () {
                 _onNext(tasks);
               },
-              child: const Text("Let's play!"),
+              child: Text(context.getLocalizedString("prepare_tasks_lets_play")),
             ),
           ),
           Padding(
@@ -86,9 +86,10 @@ class _TasksWidgetState extends State<TasksWidget> {
               onPressed: () async {
                 final description = await _onAdd(context);
                 if (description == null) return;
-                if (description.trim().length < GamePreferences.minCharactersInTaskDescription) {
-                  context.info(
-                      "Task description should be longer than ${GamePreferences.minCharactersInTaskDescription} symbols");
+                var minCharacters = GamePreferences.minCharactersInTaskDescription;
+                if (description.trim().length < minCharacters) {
+                  final message = context.getLocalizedString("prepare_tasks_short_description_message", minCharacters);
+                  context.info(message);
                   return;
                 }
                 widget.onTaskAdded(Task(
@@ -97,7 +98,7 @@ class _TasksWidgetState extends State<TasksWidget> {
                   true,
                 ));
               },
-              child: const Text("Add more tasks!"),
+              child: Text(context.getLocalizedString("prepare_tasks_add_tasks")),
             ),
           ),
           Padding(
@@ -106,7 +107,7 @@ class _TasksWidgetState extends State<TasksWidget> {
               onPressed: () {
                 _onShare(tasks);
               },
-              child: const Text("Share your tasks"),
+              child: Text(context.getLocalizedString("prepare_tasks_share")),
             ),
           ),
         ],
@@ -120,8 +121,8 @@ class _TasksWidgetState extends State<TasksWidget> {
       log.i(message: "Tasks chosen: $checkedTasks");
       widget.onTasksChosen(tasks);
     } else {
-      context.info(
-          "Chosen $numberOfCheckedTasks from $minimumNumberTasks tasks, just ${minimumNumberTasks - numberOfCheckedTasks} remains =)");
+      final tasksLeft = minimumNumberTasks - numberOfCheckedTasks;
+      context.info(context.getLocalizedString("prepare_tasks_short_not_enough_tasks_message", tasksLeft));
     }
   }
 
@@ -135,8 +136,8 @@ class _TasksWidgetState extends State<TasksWidget> {
       context: context,
       builder: (dialogContext) => TextDialog(
             context: dialogContext,
-            titleLabel: "Add new task",
-            okLabel: "ADD",
-            cancelLabel: "CANCEL",
+            titleLabel: context.getLocalizedString("prepare_tasks_add_new_task"),
+            okLabel: context.getLocalizedString("app_add"),
+            cancelLabel: context.getLocalizedString("app_cancel"),
           ));
 }

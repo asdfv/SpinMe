@@ -1,6 +1,7 @@
 import 'package:domain/domain_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/widgets/text_dialog.dart';
 
 /// [Task] row item which can edited/checked/deleted.
@@ -78,9 +79,9 @@ class _CheckableTaskItemState extends State<CheckableTaskItem> {
       builder: (context) => TextDialog(
         context: context,
         initText: description,
-        titleLabel: "Edit task",
-        okLabel: "OK",
-        cancelLabel: "CANCEL",
+        titleLabel: context.getLocalizedString("app_ok"),
+        okLabel: context.getLocalizedString("prepare_tasks_add_task"),
+        cancelLabel: context.getLocalizedString("app_cancel"),
       ),
     );
   }

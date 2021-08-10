@@ -6,6 +6,7 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/bloc/
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/bloc/wheel_event.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/bloc/wheel_state.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/main.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 
 import 'wheel_widget/flutter_fortune_wheel.dart';
 import 'wheel_widget/wheel_widget_contract.dart';
@@ -49,8 +50,8 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
     final List<WheelItem>? items = state.items;
     final Player? pickedPlayer = state.pickedPlayer;
     final Task? pickedTask = state.pickedTask;
-    final topLabelText = pickedTask == null ? "" : "What: ${pickedTask.description}";
-    final bottomLabelText = pickedPlayer == null ? "" : "Who: ${pickedPlayer.name}";
+    final topLabelText = pickedTask == null ? "" : context.getLocalizedString("wheel_what") + pickedTask.description;
+    final bottomLabelText = pickedPlayer == null ? "" : context.getLocalizedString("wheel_who") + pickedPlayer.name;
     final body = items == null
         ? Center(child: CircularProgressIndicator())
         : Column(
@@ -96,15 +97,15 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
   Future<bool> _showExitDialog(BuildContext context) => showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
-            title: const Text("Do you really want to exit?"),
-            content: const Text("All the progress will be lost."),
+            title: Text(context.getLocalizedString("wheel_exit_title")),
+            content: Text(context.getLocalizedString("wheel_exit_content")),
             actions: <Widget>[
               ElevatedButton(
-                child: const Text('Yes'),
+                child: Text(context.getLocalizedString("app_ok")),
                 onPressed: () => Navigator.of(context).pop(true),
               ),
               ElevatedButton(
-                child: const Text('No'),
+                child: Text(context.getLocalizedString("app_cancel")),
                 onPressed: () => Navigator.of(context).pop(false),
               )
             ],

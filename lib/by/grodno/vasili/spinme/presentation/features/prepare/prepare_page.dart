@@ -11,6 +11,7 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/welcome/wel
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel_page.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/main.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/spin_me_app.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 
 const routePreparePage = "/prepare/";
 const routePreparePageFirstPage = "/prepare/$routeChoosePlayers";
@@ -37,7 +38,7 @@ class _PreparePageState extends State<PreparePage> {
           _bloc = context.read<PrepareBloc>();
           return Scaffold(
             appBar: AppBar(
-              title: const Text("Setting up the Game"),
+              title: Text(context.getLocalizedString('prepare_setting_up')),
             ),
             body: Navigator(
               key: _prepareNavigatorKey,

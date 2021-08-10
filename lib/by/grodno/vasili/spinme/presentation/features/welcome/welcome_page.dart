@@ -27,7 +27,7 @@ class WelcomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, routePreparePageFirstPage);
                 },
-                child: const Text("Let's go!")),
+                child: Text(context.getLocalizedString('welcome_lets_go'))),
           ],
         ),
       ),
