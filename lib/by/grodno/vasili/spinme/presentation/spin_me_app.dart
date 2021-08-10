@@ -44,14 +44,11 @@ class _SpinMeAppState extends State<SpinMeApp> {
         locale: _language != null ? Locale(_language!) : null,
         navigatorKey: mainNavigatorKey,
         onGenerateRoute: MainRouteGenerator.generateRoute,
-        supportedLocales: [
-          Locale('en'),
-          Locale('ru'),
-        ],
+        supportedLocales: [Locale('en'), Locale('ru')],
         localizationsDelegates: [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
         ],
         localeResolutionCallback: (currentLocale, supportedLocales) {
           final storedLanguage = widget._localeRepository.getCurrentLanguage();
