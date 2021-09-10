@@ -11,7 +11,7 @@ import 'spin_me_app.dart';
 GetIt getIt = GetIt.instance;
 
 // TODO
-// - translate strings that comes from BLoC and menu
+// - translate tasks that loaded at the start
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
