@@ -1,6 +1,7 @@
 import 'package:domain/domain_module.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/prepare_flow/tasks/task_menu.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/widgets/text_dialog.dart';
 
@@ -25,11 +26,11 @@ class CheckableTaskItem extends StatefulWidget {
 
 class _CheckableTaskItemState extends State<CheckableTaskItem> {
   late bool isChecked;
-  static const String EDIT_MENU = "Edit";
-  static const String DELETE_MENU = "Delete";
+  late TaskMenu menu;
 
   @override
   void initState() {
+    menu = TaskMenu(context);
     isChecked = widget.task.isChecked;
     super.initState();
   }
@@ -48,10 +49,10 @@ class _CheckableTaskItemState extends State<CheckableTaskItem> {
       secondary: PopupMenuButton<String>(
         onSelected: _onMenuSelected,
         itemBuilder: (BuildContext context) {
-          return {EDIT_MENU, DELETE_MENU}.map((String choice) {
+          return {menu.editKey, menu.deleteKey}.map((String key) {
             return PopupMenuItem<String>(
-              value: choice,
-              child: Text(choice),
+              value: key,
+              child: Text(menu.getText(key)),
             );
           }).toList();
         },
@@ -61,15 +62,12 @@ class _CheckableTaskItemState extends State<CheckableTaskItem> {
   }
 
   Future<void> _onMenuSelected(String value) async {
-    switch (value) {
-      case EDIT_MENU:
-        final newText = await _edit(context, widget.task.description);
-        if (newText == null) return;
-        widget.onEdit(newText);
-        break;
-      case DELETE_MENU:
-        widget.onDelete();
-        break;
+    if (value == menu.editKey) {
+      final newText = await _edit(context, widget.task.description);
+      if (newText == null) return;
+      widget.onEdit(newText);
+    } else if (value == menu.deleteKey) {
+      widget.onDelete();
     }
   }
 
@@ -79,8 +77,8 @@ class _CheckableTaskItemState extends State<CheckableTaskItem> {
       builder: (context) => TextDialog(
         context: context,
         initText: description,
-        titleLabel: context.getLocalizedString("app_ok"),
-        okLabel: context.getLocalizedString("prepare_tasks_add_task"),
+        titleLabel: context.getLocalizedString("prepare_tasks_add_task"),
+        okLabel: context.getLocalizedString("app_ok"),
         cancelLabel: context.getLocalizedString("app_cancel"),
       ),
     );

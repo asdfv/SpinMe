@@ -15,6 +15,8 @@
   "prepare_tasks_add_new_task": "Добавить задачу",
   "prepare_tasks_choose_tasks": "Отметь задачи для игры",
   "prepare_tasks_lets_play": "Начнем!",
+  "prepare_tasks_menu_delete_text": "Удалить",
+  "prepare_tasks_menu_edit_text": "Изменить",
   "prepare_tasks_share": "Поделиться задачами",
   "prepare_tasks_short_not_enough_tasks_message": "Нужно добавть еще %n задач",
   "prepare_tasks_short_description_message": "Задача должна содержать не менее %n символов",
