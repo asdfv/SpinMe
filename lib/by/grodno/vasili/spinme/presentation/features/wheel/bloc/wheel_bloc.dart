@@ -6,23 +6,27 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel
 
 /// [Bloc] for reducing events on wheel screen to UI states.
 class WheelBloc extends Bloc<WheelEvent, WheelState> {
-  WheelBloc(this.coordinator) : super(WheelState(label: "Spin the wheel!"));
+  WheelBloc(this.coordinator) : super(WheelState(label: SpinLabel.initial));
 
   final WheelCoordinator coordinator;
 
   @override
   Stream<WheelState> mapEventToState(WheelEvent event) async* {
-    if (event is SpinFinished) yield* _mapSpinFinished(event);
-    else if (event is SpinStarted) yield state.copyWith(label: "Yeeeha!");
-    else if (event is ConfigureWheel) yield* _mapConfigureWheel(event);
-    else throw UnimplementedError("Unknown wheel-event: $event");
+    if (event is SpinFinished)
+      yield* _mapSpinFinished(event);
+    else if (event is SpinStarted)
+      yield state.copyWith(label: SpinLabel.spinning);
+    else if (event is ConfigureWheel)
+      yield* _mapConfigureWheel(event);
+    else
+      throw UnimplementedError("Unknown wheel-event: $event");
   }
 
   Stream<WheelState> _mapSpinFinished(SpinFinished event) async* {
     final task = coordinator.pickTask();
     final player = coordinator.pickPlayer(event.item.id);
     yield state.copyWith(
-      label: "${(await player).name} do the task!",
+      label: SpinLabel.finished,
       pickedPlayer: await player,
       pickedTask: await task,
     );

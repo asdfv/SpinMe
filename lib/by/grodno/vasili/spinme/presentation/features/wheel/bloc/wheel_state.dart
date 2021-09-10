@@ -5,9 +5,9 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel
 
 @immutable
 class WheelState extends Equatable {
-  WheelState({this.label = "", this.items, this.pickedPlayer, this.pickedTask});
+  WheelState({this.label = SpinLabel.initial, this.items, this.pickedPlayer, this.pickedTask});
 
-  final String label;
+  final SpinLabel label;
   final List<WheelItem>? items;
   final Player? pickedPlayer;
   final Task? pickedTask;
@@ -25,3 +25,5 @@ class WheelState extends Equatable {
   @override
   List<Object?> get props => [label, items, pickedPlayer?.id, pickedTask?.id];
 }
+
+enum SpinLabel { initial, spinning, finished }

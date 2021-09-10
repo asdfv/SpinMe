@@ -46,7 +46,7 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
 
   Widget _buildScaffold(BuildContext context, WheelState state) {
     log.i(message: "WheelState changed. WheelState: $state");
-    final String label = state.label;
+    final String label = _getLabel(state.label);
     final List<WheelItem>? items = state.items;
     final Player? pickedPlayer = state.pickedPlayer;
     final Task? pickedTask = state.pickedTask;
@@ -92,6 +92,17 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
         body: body,
       ),
     );
+  }
+
+  String _getLabel(SpinLabel label) {
+    switch (label) {
+      case SpinLabel.initial:
+        return context.getLocalizedString("wheel_spin_initial_label");
+      case SpinLabel.spinning:
+        return context.getLocalizedString("wheel_spin_spinning_label");
+      case SpinLabel.finished:
+        return context.getLocalizedString("wheel_spin_finished_label");
+    }
   }
 
   Future<bool> _showExitDialog(BuildContext context) => showDialog<bool>(
