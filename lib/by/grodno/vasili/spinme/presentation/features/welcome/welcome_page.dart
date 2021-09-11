@@ -1,3 +1,4 @@
+import 'package:data/data_module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/prepare/prepare_page.dart';
@@ -26,6 +27,8 @@ class WelcomePage extends StatelessWidget {
             ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, routePreparePageFirstPage);
+                  Locale locale = Localizations.localeOf(context);
+                  initDefaultTasksIfNeeded(locale.languageCode);
                 },
                 child: Text(context.getLocalizedString('welcome_lets_go'))),
           ],

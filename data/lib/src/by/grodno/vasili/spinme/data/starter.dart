@@ -1,6 +1,7 @@
 import 'package:data/src/by/grodno/vasili/spinme/data/models/member_entity.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/models/player_entity.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/models/task_entity.dart';
+import 'package:domain/domain_module.dart';
 import 'package:hive/hive.dart';
 
 /// Run this method to perform required by data module initializations.
@@ -15,8 +16,20 @@ Future startDataLayer(String appDocumentDir) async {
   playersBox = await Hive.openBox<PlayerEntity>('playersBox');
   memberBox = await Hive.openBox<MemberEntity>('memberBox');
 
-  if (tasksBox.isEmpty) tasksBox.putAll(_defaultTasks());
   if (playersBox.isEmpty) playersBox.putAll(_defaultPlayers());
+}
+
+initDefaultTasksIfNeeded(String language) {
+  if (tasksBox.isNotEmpty) return;
+  getLogger().i(message: "Going to populate Tasks for $language language.");
+  switch (language) {
+    case 'ru':
+      tasksBox.putAll(_defaultRuTasks());
+      break;
+    case 'en':
+      tasksBox.putAll(_defaultEnTasks());
+      break;
+  }
 }
 
 /// Run this method to release resources used by data module.
@@ -42,7 +55,7 @@ Map<int, PlayerEntity> _defaultPlayers() {
   return {for (final id in namesMap.keys) id: PlayerEntity(id, namesMap[id]!)};
 }
 
-Map<int, TaskEntity> _defaultTasks() {
+Map<int, TaskEntity> _defaultEnTasks() {
   final descriptions = [
     'Dance jiga dryga',
     'Drink 0.5L of water',
@@ -52,6 +65,21 @@ Map<int, TaskEntity> _defaultTasks() {
     'Sing a song in English',
     'Tell the fictional story about photo in your phone',
     'Show double biceps in front',
+  ];
+  final descMap = descriptions.asMap();
+  return {for (final id in descMap.keys) id: TaskEntity(id, descMap[id]!, true)};
+}
+
+Map<int, TaskEntity> _defaultRuTasks() {
+  final descriptions = [
+    'Станцевать жигу-дрыгу',
+    'Выпить поллитра воды',
+    'Рассказать любую скороговорку 10 раз',
+    'Отжаться 10 раз',
+    'Присесть 20 раз',
+    'Спеть песню',
+    'Придумать и рассказать историю о фото в своем теелфоне',
+    'Показать двойной бицепс спереди',
   ];
   final descMap = descriptions.asMap();
   return {for (final id in descMap.keys) id: TaskEntity(id, descMap[id]!, true)};

@@ -22,6 +22,7 @@ class SpinMeApp extends StatefulWidget {
 
 class _SpinMeAppState extends State<SpinMeApp> {
   String? _language;
+  final log = getLogger();
 
   /// Get current app locale.
   /// Can be null in case locale is not stored yet
@@ -44,18 +45,19 @@ class _SpinMeAppState extends State<SpinMeApp> {
         locale: _language != null ? Locale(_language!) : null,
         navigatorKey: mainNavigatorKey,
         onGenerateRoute: MainRouteGenerator.generateRoute,
-        supportedLocales: [Locale('en'), Locale('ru')],
+        supportedLocales: [Locale('en', 'EN'), Locale('ru', 'RU')],
         localizationsDelegates: [
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate
         ],
-        localeResolutionCallback: (currentLocale, supportedLocales) {
+        localeResolutionCallback: (systemLocale, supportedLocales) {
           final storedLanguage = widget._localeRepository.getCurrentLanguage();
+          log.i(message: "System language: ${systemLocale?.languageCode}, stored language: $storedLanguage");
           final Locale localeToLoad;
           if (storedLanguage == null) {
-            localeToLoad = supportedLocales.contains(currentLocale) && currentLocale != null
-                ? currentLocale
+            localeToLoad = supportedLocales.contains(systemLocale) && systemLocale != null
+                ? systemLocale
                 : supportedLocales.first;
             widget._localeRepository.saveLanguage(localeToLoad.languageCode);
           } else {
