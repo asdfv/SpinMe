@@ -10,9 +10,6 @@ import 'spin_me_app.dart';
 
 GetIt getIt = GetIt.instance;
 
-// TODO
-// - translate tasks that loaded at the start
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await getApplicationDocumentsDirectory();

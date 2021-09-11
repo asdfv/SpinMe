@@ -1,16 +1,21 @@
 import 'package:logger/logger.dart';
 
+SpinLogger? _logger;
+
 /// Function to access to the logging iin the app.
 SpinLogger getLogger() {
-  final logger = Logger(
-      printer: PrettyPrinter(
-        methodCount: 0,
-        errorMethodCount: 5,
-        lineLength: 50,
-        colors: true,
-        printEmojis: true,
-      ));
-  return SimpleNotesLogger(logger);
+  if (_logger == null) {
+    final logger = Logger(
+        printer: PrettyPrinter(
+      methodCount: 0,
+      errorMethodCount: 5,
+      lineLength: 50,
+      colors: true,
+      printEmojis: true,
+    ));
+    _logger = SimpleNotesLogger(logger);
+  }
+  return _logger!;
 }
 
 /// Abstraction for logging in the app.
