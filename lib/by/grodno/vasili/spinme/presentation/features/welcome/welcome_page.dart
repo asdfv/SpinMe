@@ -20,6 +20,7 @@ class WelcomePage extends StatelessWidget {
           children: [
             Text(
               context.getLocalizedString('welcome_title'),
+              key: const ValueKey('welcome_title'),
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
