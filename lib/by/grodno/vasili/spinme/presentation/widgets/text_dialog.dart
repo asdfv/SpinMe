@@ -27,6 +27,7 @@ class TextDialog extends AlertDialog {
         children: <Widget>[
           Expanded(
             child: TextField(
+              key: ValueKey("text_dialog_text_field"),
               maxLines: 6,
               controller: controller,
               autofocus: true,
@@ -41,6 +42,7 @@ class TextDialog extends AlertDialog {
               Navigator.of(context).pop(null);
             }),
         ElevatedButton(
+            key: ValueKey("text_dialog_ok_button"),
             child: Text(okLabel),
             onPressed: () {
               Navigator.of(context).pop(controller.value.text);

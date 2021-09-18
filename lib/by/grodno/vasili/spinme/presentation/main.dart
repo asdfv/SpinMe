@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/key_generator.dart';
 
 import 'spin_me_app.dart';
 
@@ -28,4 +29,5 @@ void setupGetIt() {
   getIt.registerSingleton<PrepareCoordinator>(PrepareCoordinator(tasksRepository, playersRepository),
       signalsReady: true);
   getIt.registerSingleton<LocaleRepository>(LocaleDataRepository(), signalsReady: true);
+  getIt.registerFactory<KeyGenerator>(() => IncreasingNumbersKeyGenerator());
 }

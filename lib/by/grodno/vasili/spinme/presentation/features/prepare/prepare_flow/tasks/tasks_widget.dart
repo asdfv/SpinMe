@@ -83,8 +83,9 @@ class _TasksWidgetState extends State<TasksWidget> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
+              key: ValueKey("tasks_widget_add_task_button"),
               onPressed: () async {
-                final description = await _onAdd(context);
+                final description = await _showAddTaskDialog(context);
                 if (description == null) return;
                 var minCharacters = GamePreferences.minCharactersInTaskDescription;
                 if (description.trim().length < minCharacters) {
@@ -132,7 +133,7 @@ class _TasksWidgetState extends State<TasksWidget> {
     Share.share(tasksDescriptions);
   }
 
-  Future<String?> _onAdd(BuildContext context) async => await showDialog<String?>(
+  Future<String?> _showAddTaskDialog(BuildContext context) async => await showDialog<String?>(
       context: context,
       builder: (dialogContext) => TextDialog(
             context: dialogContext,

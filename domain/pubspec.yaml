@@ -1,7 +1,6 @@
 name: domain
 description: Domain layer
 version: 0.0.1
-author: asdfv
 
 publish_to: 'none'
 

@@ -1,7 +1,9 @@
 import 'package:domain/domain_module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/main.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/preferences/game_preferences.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/key_generator.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 
 class NamesFormWidget extends StatefulWidget {
@@ -21,7 +23,7 @@ class NamesFormWidget extends StatefulWidget {
 class NamesFormWidgetState extends State<NamesFormWidget> {
   final _formKey = GlobalKey<FormState>();
   final List<String> _names = [];
-  Map<UniqueKey, Widget> _nameFields = {};
+  Map<String, Widget> _nameFields = {};
 
   @override
   void didChangeDependencies() {
@@ -65,6 +67,7 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
   Widget _createPlusButton() {
     final Function()? action = _nameFields.length >= GamePreferences.maxNumberOfPlayers ? null : _addNameField;
     return ElevatedButton(
+      key: ValueKey("names_widget_add_name_button"),
       onPressed: action,
       child: const Icon(Icons.add),
     );
@@ -73,6 +76,7 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
   Widget _createSubmitButton(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: ElevatedButton(
+          key: ValueKey("names_widget_next_button"),
           onPressed: () {
             _formKey.currentState!.save();
             final errorMessage = _validate(_names);
@@ -100,13 +104,16 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
     }
   }
 
+  final keyGenerator = getIt<KeyGenerator>();
+
   void _addNameField({String initText = ""}) {
-    final key = UniqueKey();
+    final key = keyGenerator.generate("names_widget_name_field_");
     setState(() {
       _nameFields[key] = Row(
         children: [
           Expanded(
             child: TextFormField(
+              key: ValueKey(key),
               autofocus: true,
               controller: TextEditingController(text: initText),
               onSaved: (value) {
@@ -134,8 +141,7 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
 }
 
 extension _ContainsShortNames on Iterable<String> {
-  bool _containsShortNames() => this.any(
-      (name) => name.trim().length < GamePreferences.minCharactersInPlayerName);
+  bool _containsShortNames() => this.any((name) => name.trim().length < GamePreferences.minCharactersInPlayerName);
 }
 
 extension _ContainsDuplicates on Iterable<String> {

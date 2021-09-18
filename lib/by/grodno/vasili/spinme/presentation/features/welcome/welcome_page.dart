@@ -25,6 +25,7 @@ class WelcomePage extends StatelessWidget {
             ),
             LanguagePickerWidget(),
             ElevatedButton(
+                key: const ValueKey('lets_go_button'),
                 onPressed: () {
                   Navigator.pushNamed(context, routePreparePageFirstPage);
                   Locale locale = Localizations.localeOf(context);
