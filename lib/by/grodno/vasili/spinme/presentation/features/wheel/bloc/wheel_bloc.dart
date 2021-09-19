@@ -23,17 +23,17 @@ class WheelBloc extends Bloc<WheelEvent, WheelState> {
   }
 
   Stream<WheelState> _mapSpinFinished(SpinFinished event) async* {
-    final task = coordinator.pickTask();
-    final player = coordinator.pickPlayer(event.item.id);
+    final player = await coordinator.getPlayer(event.item.id);
+    final task = await coordinator.pickTaskFor(player);
     yield state.copyWith(
       label: SpinLabel.finished,
-      pickedPlayer: await player,
-      pickedTask: await task,
+      pickedPlayer: player,
+      pickedTask: task,
     );
   }
 
   Stream<WheelState> _mapConfigureWheel(ConfigureWheel event) async* {
-    final players = await coordinator.getChosenPlayers();
+    final players = await coordinator.getPlayers();
     final items = players.map((e) => WheelItem(id: e.id, label: e.name)).toList();
     yield state.copyWith(items: items);
   }

@@ -18,5 +18,5 @@ class Task extends Equatable {
       );
 
   @override
-  String toString() => "Task(id: $id, description: ${description.substring(0, 3)}, isChecked: $isChecked)";
+  String toString() => "Task(id: $id, description: ${description.substring(0, 3)}..., isChecked: $isChecked)";
 }

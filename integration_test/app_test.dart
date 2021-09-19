@@ -12,7 +12,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   group('end-to-end test', () {
-    testWidgets('asd', (WidgetTester tester) async {
+    testWidgets('Test positive flow', (WidgetTester tester) async {
       // Start the app
       app.main();
       await tester.pump(const Duration(seconds: 1));

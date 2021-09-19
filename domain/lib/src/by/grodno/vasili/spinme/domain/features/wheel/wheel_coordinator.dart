@@ -1,29 +1,32 @@
-import 'dart:math';
-
 import 'package:domain/domain_module.dart';
+import 'package:domain/src/by/grodno/vasili/spinme/domain/features/wheel/tasks_picker/tasks_picker.dart';
 
 /// Coordinator to handle game process screen.
 class WheelCoordinator {
   final TasksRepository _tasksRepository;
   final PlayersRepository _playersRepository;
-  final log = getLogger();
+  TasksPicker? _tasksPicker;
 
   WheelCoordinator(this._tasksRepository, this._playersRepository);
 
-  /// Pick randomly checked during prepare flow task.
-  Future<Task> pickTask() async {
-    final tasks = await _tasksRepository.getAllTasks();
-    final checkedTasks = tasks.where((element) => element.isChecked).toList();
-    final length = checkedTasks.length;
-    final index = Random().nextInt(length);
-    final pickedTask = checkedTasks[index];
-    log.i(message: "Picked task $pickedTask from $length tasks.");
-    return pickedTask;
+  /// Pick task that is checked during prepare flow according [TasksPicker] logic.
+  Future<Task> pickTaskFor(Player player) async {
+    if (_tasksPicker == null) {
+      final players = _playersRepository.getPlayers();
+      final tasks = _tasksRepository.getAllTasks();
+      _tasksPicker = TasksPicker.createTasksPicker(getModeFromPreferences(), await players, await tasks);
+    }
+    return _tasksPicker!.pick(player);
   }
 
   /// Get player by his [id].
-  Future<Player> pickPlayer(int id) => _playersRepository.getPlayer(id);
+  Future<Player> getPlayer(int id) => _playersRepository.getPlayer(id);
 
   /// Get created during preparation flow players.
-  Future<List<Player>> getChosenPlayers() => _playersRepository.getPlayers();
+  Future<List<Player>> getPlayers() => _playersRepository.getPlayers();
+
+  /// Todo https://trello.com/c/NN9yPow5
+  TaskPickingMode getModeFromPreferences() {
+    return TaskPickingMode.notRepeat;
+  }
 }
