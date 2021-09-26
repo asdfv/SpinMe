@@ -10,3 +10,6 @@ environment:
 dependencies:
   logger: ^1.0.0
   equatable: ^2.0.0
+
+dev_dependencies:
+  test: ^1.17.12

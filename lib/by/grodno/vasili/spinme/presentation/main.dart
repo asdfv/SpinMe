@@ -25,7 +25,7 @@ void main() async {
 void setupGetIt() {
   final tasksRepository = TasksDataRepository(HiveTasksDatasource());
   final playersRepository = PlayersDataRepository(HivePlayersDatasource());
-  getIt.registerSingleton<WheelCoordinator>(WheelCoordinator(tasksRepository, playersRepository), signalsReady: true);
+  getIt.registerFactory<WheelCoordinator>(() => WheelCoordinator(tasksRepository, playersRepository));
   getIt.registerSingleton<PrepareCoordinator>(PrepareCoordinator(tasksRepository, playersRepository),
       signalsReady: true);
   getIt.registerSingleton<LocaleRepository>(LocaleDataRepository(), signalsReady: true);

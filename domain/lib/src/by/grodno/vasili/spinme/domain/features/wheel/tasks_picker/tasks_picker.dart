@@ -1,20 +1,21 @@
 import 'package:domain/domain_module.dart';
 
-import 'not_repeatable_tasks_picker.dart';
+import 'non_repeatable_tasks_picker.dart';
 import 'repeatable_for_player_tasks_picker.dart';
 
-/// Interface which can [pick] appropriate [Task] for chosen by wheel [Player].
+/// Interface which can [pick] appropriate [Task] for chosen by wheel [Player.id].
 /// There is enum [TaskPickingMode] to set the logic for picking.
+/// This class keeps the state and should be created one instance per game session.
 abstract class TasksPicker {
-  Task pick(Player player);
+  Task pick(int id);
 
   /// Create [TasksPicker] instance based on [TaskPickingMode].
-  static TasksPicker createTasksPicker(TaskPickingMode mode, List<Player> players, List<Task> tasks) {
+  static TasksPicker createTasksPicker(TaskPickingMode mode, List<Task> tasks) {
     switch (mode) {
       case TaskPickingMode.notRepeat:
-        return NotRepeatableTasksPicker(players, tasks);
+        return NonRepeatableTasksPicker(tasks);
       case TaskPickingMode.repeatForPlayer:
-        return RepeatableForPlayerTasksPicker(players, tasks);
+        return RepeatableForPlayerTasksPicker(tasks);
     }
   }
 }

@@ -12,11 +12,10 @@ class WheelCoordinator {
   /// Pick task that is checked during prepare flow according [TasksPicker] logic.
   Future<Task> pickTaskFor(Player player) async {
     if (_tasksPicker == null) {
-      final players = _playersRepository.getPlayers();
-      final tasks = _tasksRepository.getAllTasks();
-      _tasksPicker = TasksPicker.createTasksPicker(getModeFromPreferences(), await players, await tasks);
+      final tasks = _tasksRepository.getAllTasks().then((tasks) => tasks.where((t) => t.isChecked).toList());
+      _tasksPicker = TasksPicker.createTasksPicker(getModeFromPreferences(), await tasks);
     }
-    return _tasksPicker!.pick(player);
+    return _tasksPicker!.pick(player.id);
   }
 
   /// Get player by his [id].

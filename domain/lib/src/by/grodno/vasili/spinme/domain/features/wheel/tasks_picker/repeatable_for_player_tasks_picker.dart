@@ -1,23 +1,24 @@
-import 'dart:math';
+import 'dart:collection';
 
 import 'package:domain/domain_module.dart';
 
 import 'tasks_picker.dart';
 
-/// [TasksPicker] with the logic to repeat task for the player during the Game.
+/// [TasksPicker] with the logic to repeat tasks for the player during the Game.
 /// @see [TaskPickingMode].
 class RepeatableForPlayerTasksPicker extends TasksPicker {
-  final List<Player> _players;
   final List<Task> _tasks;
+  final Map<int, Queue<Task>> _tasksById = Map();
 
-  RepeatableForPlayerTasksPicker(this._players, this._tasks);
+  RepeatableForPlayerTasksPicker(this._tasks);
 
-  /// TODO implement logic
   @override
-  Task pick(Player player) {
-    final checkedTasks = _tasks.where((element) => element.isChecked).toList();
-    final length = checkedTasks.length;
-    final index = Random().nextInt(length);
-    return checkedTasks[index];
+  Task pick(int id) {
+    var playersTasks = _tasksById[id];
+    if (playersTasks == null || playersTasks.isEmpty) {
+      final List<Task> shuffledTasks = List.from(_tasks)..shuffle();
+      _tasksById[id] = Queue.from(shuffledTasks);
+    }
+    return _tasksById[id]!.removeFirst();
   }
 }
