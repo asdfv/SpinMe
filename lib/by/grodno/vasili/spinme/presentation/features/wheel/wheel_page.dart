@@ -49,6 +49,9 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
     final String label = _getLabel(state.label);
     final List<WheelItem>? items = state.items;
     final Player? pickedPlayer = state.pickedPlayer;
+
+    if (state.gameOver) Future.delayed(Duration.zero, () => _showGameOverDialog(context));
+
     final Task? pickedTask = state.pickedTask;
     final topLabelText = pickedTask == null ? "" : context.getLocalizedString("wheel_what") + pickedTask.description;
     final bottomLabelText = pickedPlayer == null ? "" : context.getLocalizedString("wheel_who") + pickedPlayer.name;
@@ -118,6 +121,20 @@ class _WheelPageScaffoldState extends State<WheelPageScaffold> {
               ElevatedButton(
                 child: Text(context.getLocalizedString("app_cancel")),
                 onPressed: () => Navigator.of(context).pop(false),
+              )
+            ],
+          )).then((value) => value ?? true);
+
+  // todo implement logic https://trello.com/c/8E4jlruH
+  void _showGameOverDialog(BuildContext context) => showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+            title: Text("Game over guys"),
+            content: Text("💁"),
+            actions: <Widget>[
+              ElevatedButton(
+                child: Text("Okay"),
+                onPressed: () => Navigator.of(context).pop(true),
               )
             ],
           )).then((value) => value ?? true);

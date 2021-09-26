@@ -29,6 +29,7 @@ class WheelBloc extends Bloc<WheelEvent, WheelState> {
       label: SpinLabel.finished,
       pickedPlayer: player,
       pickedTask: task,
+      gameOver: task == null,
     );
   }
 

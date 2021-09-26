@@ -5,18 +5,20 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/wheel/wheel
 
 @immutable
 class WheelState extends Equatable {
-  WheelState({this.label = SpinLabel.initial, this.items, this.pickedPlayer, this.pickedTask});
+  WheelState({this.label = SpinLabel.initial, this.items, this.pickedPlayer, this.pickedTask, this.gameOver = false});
 
   final SpinLabel label;
   final List<WheelItem>? items;
   final Player? pickedPlayer;
   final Task? pickedTask;
+  final bool gameOver;
 
-  WheelState copyWith({label, items, pickedPlayer, pickedTask}) => WheelState(
+  WheelState copyWith({label, items, pickedPlayer, pickedTask, gameOver}) => WheelState(
         label: label ?? this.label,
         items: items ?? this.items,
         pickedPlayer: pickedPlayer ?? this.pickedPlayer,
         pickedTask: pickedTask ?? this.pickedTask,
+        gameOver: gameOver ?? this.gameOver,
       );
 
   @override

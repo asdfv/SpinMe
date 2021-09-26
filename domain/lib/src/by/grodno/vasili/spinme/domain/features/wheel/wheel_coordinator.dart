@@ -10,7 +10,7 @@ class WheelCoordinator {
   WheelCoordinator(this._tasksRepository, this._playersRepository);
 
   /// Pick task that is checked during prepare flow according [TasksPicker] logic.
-  Future<Task> pickTaskFor(Player player) async {
+  Future<Task?> pickTaskFor(Player player) async {
     if (_tasksPicker == null) {
       final tasks = _tasksRepository.getAllTasks().then((tasks) => tasks.where((t) => t.isChecked).toList());
       _tasksPicker = TasksPicker.createTasksPicker(getModeFromPreferences(), await tasks);
@@ -26,6 +26,6 @@ class WheelCoordinator {
 
   /// Todo https://trello.com/c/NN9yPow5
   TaskPickingMode getModeFromPreferences() {
-    return TaskPickingMode.notRepeat;
+    return TaskPickingMode.tasksPerGame;
   }
 }
