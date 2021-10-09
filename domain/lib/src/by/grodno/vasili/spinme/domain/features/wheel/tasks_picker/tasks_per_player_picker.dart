@@ -13,12 +13,12 @@ class TasksPerPlayerPicker extends TasksPicker {
   TasksPerPlayerPicker(this._initialTasks);
 
   @override
-  Task? pick(int id) {
-    if (_tasksById[id] == null) {
+  Task? pick(int playerId) {
+    if (_tasksById[playerId] == null) {
       final List<Task> shuffledTasks = List.from(_initialTasks)..shuffle();
-      _tasksById[id] = Queue.from(shuffledTasks);
+      _tasksById[playerId] = Queue.from(shuffledTasks);
     }
-    if (_tasksById[id]!.isEmpty) return null;
-    return _tasksById[id]!.removeFirst();
+    if (_tasksById[playerId]!.isEmpty) return null;
+    return _tasksById[playerId]!.removeFirst();
   }
 }

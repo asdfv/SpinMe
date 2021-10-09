@@ -25,8 +25,13 @@ void main() {
     expect(actualLength, expectedLength);
   });
 
-  // todo https://trello.com/c/MUUiokwa
-  test('Picker returns null if tasks over for one of the player', () {});
+  test('Picker returns null if tasks over for one of the player', () {
+    for (var i = 0; i < _tasks.length; i++) {
+      _picker.pick(PLAYER_ID);
+    }
+    final afterLastTask = _picker.pick(PLAYER_ID);
+    expect(afterLastTask, isNull);
+  });
 
   test('Picker shuffle the tasks', () {
     final List<Task> tasks = List.empty(growable: true);
