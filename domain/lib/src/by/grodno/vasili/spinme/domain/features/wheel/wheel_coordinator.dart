@@ -5,15 +5,19 @@ import 'package:domain/src/by/grodno/vasili/spinme/domain/features/wheel/tasks_p
 class WheelCoordinator {
   final TasksRepository _tasksRepository;
   final PlayersRepository _playersRepository;
+  final Settings _settings;
   TasksPicker? _tasksPicker;
+  final log = getLogger();
 
-  WheelCoordinator(this._tasksRepository, this._playersRepository);
+  WheelCoordinator(this._tasksRepository, this._playersRepository, this._settings);
 
   /// Pick task that is checked during prepare flow according [TasksPicker] logic.
   Future<Task?> pickTaskFor(Player player) async {
     if (_tasksPicker == null) {
       final tasks = _tasksRepository.getAllTasks().then((tasks) => tasks.where((t) => t.isChecked).toList());
-      _tasksPicker = TasksPicker.createTasksPicker(getModeFromPreferences(), await tasks);
+      var gameMode = _settings.gameMode;
+      _tasksPicker = TasksPicker.createTasksPicker(gameMode, await tasks);
+      log.i(message: "Game mode $gameMode is enabled.");
     }
     return _tasksPicker!.pick(player.id);
   }
@@ -23,9 +27,4 @@ class WheelCoordinator {
 
   /// Get created during preparation flow players.
   Future<List<Player>> getPlayers() => _playersRepository.getPlayers();
-
-  /// Todo https://trello.com/c/NN9yPow5
-  GameMode getModeFromPreferences() {
-    return GameMode.tasksPerGame;
-  }
 }

@@ -25,9 +25,10 @@ void main() async {
 void setupGetIt() {
   final tasksRepository = TasksDataRepository(HiveTasksDatasource());
   final playersRepository = PlayersDataRepository(HivePlayersDatasource());
-  getIt.registerFactory<WheelCoordinator>(() => WheelCoordinator(tasksRepository, playersRepository));
+  getIt.registerSingleton<Settings>(Settings(AppSettingsRepository()), signalsReady: true);
+  getIt
+      .registerFactory<WheelCoordinator>(() => WheelCoordinator(tasksRepository, playersRepository, getIt<Settings>()));
   getIt.registerSingleton<PrepareCoordinator>(PrepareCoordinator(tasksRepository, playersRepository),
       signalsReady: true);
-  getIt.registerSingleton<Settings>(Settings(AppSettingsRepository()), signalsReady: true);
   getIt.registerFactory<KeyGenerator>(() => IncreasingNumbersKeyGenerator());
 }
