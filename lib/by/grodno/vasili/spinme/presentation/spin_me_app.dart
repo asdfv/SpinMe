@@ -12,7 +12,7 @@ import 'navigation/main_router_generator.dart';
 final mainNavigatorKey = GlobalKey<NavigatorState>();
 
 class SpinMeApp extends StatefulWidget {
-  final LocaleRepository _localeRepository = getIt<LocaleRepository>();
+  final Settings _settings = getIt<Settings>();
 
   static _SpinMeAppState? of(BuildContext context) => context.findAncestorStateOfType<_SpinMeAppState>();
 
@@ -34,7 +34,7 @@ class _SpinMeAppState extends State<SpinMeApp> {
     setState(() {
       _language = language;
     });
-    widget._localeRepository.saveLanguage(language);
+    widget._settings.language = language;
   }
 
   @override
@@ -52,14 +52,13 @@ class _SpinMeAppState extends State<SpinMeApp> {
           GlobalWidgetsLocalizations.delegate
         ],
         localeResolutionCallback: (systemLocale, supportedLocales) {
-          final storedLanguage = widget._localeRepository.getCurrentLanguage();
+          final storedLanguage = widget._settings.language;
           log.i(message: "System language: ${systemLocale?.languageCode}, stored language: $storedLanguage");
           final Locale localeToLoad;
           if (storedLanguage == null) {
-            localeToLoad = supportedLocales.contains(systemLocale) && systemLocale != null
-                ? systemLocale
-                : supportedLocales.first;
-            widget._localeRepository.saveLanguage(localeToLoad.languageCode);
+            localeToLoad =
+                supportedLocales.contains(systemLocale) && systemLocale != null ? systemLocale : supportedLocales.first;
+            widget._settings.language = localeToLoad.languageCode;
           } else {
             localeToLoad = Locale(storedLanguage);
           }

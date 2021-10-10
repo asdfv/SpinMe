@@ -1,4 +1,3 @@
-import 'package:data/src/by/grodno/vasili/spinme/data/models/member_entity.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/models/player_entity.dart';
 import 'package:data/src/by/grodno/vasili/spinme/data/models/task_entity.dart';
 import 'package:domain/domain_module.dart';
@@ -9,12 +8,11 @@ Future startDataLayer(String appDocumentDir) async {
   Hive
     ..init(appDocumentDir)
     ..registerAdapter(TaskEntityAdapter())
-    ..registerAdapter(PlayerEntityAdapter())
-    ..registerAdapter(MemberEntityAdapter());
+    ..registerAdapter(PlayerEntityAdapter());
 
   tasksBox = await Hive.openBox<TaskEntity>('tasksBox');
   playersBox = await Hive.openBox<PlayerEntity>('playersBox');
-  memberBox = await Hive.openBox<MemberEntity>('memberBox');
+  settingsBox = await Hive.openBox<dynamic>('settingsBox');
 
   if (playersBox.isEmpty) playersBox.putAll(_defaultPlayers());
 }
@@ -43,8 +41,8 @@ late Box<TaskEntity> tasksBox;
 /// [Box] with players.
 late Box<PlayerEntity> playersBox;
 
-/// [Box] with member.
-late Box<MemberEntity> memberBox;
+/// [Box] with the app settings.
+late Box<dynamic> settingsBox;
 
 Map<int, PlayerEntity> _defaultPlayers() {
   final names = [

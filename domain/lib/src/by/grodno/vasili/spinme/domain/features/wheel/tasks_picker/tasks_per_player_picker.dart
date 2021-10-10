@@ -5,7 +5,7 @@ import 'package:domain/domain_module.dart';
 import 'tasks_picker.dart';
 
 /// [TasksPicker] with the logic to repeat tasks for the player during the Game.
-/// @see [TaskPickingMode].
+/// @see [GameMode].
 class TasksPerPlayerPicker extends TasksPicker {
   final List<Task> _initialTasks;
   final Map<int, Queue<Task>> _tasksById = Map();

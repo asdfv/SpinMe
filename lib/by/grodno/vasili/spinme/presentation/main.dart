@@ -28,6 +28,6 @@ void setupGetIt() {
   getIt.registerFactory<WheelCoordinator>(() => WheelCoordinator(tasksRepository, playersRepository));
   getIt.registerSingleton<PrepareCoordinator>(PrepareCoordinator(tasksRepository, playersRepository),
       signalsReady: true);
-  getIt.registerSingleton<LocaleRepository>(LocaleDataRepository(), signalsReady: true);
+  getIt.registerSingleton<Settings>(Settings(AppSettingsRepository()), signalsReady: true);
   getIt.registerFactory<KeyGenerator>(() => IncreasingNumbersKeyGenerator());
 }

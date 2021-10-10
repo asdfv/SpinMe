@@ -5,7 +5,7 @@ import 'package:domain/domain_module.dart';
 import 'tasks_picker.dart';
 
 /// [TasksPicker] with the logic to not repeat any task during the Game.
-/// @see [TaskPickingMode].
+/// @see [GameMode].
 class TasksPerGamePicker extends TasksPicker {
   final List<Task> _initialTasks;
   Queue<Task>? _tasks;

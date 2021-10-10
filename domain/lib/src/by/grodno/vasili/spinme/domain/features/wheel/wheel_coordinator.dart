@@ -25,7 +25,7 @@ class WheelCoordinator {
   Future<List<Player>> getPlayers() => _playersRepository.getPlayers();
 
   /// Todo https://trello.com/c/NN9yPow5
-  TaskPickingMode getModeFromPreferences() {
-    return TaskPickingMode.tasksPerGame;
+  GameMode getModeFromPreferences() {
+    return GameMode.tasksPerGame;
   }
 }

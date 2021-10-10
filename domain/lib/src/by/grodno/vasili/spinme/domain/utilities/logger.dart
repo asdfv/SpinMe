@@ -2,7 +2,7 @@ import 'package:logger/logger.dart';
 
 SpinLogger? _logger;
 
-/// Function to access to the logging iin the app.
+/// Function to access to the logging in the app.
 SpinLogger getLogger() {
   if (_logger == null) {
     final logger = Logger(
