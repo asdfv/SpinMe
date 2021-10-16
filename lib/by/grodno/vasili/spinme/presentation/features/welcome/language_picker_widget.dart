@@ -1,3 +1,4 @@
+import 'package:domain/domain_module.dart';
 import 'package:flutter/material.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/spin_me_app.dart';
 
@@ -6,14 +7,14 @@ class LanguagePickerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final app = SpinMeApp.of(context);
     final currentLanguage = app?.getLanguage();
-    final Function()? enOnPressed = currentLanguage == "ru"
+    final Function()? enOnPressed = currentLanguage == Language.ru
         ? () {
-            app?.setLanguage("en");
+            app?.setLanguage(Language.en);
           }
         : null;
-    final Function()? ruOnPressed = currentLanguage == "en"
+    final Function()? ruOnPressed = currentLanguage == Language.en
         ? () {
-            app?.setLanguage("ru");
+            app?.setLanguage(Language.ru);
           }
         : null;
     return Row(

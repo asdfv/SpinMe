@@ -4,20 +4,20 @@ import 'package:spinme/by/grodno/vasili/spinme/presentation/features/welcome/mul
 import 'package:spinme/by/grodno/vasili/spinme/presentation/utilities/utilities.dart';
 
 class GameModePickerWidget extends StatelessWidget {
-  final Settings _settings;
+  final GameMode _mode;
+  final Function(GameMode) _onModeChosen;
 
-  const GameModePickerWidget(this._settings, {Key? key}) : super(key: key);
+  const GameModePickerWidget(this._mode, this._onModeChosen);
 
   @override
   Widget build(BuildContext context) {
-    final currentMode = _settings.gameMode;
     final options = GameMode.values
         .map((mode) => MultipleOption(
             handler: () {
-              _settings.gameMode = mode;
+              _onModeChosen(mode);
             },
             label: _getLabel(context, mode),
-            isActive: mode == currentMode))
+            isActive: mode == _mode))
         .toList();
     return MultipleOptionsPickerWidget(options);
   }

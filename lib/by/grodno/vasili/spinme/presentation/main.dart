@@ -31,4 +31,5 @@ void setupGetIt() {
   getIt.registerSingleton<PrepareCoordinator>(PrepareCoordinator(tasksRepository, playersRepository),
       signalsReady: true);
   getIt.registerFactory<KeyGenerator>(() => IncreasingNumbersKeyGenerator());
+  getIt.registerSingleton<WelcomeCoordinator>(WelcomeCoordinator(getIt<Settings>()), signalsReady: true);
 }

@@ -7,9 +7,9 @@ class Settings {
 
   Settings(this._repository);
 
-  String? get language => _repository.getLanguage();
+  Language? get language => _repository.getLanguage();
 
-  set language(String? value) {
+  set language(Language? value) {
     if (value == null) return;
     log.d(message: "Storing language $value");
     _repository.saveLanguage(value);

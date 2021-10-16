@@ -29,7 +29,7 @@ class ChoosePlayersPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Text(context.getLocalizedString("prepare_players_specify_names", GamePreferences.maxNumberOfPlayers)),
+                Text(context.getLocalizedString("prepare_players_specify_names", GameConstants.maxNumberOfPlayers)),
                 const SizedBox(height: 24),
                 Expanded(child: NamesFormWidget(initialPlayers: players, onPlayersChosen: onPlayersChosen)),
               ],

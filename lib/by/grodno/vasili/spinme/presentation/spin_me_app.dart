@@ -1,7 +1,7 @@
 import 'package:data/data_module.dart';
 import 'package:domain/domain_module.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/features/welcome/welcome_page.dart';
 import 'package:spinme/by/grodno/vasili/spinme/presentation/localization/app_localization.dart';
@@ -21,16 +21,16 @@ class SpinMeApp extends StatefulWidget {
 }
 
 class _SpinMeAppState extends State<SpinMeApp> {
-  String? _language;
+  Language? _language;
   final log = getLogger();
 
-  /// Get current app locale.
-  /// Can be null in case locale is not stored yet
+  /// Get current app language.
+  /// Can be null in case language is not stored yet
   /// that can only happen short moment when app is starting very first time.
-  String? getLanguage() => _language;
+  Language? getLanguage() => _language;
 
   /// Set and save [language].
-  void setLanguage(String language) {
+  void setLanguage(Language language) {
     setState(() {
       _language = language;
     });
@@ -42,7 +42,7 @@ class _SpinMeAppState extends State<SpinMeApp> {
     return MaterialApp(
         title: "SpinMe",
         initialRoute: routeWelcome,
-        locale: _language != null ? Locale(_language!) : null,
+        locale: _language == null ? null : _languageToLocale(_language!),
         navigatorKey: mainNavigatorKey,
         onGenerateRoute: MainRouteGenerator.generateRoute,
         supportedLocales: [Locale('en', 'EN'), Locale('ru', 'RU')],
@@ -58,14 +58,18 @@ class _SpinMeAppState extends State<SpinMeApp> {
           if (storedLanguage == null) {
             localeToLoad =
                 supportedLocales.contains(systemLocale) && systemLocale != null ? systemLocale : supportedLocales.first;
-            widget._settings.language = localeToLoad.languageCode;
+            widget._settings.language = _localeToLanguage(localeToLoad);
           } else {
-            localeToLoad = Locale(storedLanguage);
+            localeToLoad = _languageToLocale(storedLanguage);
           }
-          _language = localeToLoad.languageCode;
+          _language = _localeToLanguage(localeToLoad);
           return localeToLoad;
         });
   }
+
+  Locale _languageToLocale(Language language) => Locale(language.toString().split(".").last.toLowerCase());
+
+  Language _localeToLanguage(Locale locale) => locale.languageCode.enumFromString(Language.values)!;
 
   @override
   void dispose() {

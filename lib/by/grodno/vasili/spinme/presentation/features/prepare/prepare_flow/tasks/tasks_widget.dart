@@ -87,7 +87,7 @@ class _TasksWidgetState extends State<TasksWidget> {
               onPressed: () async {
                 final description = await _showAddTaskDialog(context);
                 if (description == null) return;
-                var minCharacters = GamePreferences.minCharactersInTaskDescription;
+                var minCharacters = GameConstants.minCharactersInTaskDescription;
                 if (description.trim().length < minCharacters) {
                   final message = context.getLocalizedString("prepare_tasks_short_description_message", minCharacters);
                   context.info(message);
@@ -115,7 +115,7 @@ class _TasksWidgetState extends State<TasksWidget> {
       );
 
   void _onNext(List<Task> tasks) {
-    final minimumNumberTasks = GamePreferences.minTasksToPlay;
+    final minimumNumberTasks = GameConstants.minTasksToPlay;
     var checkedTasks = tasks.where((element) => element.isChecked);
     var numberOfCheckedTasks = checkedTasks.length;
     if (numberOfCheckedTasks >= minimumNumberTasks) {

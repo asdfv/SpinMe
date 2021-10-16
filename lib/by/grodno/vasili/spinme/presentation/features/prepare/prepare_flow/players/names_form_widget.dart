@@ -33,10 +33,10 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
 
   void _initFields() {
     var initialPlayers = widget.initialPlayers;
-    if (initialPlayers.length > GamePreferences.maxNumberOfPlayers) {
-      initialPlayers = initialPlayers.sublist(0, GamePreferences.maxNumberOfPlayers - 1);
+    if (initialPlayers.length > GameConstants.maxNumberOfPlayers) {
+      initialPlayers = initialPlayers.sublist(0, GameConstants.maxNumberOfPlayers - 1);
     }
-    final numberToAdd = GamePreferences.minNumberOfPlayers - initialPlayers.length;
+    final numberToAdd = GameConstants.minNumberOfPlayers - initialPlayers.length;
     widget.initialPlayers.forEach((element) {
       _addNameField(initText: element.name);
     });
@@ -65,7 +65,7 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
   }
 
   Widget _createPlusButton() {
-    final Function()? action = _nameFields.length >= GamePreferences.maxNumberOfPlayers ? null : _addNameField;
+    final Function()? action = _nameFields.length >= GameConstants.maxNumberOfPlayers ? null : _addNameField;
     return ElevatedButton(
       key: ValueKey("names_widget_add_name_button"),
       onPressed: action,
@@ -94,9 +94,9 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
   String? _validate(List<String> names) {
     if (names._containsShortNames()) {
       return context.getLocalizedString(
-          "prepare_players_short_name_or_non_filled_message", GamePreferences.minCharactersInPlayerName);
-    } else if (names.length < GamePreferences.minNumberOfPlayers || names.length > GamePreferences.maxNumberOfPlayers) {
-      return context.getLocalizedString("prepare_players_not_enough_players", GamePreferences.minNumberOfPlayers);
+          "prepare_players_short_name_or_non_filled_message", GameConstants.minCharactersInPlayerName);
+    } else if (names.length < GameConstants.minNumberOfPlayers || names.length > GameConstants.maxNumberOfPlayers) {
+      return context.getLocalizedString("prepare_players_not_enough_players", GameConstants.minNumberOfPlayers);
     } else if (names._containsDuplicates()) {
       return context.getLocalizedString("prepare_players_names_should_be_different");
     } else {
@@ -141,7 +141,7 @@ class NamesFormWidgetState extends State<NamesFormWidget> {
 }
 
 extension _ContainsShortNames on Iterable<String> {
-  bool _containsShortNames() => this.any((name) => name.trim().length < GamePreferences.minCharactersInPlayerName);
+  bool _containsShortNames() => this.any((name) => name.trim().length < GameConstants.minCharactersInPlayerName);
 }
 
 extension _ContainsDuplicates on Iterable<String> {

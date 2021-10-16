@@ -1,5 +1,6 @@
-import 'package:data/data_module.dart';
 import 'package:domain/domain_module.dart';
+
+import '../starter.dart';
 
 /// [SettingsRepository] based on Hive database.
 class AppSettingsRepository extends SettingsRepository {
@@ -19,11 +20,14 @@ class AppSettingsRepository extends SettingsRepository {
   }
 
   @override
-  String? getLanguage() => _getValue(LANGUAGE_KEY);
+  Language? getLanguage() {
+    final String? stringValue = _getValue<String>(LANGUAGE_KEY);
+    return stringValue?.enumFromString(Language.values);
+  }
 
   @override
-  saveLanguage(String language) {
-    _setValue(LANGUAGE_KEY, language);
+  saveLanguage(Language language) {
+    _setValue(LANGUAGE_KEY, language.toString().split(".").last);
   }
 
   T? _getValue<T>(dynamic key, {T? defaultValue}) => _box.get(key, defaultValue: defaultValue) as T?;
