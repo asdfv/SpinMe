@@ -19,7 +19,8 @@ class GameModePickerWidget extends StatelessWidget {
             label: _getLabel(context, mode),
             isActive: mode == _mode))
         .toList();
-    return MultipleOptionsPickerWidget(options);
+    final viewData = OptionsPickerViewData(options: options);
+    return MultipleOptionsPickerWidget(viewData);
   }
 
   String _getLabel(BuildContext context, GameMode mode) {

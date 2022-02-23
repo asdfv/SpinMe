@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 /// UI picker containing buttons that allow to select just one option by clicking on button.
 /// [MultipleOption] represents settings for the widget.
 class MultipleOptionsPickerWidget extends StatefulWidget {
-  final List<MultipleOption> options;
+  final OptionsPickerViewData data;
 
-  const MultipleOptionsPickerWidget(this.options);
+  const MultipleOptionsPickerWidget(this.data);
 
   @override
   State<MultipleOptionsPickerWidget> createState() => _MultipleOptionsPickerWidgetState();
@@ -16,12 +16,12 @@ class _MultipleOptionsPickerWidgetState extends State<MultipleOptionsPickerWidge
 
   @override
   void initState() {
-    _activeIndex = widget.options.indexWhere((element) => element.isActive);
+    _activeIndex = widget.data.options.indexWhere((element) => element.isActive);
     super.initState();
   }
 
   _onTap(int optionIndex) {
-    widget.options[optionIndex].handler();
+    widget.data.options[optionIndex].handler();
     setState(() {
       _activeIndex = optionIndex;
     });
@@ -32,7 +32,7 @@ class _MultipleOptionsPickerWidgetState extends State<MultipleOptionsPickerWidge
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: _toButtons(widget.options)
+      children: _toButtons(widget.data.options)
           .map((button) => Expanded(
                   child: Container(
                 child: button,
@@ -54,14 +54,25 @@ class _MultipleOptionsPickerWidgetState extends State<MultipleOptionsPickerWidge
   }
 }
 
-/// Data class represents model to apply on [MultipleOptionsPickerWidget].
+/// UI model for [MultipleOptionsPickerWidget].
+class OptionsPickerViewData {
+  OptionsPickerViewData({this.title = "", required this.options});
+
+  final String title;
+  final List<MultipleOption> options;
+}
+
+/// UI model for options in [MultipleOptionsPickerWidget].
+///
 /// [handler] - is triggered when the option is tapped.
 /// [label] - label for the appropriate button.
 /// [isActive] - whether the option-button button should be chosen already. Can be only one [isActive] item.
+@immutable
 class MultipleOption {
+  MultipleOption({required this.handler, this.label = "", this.isActive = false, this.description = ""});
+
   final Function() handler;
   final String label;
   final bool isActive;
-
-  MultipleOption({required this.handler, this.label = "", this.isActive = false});
+  final String description;
 }
