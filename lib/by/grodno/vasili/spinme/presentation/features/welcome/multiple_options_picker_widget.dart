@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spinme/by/grodno/vasili/spinme/presentation/colors/app_colors.dart';
 
 /// UI picker containing buttons that allow to select just one option by clicking on button.
 /// [MultipleOption] represents settings for the widget.
@@ -29,28 +30,61 @@ class _MultipleOptionsPickerWidgetState extends State<MultipleOptionsPickerWidge
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: _toButtons(widget.data.options)
-          .map((button) => Expanded(
-                  child: Container(
-                child: button,
-                margin: const EdgeInsets.all(8.0),
-              )))
-          .toList(),
+    return Container(
+      padding: EdgeInsets.all(8),
+      decoration:
+          BoxDecoration(color: AppColors.PrimaryLight, borderRadius: BorderRadius.all(const Radius.circular(8))),
+      child: Column(
+        children: [
+          Text(widget.data.title),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: _createItems(widget.data.options)
+                .map((button) => Expanded(
+                        child: Container(
+                      child: button,
+                      margin: const EdgeInsets.all(8.0),
+                    )))
+                .toList(),
+          ),
+        ],
+      ),
     );
   }
 
-  List<ElevatedButton> _toButtons(List<MultipleOption> options) {
+  List<Widget> _createItems(List<MultipleOption> options) {
     return options
         .asMap()
         .map((index, option) {
           final onPressed = index == _activeIndex ? null : () => _onTap(index);
-          return MapEntry(index, ElevatedButton(onPressed: onPressed, child: Text(option.label)));
+          final itemWidget = _ItemWidget(
+            label: option.label,
+            description: option.description,
+            onClick: onPressed,
+          );
+          return MapEntry(index, itemWidget);
         })
         .values
         .toList();
+  }
+}
+
+class _ItemWidget extends StatelessWidget {
+  const _ItemWidget({Key? key, this.label = "", this.description = "", this.onClick}) : super(key: key);
+
+  final String label;
+  final String description;
+  final void Function()? onClick;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(onPressed: onClick, child: Text(label)),
+        Text(description),
+      ],
+    );
   }
 }
 

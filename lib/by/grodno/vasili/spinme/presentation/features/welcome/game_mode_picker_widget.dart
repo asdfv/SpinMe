@@ -13,13 +13,17 @@ class GameModePickerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final options = GameMode.values
         .map((mode) => MultipleOption(
+            description: _getDescription(context, mode),
             handler: () {
               _onModeChosen(mode);
             },
             label: _getLabel(context, mode),
             isActive: mode == _mode))
         .toList();
-    final viewData = OptionsPickerViewData(options: options);
+    final viewData = OptionsPickerViewData(
+      title: context.getLocalizedString("welcome_game_mode_settings_block_title"),
+      options: options,
+    );
     return MultipleOptionsPickerWidget(viewData);
   }
 
@@ -29,6 +33,15 @@ class GameModePickerWidget extends StatelessWidget {
         return context.getLocalizedString("welcome_tasks_per_game_label");
       case GameMode.tasksPerPlayer:
         return context.getLocalizedString("welcome_tasks_per_user_label");
+    }
+  }
+
+  String _getDescription(BuildContext context, GameMode mode) {
+    switch (mode) {
+      case GameMode.tasksPerGame:
+        return context.getLocalizedString("welcome_tasks_per_game_description");
+      case GameMode.tasksPerPlayer:
+        return context.getLocalizedString("welcome_tasks_per_user_description");
     }
   }
 }
